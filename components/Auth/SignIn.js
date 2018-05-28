@@ -3,9 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
-
-
-class Main extends Component {
+class SignIn extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -30,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red'
+    backgroundColor: 'blue'
   },
   welcome: {
     fontSize: 20,
@@ -39,4 +37,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(null)(Main)
+export default connect(null)(SignIn)
