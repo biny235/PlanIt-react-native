@@ -26,6 +26,7 @@
     "axios": "^0.18.0",
     "expo": "^27.0.1",
     "react": "16.3.1",
+<<<<<<< HEAD
     "react-native": "~0.55.2",
     "react-native-elements": "^0.19.1",
     "react-native-gifted-chat": "^0.4.3",
@@ -37,5 +38,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "socket.io": "^2.1.1"
+=======
+    "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.1.tar.gz"
+>>>>>>> c7ad4812d66ba34a7c842de9a2434bf8872ae9db
   }
 }
