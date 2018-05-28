@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
-import { View, StyleSheet, Image, Text } from 'react-native'
-//import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { View, StyleSheet, Image, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { fetchUsers } from '../store/users';
+
 class Root extends Component {
   constructor(props) {
     super(props)
@@ -9,7 +11,12 @@ class Root extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.fetchUsers();
+  }
+
   render() {
+    console.log(this.props)
     return (
       <View>
         <Text>
@@ -20,17 +27,18 @@ class Root extends Component {
   }
 }
 
-const mapState = () => {
+const mapState = ({ users }) => {
+  console.log(users)
   return {
-
+    users
   }
 }
 
-const mapDispatch = () => {
+const mapDispatch = (dispatch) => {
   return {
-
+    fetchUsers: () => dispatch(fetchUsers())
   }
 }
 
-export default Root;
-//export default connect(mapState, mapDispatch)(Root)
+//export default Root;
+export default connect(mapState, mapDispatch)(Root)
