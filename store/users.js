@@ -3,7 +3,7 @@ import { GET_USERS, CREATE_USER, UPDATE_USER, DELETE_USER  } from './constants';
 
 export const fetchUsers = () => {
   return (dispatch) => {
-    return axios.get('https://fwiwh.herokuapp.com/api/users')
+    return axios.get('http://localhost:3000/api/users')
       .then(res => res.data)
       .then(users => {
         dispatch({ type: GET_USERS, users })

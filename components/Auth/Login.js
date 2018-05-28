@@ -3,9 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
-
-
-class Main extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -39,4 +37,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(null)(Main)
+export default connect(null)(Login)
