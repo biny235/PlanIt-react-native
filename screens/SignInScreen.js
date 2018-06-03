@@ -22,7 +22,7 @@ class SignInScreen extends Component {
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token)
-        
+        this.props.navigation.navigate('Map');
       })
       .catch(err => console.log(err))
   }
