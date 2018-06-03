@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Header, Left, Button, Icon, Body, Title, Subtitle,   Right, Fab } from 'native-base';
+import { Header, Left, Button, Icon, Body, Title, Subtitle, Right, Fab } from 'native-base';
 import { MapView } from 'expo';
 
 const mapStyle = [
