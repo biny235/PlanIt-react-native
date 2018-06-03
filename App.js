@@ -160,7 +160,7 @@ const Drawer = createDrawerNavigator(
 // stacks do not have headers
 export default createSwitchNavigator(
   {
-    SignIn: SignInScreen,
+    SignIn: PlanDetailsScreen,//SignInScreen,
     Register: RegisterScreen,
     Drawer
   },
