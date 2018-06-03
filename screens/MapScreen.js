@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { Header, Left, Button, Icon, Body, Title, Subtitle,   Right, Fab } from 'native-base';
 import { MapView } from 'expo';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 const mapStyle = [
   {
@@ -393,7 +395,14 @@ const mapStyle = [
   }
 ];
 
-export default class App extends React.Component {
+export default class MapScreen extends Component {
+  static navigationOptions = {
+    // not working on drawer
+    drawerLabel: 'Home',
+    drawerIcon: ({ tintColor }) => (
+        <Ionicons name="md-home" size={25} color={tintColor} />
+    ),
+  };
   constructor() {
     super();
     this.state = {
@@ -405,40 +414,33 @@ export default class App extends React.Component {
       }
     };
   }
-  render() {
+  renderMap() {
     const { location } = this.state;
     return (
-      <View style={{flex: 1}}>
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon name='menu' />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Fine</Title>
-            <Subtitle>with Whatever</Subtitle>
-          </Body>
-          <Right>
-            <Button transparent>
-              <Icon name="search" />
-            </Button>
-          </Right>
-        </Header>
+    <View style={{flex: 1}}>
         <MapView
-          style={{flex: 1}}
-          initialRegion={location}
-          provider={MapView.PROVIDER_GOOGLE}
-          customMapStyle={mapStyle}
+        style={{flex: 1}}
+        initialRegion={location}
+        provider={MapView.PROVIDER_GOOGLE}
+        customMapStyle={mapStyle}
         />
         <Fab
-          direction='up'
-          position="bottomRight"
-          style={{backgroundColor: '#FF6D00'}}
+        direction='up'
+        position="bottomRight"
+        style={{backgroundColor: '#FF6D00'}}
         >
-          <Icon name="add" />
+            <Icon name="add" />
         </Fab>
-      </View>
+    </View>
+    )
+  }
+
+  render() {
+    const { renderMap } = this;
+    return (
+        <Provider store={store}>
+            {this.renderMap()}
+        </Provider>
     );
   }
 }
