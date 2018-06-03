@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
 import { View, Text, Header, ActivityIndicator, AsyncStorage } from 'react-native';
 import { Container, Content, Body, Title, Form, Item, Label, Input, Button } from 'native-base';
+import call from '../store/axiosFunc'
 
 class SignInScreen extends Component {
+  constructor(){
+    super()
+    this.state = {
+      username: '',
+      password: ''
+    }
+    this.onChange = this.onChange.bind(this);
+    this.signIn = this.signIn.bind(this);
+  }
   static navigationOptions = {
     title: 'Please sign in',
   }
-
-  signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('Map');
+  signIn(){
+    const { username, password } = this.state;
+    call('post', 'http://fwiwh.herokuapp.com/auth', { username, password})
+      .then(res => res.data)
+      .then(token => {
+        AsyncStorage.setItem('token', token)
+        
+      })
+      .catch(err => console.log(err))
+  }
+  onChange(text, type){
+    this.setState({ [type]: text })
+    console.log(this.state)
   }
 
   navToRegister = () => {
@@ -17,24 +36,25 @@ class SignInScreen extends Component {
   }
 
   render() {
-    const { signInAsync, navToRegister } = this;
+    const { onChange, navToRegister, signIn } = this;
     return (
       <Container style={{marginTop: 50}}>
         <Content padder>
           <Title>Fine with Whatever</Title>
           <Form>
             <Item floatingLabel>
-              <Label>Email</Label>
+              <Label>Username</Label>
               <Input
                 autoCorrect={false}
-                onChangeText={email => this.setState({email})}
+                onChangeText={(username)=>onChange(username, "username")}
                 />
             </Item>
             <Item floatingLabel>
               <Label>Password</Label>
               <Input
                 autoCorrect={false}
-                onChangeText={password => this.setState({password})}
+                name="password"
+                onChangeText={(password)=>onChange(password, "password")}
                 secureTextEntry
                 />
             </Item>
@@ -43,7 +63,7 @@ class SignInScreen extends Component {
             <Button
               primary
               block
-              onPress={signInAsync}
+              onPress={signIn}
             >
               <Text style={{color: 'white'}}>Sign In</Text>
             </Button>
