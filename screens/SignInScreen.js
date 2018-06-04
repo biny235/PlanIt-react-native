@@ -67,17 +67,10 @@ class SignInScreen extends Component {
   }
   async googleSignIn(){
     console.log("google Sign IN")
-    Expo.AuthSession.startAsync({
-      authUrl:
-      `https://accounts.google.com/o/oauth2/v2/auth?` +
-      `&client_id=985292980428-hqgenqfl4v8j62ba4huqfvl5fso0mb8p.apps.googleusercontent.com` +
-      `&redirect_uri=${encodeURIComponent("http://fwiwh.herokuapp.com/auth/google/callback")}` +
-      `&response_type=code` +
-      `&access_type=offline` +
-      `&scope=profile`,
+    await Expo.AuthSession.startAsync({
+      authUrl: `http://localhost:3000/auth/google`
     })
-      .then(result => console.log(result))
-    await AsyncStorage.setItem('token', result.params.token)
+      .then(result => AsyncStorage.setItem('token', result.params.token))
     this.checker()
   }
   render() {
