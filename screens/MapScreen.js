@@ -4,6 +4,7 @@ import { Header, Left, Button, Icon, Body, Title, Subtitle,   Right, Fab } from 
 import { MapView } from 'expo';
 import { Provider } from 'react-redux';
 import store from '../store';
+import call from '../store/axiosFunc';
 
 const mapStyle = [
   {
@@ -414,6 +415,13 @@ export default class MapScreen extends Component {
       }
     };
   }
+  componentDidMount(){
+      call('get', 'api/user/plan')
+        .then(res => res.data)
+        .then(plan => console.log(plan))
+        .catch(err => console.log(err))
+  }
+
   renderMap() {
     const { location } = this.state;
     return (

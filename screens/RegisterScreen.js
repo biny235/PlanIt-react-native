@@ -22,7 +22,7 @@ class RegisterScreen extends Component {
       <View style={styles.container}>
         <Button title="Register and sign in!" onPress={register} />
         <Text>or</Text>
-        <Button title="Got to sign in screen" onPress={navToSignIn} />
+        <Button title="Goto sign in screen" onPress={navToSignIn} />
       </View>
     )
   }

@@ -17,6 +17,7 @@ const signOutAsync = async (navigation) => {
   navigation.navigate('SignIn');
 };
 
+
 // stack for main/map items
 // removed header to use tab header below
 const MainStack = createStackNavigator(

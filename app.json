@@ -5,6 +5,7 @@
    "version": "1.0.0",
    "slug": "fww-react-native",
    "sdkVersion": "27.0.0",
+   "scheme": "fww",
    "ios": {
      "bundleIdentifier": "com.fullstackacademy.fww",
      "config": {
