@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import { View, Text } from 'react-native';
-import { Header, Left, Button, Icon, Body, Title, Subtitle,   Right, Fab } from 'native-base';
+import { View, ActivityIndicator } from 'react-native';
+import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input } from 'native-base';
 import { MapView } from 'expo';
 import { Provider } from 'react-redux';
 import store from '../store';
+
+const MAP_SCREEN = 'Map';
 
 const mapStyle = [
   {
@@ -403,45 +405,168 @@ export default class MapScreen extends Component {
         <Ionicons name="md-home" size={25} color={tintColor} />
     ),
   };
+
   constructor() {
     super();
     this.state = {
+      mapLoaded: false,
       location: {
         latitude: 40.7050758,
         longitude: -74.00916039999998,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
-      }
+      },
+      currentScreen: MAP_SCREEN,
+      isBroadcasting: true
     };
   }
-  renderMap() {
+
+  componentDidMount() {
+    this.setState({ mapLoaded: true });
+  }
+
+  broadcastPlan = () => {
+    this.toggleShowSearch();
+  }
+
+  openDrawer = () => {
+    this.props.navigation.openDrawer();
+  }
+
+  toggleShowSearch = () => {
+    const newState = !this.state.isBroadcasting;
+    this.setState({isBroadcasting: newState});
+  }
+
+  renderScreen = () => {
     const { location } = this.state;
-    return (
-    <View style={{flex: 1}}>
-        <MapView
-        style={{flex: 1}}
-        initialRegion={location}
-        provider={MapView.PROVIDER_GOOGLE}
-        customMapStyle={mapStyle}
-        />
-        <Fab
-        direction='up'
-        position="bottomRight"
-        style={{backgroundColor: '#FF6D00'}}
-        >
-            <Icon name="add" />
-        </Fab>
-    </View>
-    )
+    if (this.state.currentScreen === MAP_SCREEN) {
+      return (
+        <View style={{flex: 1}}>
+          <MapView
+            style={{flex: 1}}
+            initialRegion={location}
+            provider={MapView.PROVIDER_GOOGLE}
+            customMapStyle={mapStyle}
+            >
+          </MapView>
+        </View>
+      )
+    }
+  }
+
+  renderSearchInput = () => {
+    if (this.state.isBroadcasting) {
+      return (
+        <Header rounded searchBar>
+          <Left>
+            <Button
+              transparent
+              onPress={this.openDrawer}
+            >
+              <Icon name='menu' />
+            </Button>
+          </Left>
+          <Item>
+            <Icon name="ios-search" />
+            <Input placeholder="Where to" />
+            <Icon type="FontAwesome" name="location-arrow" size={8} />
+          </Item>
+          <Button small transparent onPress={this.toggleShowSearch}>
+            <Text>Search</Text>
+          </Button>
+        </Header>
+      )
+    } else {
+      return (
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={this.openDrawer}
+            >
+              <Icon name='menu' />
+            </Button>
+          </Left>
+          <Button small rounded info onPress={this.toggleShowSearch}>
+            <Icon active name="search" />
+          </Button>
+        </Header>
+      )
+    }
+  }
+
+  renderCallButtonIcon = () => {
+    if (this.state.isBroadcasting) {
+      return (
+         <Icon type="MaterialCommunityIcons" name='signal-variant' style={styles.planCallIcon}/>
+       )
+     } else {
+       return (
+          <Icon type="Foundation" name='x' style={styles.planCallIcon}/>
+      )
+    }
   }
 
   render() {
-    const { renderMap } = this;
+    const { mapLoaded } = this.state;
+    const { broadcastPlan, renderSearchInput, renderScreen } = this;
+    if (!mapLoaded) {
+      return (
+          <ActivityIndicator size="large" />
+      );
+    }
     return (
-        <Provider store={store}>
-            {this.renderMap()}
-        </Provider>
+      <Provider store={store}>
+        <Container>
+          {renderSearchInput()}
+          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+            {renderScreen()}
+          </Content>
+          <Footer>
+            <FooterTab>
+              <Button vertical>
+                <Icon name="calendar" />
+                <Text>Plan</Text>
+              </Button>
+              <Button vertical>
+                <Text></Text>
+              </Button>
+              <Button badge vertical>
+                <Badge ><Text>10</Text></Badge>
+                <Icon type="MaterialCommunityIcons" name="thought-bubble-outline" />
+                <Text>Recos</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+          <View style={styles.buttonContainer}>
+            <Button rounded style={styles.planCallButton} onPress={broadcastPlan}>
+              {this.renderCallButtonIcon()}
+            </Button>
+          </View>
+        </Container>
+      </Provider>
     );
   }
 }
 
+const styles = {
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+    right: 0,
+    flex: 1,
+  },
+  planCallButton: {
+    width: 80,
+    height: 80,
+    backgroundColor: 'tomato',
+    alignSelf: 'center',
+    flex: 1,
+  },
+  planCallIcon: {
+    paddingLeft: 10,
+    fontSize: 36,
+  }
+}
