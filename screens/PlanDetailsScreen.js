@@ -73,7 +73,7 @@ export default class PlanDetailsScreen extends Component {
                 primary
                 block
                 onPress={this._showDateTimePicker} >
-                <Text style={{ alignItems: 'center', color: 'white' }}>Choosing Time</Text>
+                <Text style={{ alignItems: 'center', color: 'white' }}>Select Time</Text>
               </Button>
               <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}

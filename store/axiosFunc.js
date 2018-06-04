@@ -5,6 +5,7 @@ const local = "http://localhost:3000/"
 
 const setHeader = async () =>{
   const token = await AsyncStorage.getItem('token')
+  console.log(token)
   axios.defaults.headers.common.token = token;
 }
 
