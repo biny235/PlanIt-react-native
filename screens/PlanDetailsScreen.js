@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { Container, Content, Body, Form, Item, Label, Input, Button, Icon, Picker, Text } from 'native-base';
 import { Calendar } from 'react-native-calendars';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -57,29 +58,31 @@ export default class PlanDetailsScreen extends Component {
               firstDay={1}
             />
             {/*Time*/}
-            <Label>Select time</Label>
-            <Item disabled>
-              <Input
-                style={{ alignItems: 'center' }}
-                disabled
-                placeholder={this.state.time}
+            <View style={{ margin: 10 }}>
+              <Label>Select time</Label>
+              <Item disabled>
+                <Input
+                  style={{ alignItems: 'center' }}
+                  disabled
+                  placeholder={this.state.time}
+                />
+                <Icon name='information-circle' />
+              </Item>
+              <Button
+                style={{ margin: 3 }}
+                primary
+                block
+                onPress={this._showDateTimePicker} >
+                <Text style={{ alignItems: 'center', color: 'white' }}>Choosing Time</Text>
+              </Button>
+              <DateTimePicker
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this._handleDatePicked}
+                onCancel={this._hideDateTimePicker}
+                mode={'time'}
+                is24Hour={true}
               />
-              <Icon name='information-circle' />
-            </Item>
-            <Button
-              style={{ margin: 3 }}
-              primary
-              block
-              onPress={this._showDateTimePicker} >
-              <Text style={{ alignItems: 'center', color: 'white' }}>Choosing Time</Text>
-            </Button>
-            <DateTimePicker
-              isVisible={this.state.isDateTimePickerVisible}
-              onConfirm={this._handleDatePicked}
-              onCancel={this._hideDateTimePicker}
-              mode={'time'}
-              is24Hour={true}
-            />
+            </View>
             {/*Category*/}
             <Form>
               <Picker
@@ -99,7 +102,7 @@ export default class PlanDetailsScreen extends Component {
             </Form>
             {/*Submit*/}
             <Button
-              style={{ margin: 3, marginTop: 230 }}
+              style={{ margin: 3, marginTop: 20 }}
               primary
               block
               onPress={this._showDateTimePicker} >
