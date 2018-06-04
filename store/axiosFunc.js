@@ -6,7 +6,6 @@ const local = "http://localhost:3000/"
 const setHeader = async () =>{
   const token = await AsyncStorage.getItem('token')
   axios.defaults.headers.common.token = token;
-
 }
 
 const call = async ( type, link, body )=>{
