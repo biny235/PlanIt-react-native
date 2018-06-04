@@ -54,7 +54,7 @@ class SignInScreen extends Component {
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token)
-        this.props.navigation.navigate('Map');
+        this.props.navigation.navigate('App');
       })
       .catch(err => console.log(err))
   }
