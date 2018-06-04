@@ -1,0 +1,9 @@
+{
+  "extends": "fullstack",
+  "parser": "babel-eslint",
+  "rules": {
+    "semi": [1, "always"],
+    "react/no-multi-comp": [false, { "ignoreStateless": true}],
+    "react/prefer-stateless-function": [false, { "ignorePureComponents": true }]
+  }
+}
