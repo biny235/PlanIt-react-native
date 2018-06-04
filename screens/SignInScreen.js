@@ -68,7 +68,7 @@ class SignInScreen extends Component {
   async googleSignIn(){
     console.log("google Sign IN")
     await Expo.AuthSession.startAsync({
-      authUrl: `http://localhost:3000/auth/google`
+      authUrl: `http://fwiwh.herokuapp.com/auth/google`
     })
       .then(result => AsyncStorage.setItem('token', result.params.token))
     this.checker()
