@@ -22,7 +22,6 @@ class SignInScreen extends Component {
   }
   componentDidMount(){
     Linking.getInitialURL().then(url => console.log(url))
-    console.log(Expo.Linking.makeUrl())
     Linking.addEventListener('url', this.handleOpenURL);
     this.checker()
   }
@@ -36,7 +35,6 @@ class SignInScreen extends Component {
 
   handleOpenURL(event){
     const url = event.url.split('token=')
-    console.log(event.url.split('token='))
     if(url.length === 2){
       const token = url[1];   
       AsyncStorage.setItem('token', token)
@@ -46,11 +44,12 @@ class SignInScreen extends Component {
   }
   checker = async ()=>{
     const token = await AsyncStorage.getItem('token');
-    token ? this.props.navigation.navigate('Map') : null
+    !!token ? this.props.navigation.navigate('Map') : null
   }
   signIn(){
     const { username, password } = this.state;
-    call('post', 'auth', { username, password})
+    call('post', 'auth', { username, password })
+    axios.post('http://localhost:3000/auth', {username, password})
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token)

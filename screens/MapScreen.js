@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, AsyncStorage } from 'react-native';
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input } from 'native-base';
 import { MapView } from 'expo';
 import { Provider } from 'react-redux';
