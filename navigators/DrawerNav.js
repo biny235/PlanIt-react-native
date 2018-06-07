@@ -16,6 +16,34 @@ const signOutAsync = async (navigation) => {
 };
 
 // to add header to menu items
+const Profile = createStackNavigator(
+  {
+    Profile: ProfileScreen
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <Button
+          transparent
+          onPress={() => navigation.openDrawer(navigation)}
+        >
+          <Icon name="menu" />
+        </Button>
+      ),
+      title: 'Profile & Settings',
+      headerRight: (
+        <Button
+          transparent
+          onPress={() => signOutAsync(navigation)}
+        >
+          <Icon name="power" />
+        </Button>
+      ),
+    })
+  }
+);
+
+// to add header to menu items
 const Friends = createStackNavigator(
   {
     Friends: {
@@ -46,9 +74,9 @@ const Friends = createStackNavigator(
 );
 
 // to add header to menu items
-const Profile = createStackNavigator(
+const History = createStackNavigator(
   {
-    Profile: ProfileScreen
+    History: HistoryScreen
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -60,7 +88,7 @@ const Profile = createStackNavigator(
           <Icon name="menu" />
         </Button>
       ),
-      title: 'Profile & Settings',
+      title: 'Travel History',
       headerRight: (
         <Button
           transparent
@@ -73,14 +101,13 @@ const Profile = createStackNavigator(
   }
 );
 
-
 // app needs to be inside the drawer so components can open drawer
 export default createDrawerNavigator(
   {
-    Home: MainStackNav,
+    MainSwitch: MainStackNav,
     Profile,
     Friends: Friends,
-    History: HistoryScreen
+    History
   },
   {
     contentComponent: props => <DrawerSideBar {...props} />
