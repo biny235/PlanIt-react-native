@@ -113,7 +113,7 @@ export default createSwitchNavigator(
     App
   },
   {
-    initialRouteName: 'App',
+    initialRouteName: 'SignIn',
   }
 );
 

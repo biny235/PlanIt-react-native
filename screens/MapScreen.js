@@ -4,7 +4,6 @@ import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button
 import { MapView } from 'expo';
 import { Provider } from 'react-redux';
 import store from '../store';
-import call from '../store/axiosFunc';
 
 const MAP_SCREEN = 'Map';
 
@@ -423,10 +422,6 @@ export default class MapScreen extends Component {
   }
 
   componentDidMount() {
-    call('get', 'api/user/plan')
-        .then(res => res.data)
-        .then(plan => console.log(plan))
-        .catch(err => console.log(err))
     this.setState({ mapLoaded: true });
   }
 
