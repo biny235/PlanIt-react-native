@@ -3,7 +3,6 @@ import { View, Text, Header, ActivityIndicator, AsyncStorage, Linking} from 'rea
 import Expo from 'expo';
 import { Container, Content, Body, Title, Form, Item, Label, Input, Button } from 'native-base';
 import call from '../store/axiosFunc';
-import axios from 'axios';
 
 class SignInScreen extends Component {
   constructor(){
@@ -48,12 +47,11 @@ class SignInScreen extends Component {
   }
   signIn(){
     const { username, password } = this.state;
-    call('post', 'auth', { username, password })
-    axios.post('http://localhost:3000/auth', {username, password})
+    call('post', '/auth', { username, password })
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token)
-        token ? this.props.navigation.navigate('App') : null;
+        this.checker()
       })
       .catch(err => console.log(err))
   }

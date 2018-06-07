@@ -1,16 +1,10 @@
 import React, {Component} from 'react';
-<<<<<<< HEAD
 import { View, ActivityIndicator, AsyncStorage } from 'react-native';
-import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input } from 'native-base';
-import { MapView } from 'expo';
 import { Provider } from 'react-redux';
 import store from '../store';
-=======
-import { View, ActivityIndicator, Image } from 'react-native';
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
->>>>>>> master
 
 // const MAP_SCREEN = 'Map';
 // const larry = require('../assets/friends-thumbnails/curly.jpg');
