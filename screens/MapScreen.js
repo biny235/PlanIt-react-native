@@ -1,423 +1,57 @@
 import React, {Component} from 'react';
+<<<<<<< HEAD
 import { View, ActivityIndicator, AsyncStorage } from 'react-native';
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input } from 'native-base';
 import { MapView } from 'expo';
 import { Provider } from 'react-redux';
 import store from '../store';
+=======
+import { View, ActivityIndicator, Image } from 'react-native';
+import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
+import MapView from 'react-native-maps';
+// import mapStyle from '../mapStyle';  // doesn't show POI
+>>>>>>> master
 
-const MAP_SCREEN = 'Map';
+// const MAP_SCREEN = 'Map';
+// const larry = require('../assets/friends-thumbnails/curly.jpg');
 
-const mapStyle = [
+const markerData = [
   {
-      "featureType": "administrative",
-      "elementType": "labels.text.fill",
-      "stylers": [
-          {
-              "color": "#444444"
-          }
-      ]
+    name: 'Balthazar',
+    lat: 40.7226241814105,
+    lng: -73.99817168712616,
+    place_id: 'ChIJt7fMLIlZwokRCRtM9bNDg78',
+    details: 'Pricey but the raw red meat is great.',
   },
   {
-      "featureType": "administrative.neighborhood",
-      "elementType": "geometry.fill",
-      "stylers": [
-          {
-              "visibility": "off"
-          },
-          {
-              "hue": "#ff0000"
-          }
-      ]
+    name: "Grimaldi's Pizza",
+    lat: 40.702602314710816,
+    lng: -73.99322032928467,
+    place_id: 'ChIJgzfayTBawokR9jTsF6hLf40',
+    details: 'Homemade mozzarella cheese and beautiful view.',
   },
   {
-      "featureType": "administrative.land_parcel",
-      "elementType": "geometry",
-      "stylers": [
-          {
-              "visibility": "off"
-          },
-          {
-              "weight": "1.24"
-          },
-          {
-              "hue": "#ff0000"
-          }
-      ]
+    name: 'Terri',
+    lat: 40.70661306619307,
+    lng: -74.00703504681587,
+    place_id: 'ChIJzcIh0hdawokR59-X8e5i4bk',
+    details: 'Vegan delight.',
   },
-  {
-      "featureType": "administrative.land_parcel",
-      "elementType": "geometry.stroke",
-      "stylers": [
-          {
-              "visibility": "off"
-          },
-          {
-              "color": "#1a0a0a"
-          }
-      ]
-  },
-  {
-      "featureType": "landscape",
-      "elementType": "all",
-      "stylers": [
-          {
-              "color": "#f2f2f2"
-          }
-      ]
-  },
-  {
-      "featureType": "landscape",
-      "elementType": "labels",
-      "stylers": [
-          {
-              "saturation": "7"
-          }
-      ]
-  },
-  {
-      "featureType": "landscape.man_made",
-      "elementType": "geometry.fill",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "color": "#e0e0e0"
-          }
-      ]
-  },
-  {
-      "featureType": "landscape.man_made",
-      "elementType": "geometry.stroke",
-      "stylers": [
-          {
-              "visibility": "off"
-          },
-          {
-              "color": "#040303"
-          },
-          {
-              "weight": "5.56"
-          },
-          {
-              "lightness": "-3"
-          }
-      ]
-  },
-  {
-      "featureType": "landscape.man_made",
-      "elementType": "labels",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "color": "#f6f6f6"
-          }
-      ]
-  },
-  {
-      "featureType": "landscape.man_made",
-      "elementType": "labels.text",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "color": "#fa0404"
-          }
-      ]
-  },
-  {
-      "featureType": "landscape.natural.landcover",
-      "elementType": "geometry",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "color": "#fd0000"
-          }
-      ]
-  },
-  {
-      "featureType": "landscape.natural.landcover",
-      "elementType": "geometry.fill",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "weight": "1.22"
-          }
-      ]
-  },
-  {
-      "featureType": "poi",
-      "elementType": "all",
-      "stylers": [
-          {
-              "visibility": "off"
-          }
-      ]
-  },
-  {
-      "featureType": "poi.attraction",
-      "elementType": "geometry",
-      "stylers": [
-          {
-              "visibility": "off"
-          }
-      ]
-  },
-  {
-      "featureType": "poi.park",
-      "elementType": "geometry",
-      "stylers": [
-          {
-              "visibility": "on"
-          }
-      ]
-  },
-  {
-      "featureType": "poi.park",
-      "elementType": "labels.text",
-      "stylers": [
-          {
-              "visibility": "on"
-          }
-      ]
-  },
-  {
-      "featureType": "poi.park",
-      "elementType": "labels.text.fill",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "saturation": "61"
-          },
-          {
-              "lightness": "-63"
-          },
-          {
-              "gamma": "1.52"
-          }
-      ]
-  },
-  {
-      "featureType": "poi.park",
-      "elementType": "labels.icon",
-      "stylers": [
-          {
-              "visibility": "off"
-          }
-      ]
-  },
-  {
-      "featureType": "poi.school",
-      "elementType": "all",
-      "stylers": [
-          {
-              "visibility": "off"
-          }
-      ]
-  },
-  {
-      "featureType": "poi.school",
-      "elementType": "geometry.fill",
-      "stylers": [
-          {
-              "visibility": "off"
-          },
-          {
-              "hue": "#ffbf00"
-          }
-      ]
-  },
-  {
-      "featureType": "road",
-      "elementType": "all",
-      "stylers": [
-          {
-              "saturation": -100
-          },
-          {
-              "lightness": 45
-          }
-      ]
-  },
-  {
-      "featureType": "road",
-      "elementType": "geometry",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "hue": "#ff0000"
-          },
-          {
-              "lightness": "43"
-          }
-      ]
-  },
-  {
-      "featureType": "road",
-      "elementType": "labels.text",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "color": "#000000"
-          },
-          {
-              "weight": "0.01"
-          }
-      ]
-  },
-  {
-      "featureType": "road.highway",
-      "elementType": "all",
-      "stylers": [
-          {
-              "visibility": "simplified"
-          }
-      ]
-  },
-  {
-      "featureType": "road.highway",
-      "elementType": "labels.icon",
-      "stylers": [
-          {
-              "visibility": "off"
-          }
-      ]
-  },
-  {
-      "featureType": "road.arterial",
-      "elementType": "geometry.fill",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "weight": "2"
-          }
-      ]
-  },
-  {
-      "featureType": "road.arterial",
-      "elementType": "geometry.stroke",
-      "stylers": [
-          {
-              "visibility": "on"
-          }
-      ]
-  },
-  {
-      "featureType": "road.arterial",
-      "elementType": "labels.icon",
-      "stylers": [
-          {
-              "visibility": "off"
-          }
-      ]
-  },
-  {
-      "featureType": "road.local",
-      "elementType": "geometry.fill",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "weight": "2.08"
-          }
-      ]
-  },
-  {
-      "featureType": "road.local",
-      "elementType": "geometry.stroke",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "lightness": "0"
-          },
-          {
-              "gamma": ".75"
-          }
-      ]
-  },
-  {
-      "featureType": "transit",
-      "elementType": "all",
-      "stylers": [
-          {
-              "visibility": "on"
-          }
-      ]
-  },
-  {
-      "featureType": "water",
-      "elementType": "all",
-      "stylers": [
-          {
-              "color": "#2381a8"
-          },
-          {
-              "visibility": "on"
-          }
-      ]
-  },
-  {
-      "featureType": "water",
-      "elementType": "geometry.fill",
-      "stylers": [
-          {
-              "visibility": "on"
-          },
-          {
-              "color": "#00e4ff"
-          },
-          {
-              "saturation": "-32"
-          },
-          {
-              "lightness": "59"
-          },
-          {
-              "weight": "0.68"
-          }
-      ]
-  }
 ];
 
-export default class MapScreen extends Component {
-  static navigationOptions = {
-    // not working on drawer
-    drawerLabel: 'Home',
-    drawerIcon: ({ tintColor }) => (
-        <Ionicons name="md-home" size={25} color={tintColor} />
-    ),
-  };
-
+class MapScreen extends Component {
   constructor() {
     super();
     this.state = {
       mapLoaded: false,
-      location: {
+      region: {
         latitude: 40.7050758,
         longitude: -74.00916039999998,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       },
-      currentScreen: MAP_SCREEN,
-      isBroadcasting: true
+      isBroadcasting: true,
+      markers: [],
     };
   }
 
@@ -425,34 +59,56 @@ export default class MapScreen extends Component {
     this.setState({ mapLoaded: true });
   }
 
-  broadcastPlan = () => {
-    this.toggleShowSearch();
+  toggleBroadcastPlan = () => {
+    const isBroadcasting = !this.state.isBroadcasting;
+    this.setState({isBroadcasting: isBroadcasting});
+    this.simulateFriendsRecommending();
+  }
+
+  addMarker = marker => {
+    const markers = [...this.state.markers, marker];
+    this.setState({markers});
+  }
+
+  simulateFriendsRecommending =() => {
+    if (this.state.isBroadcasting) {
+      let counter = markerData.length - 1;
+      const nIntervId = setInterval(() => {
+        const marker = markerData[counter];
+        this.addMarker(marker);
+        if (!counter) {
+          clearInterval(nIntervId);
+        }
+        counter--;
+      }, 1000);
+    } else {
+      this.setState({markers: []});
+    }
   }
 
   openDrawer = () => {
     this.props.navigation.openDrawer();
   }
 
-  toggleShowSearch = () => {
-    const newState = !this.state.isBroadcasting;
-    this.setState({isBroadcasting: newState});
+  onRegionChangeComplete = (region) => {
+    this.setState({ region });
   }
 
-  renderScreen = () => {
-    const { location } = this.state;
-    if (this.state.currentScreen === MAP_SCREEN) {
-      return (
-        <View style={{flex: 1}}>
-          <MapView
-            style={{flex: 1}}
-            initialRegion={location}
-            provider={MapView.PROVIDER_GOOGLE}
-            customMapStyle={mapStyle}
-            >
-          </MapView>
-        </View>
-      )
+  renderMarkers = () => {
+    if (!this.state.markers) {
+      return;
     }
+    return this.state.markers.map(marker => {
+      return (
+        <MapView.Marker
+          key={marker.place_id}
+          id={marker.place_id}
+          coordinate={{latitude: marker.lat, longitude: marker.lng}}
+          title={marker.name}
+          description={marker.details}
+        />
+      );
+    });
   }
 
   renderSearchInput = () => {
@@ -464,19 +120,17 @@ export default class MapScreen extends Component {
               transparent
               onPress={this.openDrawer}
             >
-              <Icon name='menu' />
+              <Icon name="menu" />
             </Button>
           </Left>
           <Item>
-            <Icon name="ios-search" />
-            <Input placeholder="Where to" />
-            <Icon type="FontAwesome" name="location-arrow" size={8} />
+            <Input placeholder="Where to..." />
           </Item>
-          <Button small transparent onPress={this.toggleShowSearch}>
+          <Button small transparent>
             <Text>Search</Text>
           </Button>
         </Header>
-      )
+      );
     } else {
       return (
         <Header>
@@ -485,67 +139,105 @@ export default class MapScreen extends Component {
               transparent
               onPress={this.openDrawer}
             >
-              <Icon name='menu' />
+              <Icon name="menu" />
             </Button>
           </Left>
-          <Button small rounded info onPress={this.toggleShowSearch}>
+          <Button small rounded info>
             <Icon active name="search" />
           </Button>
         </Header>
-      )
+      );
     }
   }
 
   renderCallButtonIcon = () => {
     if (this.state.isBroadcasting) {
       return (
-         <Icon type="MaterialCommunityIcons" name='signal-variant' style={styles.planCallIcon}/>
-       )
+         <Icon type="MaterialCommunityIcons" name="signal-variant" style={styles.planCallIcon} />
+       );
      } else {
        return (
-          <Icon type="Foundation" name='x' style={styles.planCallIcon}/>
-      )
+          <Icon type="Foundation" name="x" style={styles.planCallIcon} />
+      );
     }
   }
 
   render() {
-    const { mapLoaded } = this.state;
-    const { broadcastPlan, renderSearchInput, renderScreen } = this;
+    const { mapLoaded, region } = this.state;
+    const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
+    const { navigation } = this.props;
     if (!mapLoaded) {
       return (
-          <ActivityIndicator size="large" />
-      );
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <ActivityIndicator size="large" />
+      </View>
+);
     }
     return (
-      <Provider store={store}>
-        <Container>
-          {renderSearchInput()}
-          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-            {renderScreen()}
-          </Content>
-          <Footer>
-            <FooterTab>
-              <Button vertical>
-                <Icon name="calendar" />
-                <Text>Plan</Text>
-              </Button>
-              <Button vertical>
-                <Text></Text>
-              </Button>
-              <Button badge vertical>
-                <Badge ><Text>10</Text></Badge>
-                <Icon type="MaterialCommunityIcons" name="thought-bubble-outline" />
-                <Text>Recos</Text>
-              </Button>
-            </FooterTab>
-          </Footer>
-          <View style={styles.buttonContainer}>
-            <Button rounded style={styles.planCallButton} onPress={broadcastPlan}>
-              {this.renderCallButtonIcon()}
-            </Button>
+      <Container>
+        {renderSearchInput()}
+        <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+          <View style={{flex: 1}}>
+          <MapView
+            style={{flex: 1}}
+            initialRegion={region}
+            provider={MapView.PROVIDER_GOOGLE}
+            // customMapStyle={mapStyle}
+            showsUserLocation={true}
+            followsUserLocation={true}
+            showsMyLocationButton={true}
+            showsPointsOfInterest={true}
+            showsBuildings={true}
+            // onPoiClick={e => console.log(e.nativeEvent)}
+            onRegionChangeComplete={this.onRegionChangeComplete}
+            // onPress={ev => console.log(ev.nativeEvent)}
+            >
+            {this.renderMarkers()}
+          </MapView>
+          ))}
           </View>
-        </Container>
-      </Provider>
+        </Content>
+        <Footer>
+          <FooterTab>
+            <Button
+              vertical
+              onPress={this.navToPlanSettings}
+            >
+              <Icon name="calendar" />
+              <Text style={{fontSize: 12}}>Plan Settings</Text>
+            </Button>
+            <Button vertical>
+              <Text />
+            </Button>
+            <Button badge vertical>
+              <Badge ><Text>10</Text></Badge>
+              <Icon type="MaterialCommunityIcons" name="thought-bubble-outline" />
+              <Text style={{fontSize: 12}}>Suggestions</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+        <View style={styles.buttonContainer}>
+          <Button
+            rounded
+            style={styles.planCallButton}
+            onPress={toggleBroadcastPlan}
+          >
+            {this.renderCallButtonIcon()}
+          </Button>
+        </View>
+        <View style={styles.planDetailPressView}>
+          <Button
+            style={styles.pressAreaBtn}
+            onPress={() => this.props.navigation.navigate('PlanDetails')}
+          />
+        </View>
+        <View style={styles.suggestPressView}>
+          <Button
+            style={styles.pressAreaBtn}
+            onPress={() => this.props.navigation.navigate('Suggestions')}
+          />
+        </View>
+      </Container>
     );
   }
 }
@@ -556,17 +248,34 @@ const styles = {
     bottom: 10,
     left: 0,
     right: 0,
-    flex: 1,
   },
   planCallButton: {
     width: 80,
     height: 80,
     backgroundColor: 'tomato',
     alignSelf: 'center',
-    flex: 1,
   },
   planCallIcon: {
     paddingLeft: 10,
     fontSize: 36,
-  }
-}
+  },
+  planDetailPressView: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  },
+  suggestPressView: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+  },
+  pressAreaBtn: {
+    width: 100,
+    height: 55,
+    opacity: 0,
+    backgroundColor: '#A8A8A8',
+    borderRadius: 0,
+  },
+};
+
+export default MapScreen;
