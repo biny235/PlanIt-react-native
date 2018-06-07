@@ -28,7 +28,6 @@ class SignInScreen extends Component {
   }
   onChange(text, type){
     this.setState({ [type]: text })
-    console.log(this.state)
   }
 
   navToRegister = () => {
