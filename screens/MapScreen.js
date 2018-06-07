@@ -4,8 +4,10 @@ import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
-// const MAP_SCREEN = 'Map';
-// const larry = require('../assets/friends-thumbnails/curly.jpg');
+const larry = require('../assets/friends-thumbnails/larry.jpg');
+const moe = require('../assets/friends-thumbnails/curly.jpg');
+const curly = require('../assets/friends-thumbnails/moe.jpg');
+const friendIcons = [moe, curly, larry];
 
 const markerData = [
   {
@@ -155,7 +157,7 @@ class MapScreen extends Component {
   }
 
   render() {
-    const { mapLoaded, region } = this.state;
+    const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation } = this.props;
     if (!mapLoaded) {
@@ -202,12 +204,23 @@ class MapScreen extends Component {
               <Text />
             </Button>
             <Button badge vertical>
-              <Badge ><Text>10</Text></Badge>
+              <Badge  style={(markers.length ? styles.badgeVisible : styles.badgeInvisible )}><Text>{markers.length}</Text></Badge>
               <Icon type="MaterialCommunityIcons" name="thought-bubble-outline" />
               <Text style={{fontSize: 12}}>Suggestions</Text>
             </Button>
           </FooterTab>
         </Footer>
+        <View style={styles.friendIcons}>
+          <Button transparent onPress={() => this.props.navigation.navigate('FriendsPlans')}>
+            <Thumbnail circle small source={friendIcons[2]} style={{ zIndex: 30}} />
+            <Thumbnail circle small source={friendIcons[1]} style={{ marginLeft: -10, zIndex: 20 }} />
+            <Thumbnail circle small source={friendIcons[0]}  style={{ marginLeft: -10, zIndex: 10} } />
+            <Badge style={{
+              marginLeft: -12, marginTop: -12, zIndex: 40,
+              transform: [{ scale: 0.7 }]
+            }}><Text style={{}}>10</Text></Badge>
+          </Button>
+        </View>
         <View style={styles.buttonContainer}>
           <Button
             rounded
@@ -235,6 +248,19 @@ class MapScreen extends Component {
 }
 
 const styles = {
+  badgeInvisible: {
+    opacity: 0
+  },
+  badgeVisible: {
+    opacity: 1
+  },
+  friendIcons: {
+    position: 'absolute',
+    flex: 1,
+    flexDirection: 'row',
+    left: 10,
+    bottom: 90,
+  },
   buttonContainer: {
     position: 'absolute',
     bottom: 10,

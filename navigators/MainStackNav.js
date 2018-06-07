@@ -1,30 +1,42 @@
 import React from 'react';
-
-//screens
-import MapScreen from '../screens/MapScreen';
-import FriendsPlansScreen from '../screens/FriendsPlansScreen';
-import PlanDetailsScreen from '../screens/PlanDetailsScreen';
-import SuggestionsScreen from '../screens/SuggestionsScreen';
-
-// navigators
 import { createStackNavigator } from 'react-navigation';
-// TabNavigator is not used, because the bottom nav is fake. The items on the sides open modal windows.
+import MainModalNav from './MainModalNav';
+import FriendsPlansScreen from '../screens/FriendsPlansScreen';
+import SuggestToFriendScreen from '../screens/SuggestToFriendScreen';
 
-// stack for main/map items
-// removed header to use tab header below
-const MainStackNav = createStackNavigator(
-  {
-    Map: MapScreen,
-    PlanDetails: PlanDetailsScreen,
-    Suggestions: SuggestionsScreen,
-    FriendsPlans: FriendsPlansScreen,
-  },
-  {
-    mode: 'modal',
+const MainStackNav = createStackNavigator({
+  MainModal: {
+    screen: MainModalNav,
     navigationOptions: () => ({
       header: null
     })
+  },
+  FriendsPlans: {
+    screen: FriendsPlansScreen,
+    navigationOptions: {
+      title: "Friends' Plans",
+      headerStyle: {
+        backgroundColor: 'tomato',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
+  },
+  SuggestToFriend: {
+    screen: SuggestToFriendScreen,
+    navigationOptions: {
+      title: 'Suggest a Place',
+      headerStyle: {
+        backgroundColor: 'tomato',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
   }
-);
+});
 
 export default MainStackNav;

@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import { Text } from 'react-native';
-import { Container, Content, Body } from 'native-base';
+import { Container, Content, H1 } from 'native-base';
 
 export default class SuggestToFriendScreen extends Component {
   render() {
     return (
       <Container>
-        <Content>
-          <Body style={{margin: 20}}>
-            <Text>Once friend's plans are broadcast, this screen allows the user to make suggestion to friends' plans. It contains a map with search box to find places to suggest. This screen could have access to the users' favorite places.</Text>
-          </Body>
+        <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
+            <H1 style={{marginBottom: 10}}>Give Moe a Suggestion</H1>
+            <Text>Find suggestions for your friend's plan. This screen should contain a map focused on the location where your friend is traveling to. Search for places to suggest to your friend. Your favorites should also appear on this map.</Text>
         </Content>
       </Container>
     );

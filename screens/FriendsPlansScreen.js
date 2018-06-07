@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
-import { Text } from 'react-native';
-import { Container, Content, Body } from 'native-base';
+import { Text, Button } from 'react-native';
+import { Container, Content, H1 } from 'native-base';
 
-export default class SuggestToFriendScreen extends Component {
+export default class FriendsPlansScreen extends Component {
   render() {
     return (
       <Container>
-        <Content>
-          <Body style={{margin: 20}}>
-            <Text>Once friend's plans are broadcast, this screen allows the user to make suggestion to friends' plans. It contains a map with search box to find places to suggest. This screen could have access to the users' favorite places.</Text>
-          </Body>
+        <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
+          <H1 style={{marginBottom: 10}}>Friends' List of Plans</H1>
+          <Text>This screen will consist of a list of plans your friends' have made. Tap on one of your friend's plans to make a suggestion.</Text>
+          <Button
+            title="Give Moe a place suggestions >"
+            onPress={() => this.props.navigation.navigate('SuggestToFriend')}
+          />
         </Content>
       </Container>
     );
