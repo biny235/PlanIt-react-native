@@ -3,25 +3,26 @@ import { View, Text, Header, ActivityIndicator, AsyncStorage, Linking} from 'rea
 import Expo from 'expo';
 import { Container, Content, Body, Title, Form, Item, Label, Input, Button } from 'native-base';
 import call from '../store/axiosFunc';
+import { connect } from 'react-redux';
+import { authenticate } from '../store/users'
 
 class SignInScreen extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       username: '',
       password: ''
     }
     this.onChange = this.onChange.bind(this);
     this.signIn = this.signIn.bind(this);
-    this.handleOpenURL = this.handleOpenURL.bind(this)
+    // this.handleOpenURL = this.handleOpenURL.bind(this)
     this.googleSignIn = this.googleSignIn.bind(this);
   }
   static navigationOptions = {
     title: 'Please sign in',
   }
   componentDidMount(){
-    Linking.getInitialURL().then(url => console.log(url))
-    Linking.addEventListener('url', this.handleOpenURL);
+    // Linking.addEventListener('url', this.handleOpenURL);
     this.checker()
   }
   // componentDidUpdate() {
@@ -32,28 +33,24 @@ class SignInScreen extends Component {
   //   Linking.removeEventListener('url', this.handleOpenURL);
   // }
 
-  handleOpenURL(event){
-    const url = event.url.split('token=')
-    if(url.length === 2){
-      const token = url[1];   
-      AsyncStorage.setItem('token', token)
-      this.props.navigation.navigate('Map')
-    }
+  // handleOpenURL(event){
+  //   const url = event.url.split('token=')
+  //   if(url.length === 2){
+  //     const token = url[1];   
+  //     AsyncStorage.setItem('token', token)
+  //     this.props.navigation.navigate('Map')
+  //   }
     
-  }
-  checker = async ()=>{
-    const token = await AsyncStorage.getItem('token');
-    !!token ? this.props.navigation.navigate('Map') : null
+  // }
+  async checker(){
+    const token = await AsyncStorage.getItem('token')
+    token ? this.props.navigation.navigate('Map') : null
+
   }
   signIn(){
     const { username, password } = this.state;
-    call('post', '/auth', { username, password })
-      .then(res => res.data)
-      .then(token => {
-        AsyncStorage.setItem('token', token)
-        this.checker()
-      })
-      .catch(err => console.log(err))
+    this.props.authenticate({ username, password })
+      .then(token => token ? this.props.navigation.navigate('Map') : null)
   }
   onChange(text, type){
     this.setState({ [type]: text })
@@ -63,7 +60,7 @@ class SignInScreen extends Component {
     this.props.navigation.navigate('Register');
   }
   async googleSignIn(){
-    console.log("google Sign IN")
+
     await Expo.AuthSession.startAsync({
       authUrl: `http://localhost:3000/auth/google`
     })
@@ -117,4 +114,17 @@ class SignInScreen extends Component {
   }
 }
 
-export default SignInScreen;
+const mapStateToProps = ({ users }) =>{
+
+  return {
+    users
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    authenticate: credentials => dispatch(authenticate(credentials))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
