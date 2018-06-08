@@ -22,7 +22,16 @@ const routes = [
   },
 ];
 export default class DrawerSideBar extends React.Component {
+  constructor(){
+    super()
+    this.logout = this.logout.bind(this)
+  }
+  logout(){
+    this.props.navigation.navigate('SignIn')
+    AsyncStorage.clear()
+  }
   render() {
+    const { logout } = this
     return (
       <Container>
         <Content>
@@ -76,6 +85,7 @@ export default class DrawerSideBar extends React.Component {
                   <ListItem
                     icon
                     button
+                    onPress={logout}
                   >
                     <Left>
                       <Icon

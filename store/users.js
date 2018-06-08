@@ -1,4 +1,4 @@
-import axios from 'axios';
+import call from './axiosFunc';
 import { GET_USERS, CREATE_USER, UPDATE_USER, DELETE_USER  } from './constants';
 
 export const fetchUsers = () => {

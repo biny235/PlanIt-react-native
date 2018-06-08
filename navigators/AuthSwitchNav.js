@@ -17,6 +17,6 @@ export default createSwitchNavigator(
     Main: DrawerNav
   },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'SignIn',
   }
 );

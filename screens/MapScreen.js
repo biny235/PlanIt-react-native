@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import { View, ActivityIndicator, Image } from 'react-native';
+import { View, ActivityIndicator, AsyncStorage } from 'react-native';
+import { Provider } from 'react-redux';
+import store from '../store';
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI

@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "fww-react-native",
-    "icon": "./assets/icon.png",
-    "version": "1.0.0",
-    "slug": "fww-react-native",
-    "sdkVersion": "27.0.0",
-    "ios": {
-      "bundleIdentifier": "com.fullstackacademy.fww",
-      "config": {
+   "name": "fww-react-native",
+   "icon": "./assets/icon.png",
+   "version": "1.0.0",
+   "slug": "fww-react-native",
+   "sdkVersion": "27.0.0",
+   "scheme": "fww",
+   "ios": {
+     "bundleIdentifier": "com.fullstackacademy.fww",
+     "config": {
         "googleMapsApiKey": ""
       }
     },
