@@ -4,34 +4,34 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import call from '../store/axiosFunc';
 const config = require('../config');
 
-const GooglePlacesInput = () => {
+const GooglePlacesInput = ( {lat, lng, type} ) => {
   const onPress = (data, details = null) => {
     let place;
-    if(data.place_id){
+    if (data.place_id){
       place = {
         name: details.name,
+        url: details.url,
         lat: details.geometry.location.lat,
         lng: details.geometry.location.lng,
         place_id: details.place_id
       };
     call('post', '/api/places', place);
     }
-
-    console.log(place)
-  }
+    console.log(place);
+  };
   return (
     <GooglePlacesAutocomplete
-      placeholder='Enter Location'
+      placeholder= 'Enter Location'
       minLength={2}
       autoFocus={false}
       returnKeyType={'default'}
       fetchDetails={true}
       query={{
-            key:  config.GOOGLE_PLACES_KEY,
+            key: config.GOOGLE_PLACES_KEY,
             language: 'en',
-            location: '37.76999, -122.44696',
+            location: `${lat}, ${lng}`,
             radius: 5000,
-            types: 'address'
+            types: `${type}`
           }}
       onPress={(data, details) => onPress(data, details)}
       styles={{
@@ -56,6 +56,6 @@ const GooglePlacesInput = () => {
       currentLocation={false}
     />
   );
-}
+};
 
 module.exports = GooglePlacesInput;
