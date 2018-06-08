@@ -1,21 +1,6 @@
 import React from 'react';
-import { Image, AsyncStorage } from 'react-native';
-import {
-  Text,
-  Container,
-  List,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Icon,
-  Separator,
-  Content,
-  Grid,
-  Row,
-  Col,
-  Button
-} from 'native-base';
+import { Image } from 'react-native';
+import { Text, Container, List, ListItem, Left, Body, Right, Icon, Separator, Content, Grid, Row, Col, Button } from 'native-base';
 const routes = [
   {
     name: 'Profile',
@@ -56,7 +41,7 @@ export default class DrawerSideBar extends React.Component {
               <Button
                 full
                 style={{ height: 80, backgroundColor: 'tomato' }}
-                onPress={() => this.props.navigation.navigate('Home')}
+                onPress={() => this.props.navigation.navigate('MainModal')}
               >
                 <Icon
                   type="MaterialCommunityIcons"
@@ -86,7 +71,7 @@ export default class DrawerSideBar extends React.Component {
                           />
                         </Left>
                         <Body>
-                          <Text>{data.display}</Text>
+                          <Text style={{fontSize: 16}}>{data.display}</Text>
                         </Body>
                         <Right>
                         <Icon name="arrow-forward" />

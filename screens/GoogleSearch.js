@@ -1,21 +1,11 @@
 import React from 'react';
+import { Constants } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import call from '../store/axiosFunc';
 const config = require('../config');
 
 const GooglePlacesInput = () => {
-  return (
- <GooglePlacesAutocomplete
-  placeholder='Enter Location'
-  minLength={2}
-  autoFocus={false}
-  returnKeyType={'default'}
-  fetchDetails={true}
-  query={{
-        key:  config.GOOGLE_PLACES_KEY,
-        language: 'en'
-      }}
-  onPress={(data, details = null) => {
+  const onPress = (data, details = null) => {
     let place;
     if(data.place_id){
       place = {
@@ -24,28 +14,47 @@ const GooglePlacesInput = () => {
         lng: details.geometry.location.lng,
         place_id: details.place_id
       };
-    call('post', 'api/places', place);
+    call('post', '/api/places', place);
     }
-  }}
-  styles={{
-    textInputContainer: {
-      backgroundColor: 'rgba(0,0,0,0)',
-      width: '100%'
-    },
-    textInput: {
-      marginLeft: 0,
-      marginRight: 0,
-      height: 38,
-      color: '#5d5d5d',
-      fontSize: 16
-    },
-    predefinedPlacesDescription: {
-      color: '#1faadb'
-    },
-  }}
 
-  currentLocation={false}
-/>
+    console.log(place)
+  }
+  return (
+    <GooglePlacesAutocomplete
+      placeholder='Enter Location'
+      minLength={2}
+      autoFocus={false}
+      returnKeyType={'default'}
+      fetchDetails={true}
+      query={{
+            key:  config.GOOGLE_PLACES_KEY,
+            language: 'en',
+            location: '37.76999, -122.44696',
+            radius: 5000,
+            types: 'address'
+          }}
+      onPress={(data, details) => onPress(data, details)}
+      styles={{
+        textInputContainer: {
+          padding: Constants.statusBarHeight,
+          backgroundColor: 'rgba(0,0,0,0)',
+          width: '100%'
+        },
+        textInput: {
+          padding: Constants.statusBarHeight,
+          marginLeft: 0,
+          marginRight: 0,
+          height: 38,
+          color: '#5d5d5d',
+          fontSize: 16
+        },
+        predefinedPlacesDescription: {
+          color: '#1faadb'
+        },
+      }}
+
+      currentLocation={false}
+    />
   );
 }
 

@@ -9,10 +9,11 @@ const setHeader = async () =>{
 }
 
 const call = async ( type, link, body )=>{
+  console.log(body)
   if(!axios.defaults.headers.common.token){
     await setHeader()
   }
-  return axios[type](`${production}${link}`, body)
+  return axios[type](`${local}${link}`, body)
 }
 
 module.exports = call;
