@@ -1,12 +1,28 @@
 import axios from 'axios';
 import { GET_USERS, CREATE_USER, UPDATE_USER, DELETE_USER  } from './constants';
+import call from './axiosFunc';
 
+// Action Creators
+const userCreate = user => ({ type: CREATE_USER, user });
+const getUser = users => ({ type: GET_USERS, users });
+const removeUser = user => ({ type: DELETE_USER, user });
+
+// Thunks
+export const fetchuser = () => async dispatch => {
+  try {
+    const res = await call('get', 'http://localhost:3000/api/user');
+    const userData = await res.data;
+    dispatch(getUser(userData));
+  } catch (error) {
+    console.warn(error);
+  }
+};
 export const fetchUsers = () => {
   return (dispatch) => {
     return axios.get('http://localhost:3000/api/users')
       .then(res => res.data)
       .then(users => {
-        dispatch({ type: GET_USERS, users })
+        dispatch({ type: GET_USERS, users });
       })
       .catch(err => alert(err));
   }

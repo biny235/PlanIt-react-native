@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Container, Content, Body, Form, Item, Label, Input, Button, Icon, Picker, Text } from 'native-base';
+import { Title, Header, Left, Right, Body, Form, Item, Label, Input, Button, Icon, Picker, Text } from 'native-base';
 import { Calendar } from 'react-native-calendars';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { connect } from 'react-redux';
+import { createPlan } from '../store/plans';
 
-export default class PlanDetailsScreen extends Component {
+class PlanDetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,30 +15,39 @@ export default class PlanDetailsScreen extends Component {
       calendar: '',
       category: ''
     };
-
-    this._showDateTimePicker = this._showDateTimePicker.bind(this);
-    this._hideDateTimePicker = this._hideDateTimePicker.bind(this);
-    this._handleDatePicked = this._handleDatePicked.bind(this);
-    this.onChange = this.onChange.bind(this);
   }
 
-  _showDateTimePicker() {
+  _showDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: true });
   }
 
-  _hideDateTimePicker() {
+  _hideDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: false });
   }
 
-  _handleDatePicked(date) {
+  _handleDatePicked = (date) => {
     this.setState({ time: date.toString().slice(16, 21) });
     this._hideDateTimePicker();
   }
 
-  onChange(value) {
+  onChange = (value) => {
     this.setState({
       category: value
     });
+  }
+
+  goBackToMap = () => {
+    this.props.navigation.navigate('Map');
+  }
+
+  onSave = () => {
+    const plan = {
+      date: this.state.category,
+      time: this.state.time,
+      calendar: this.state.calendar
+    };
+    this.props.createPlan(plan);
+    this.props.navigation.navigate('Map');
   }
 
   render() {
@@ -44,12 +55,22 @@ export default class PlanDetailsScreen extends Component {
     console.log('this.state :', this.state);
     return (
       <View style={{ marginTop: 40, backgroundColor: 'white' }}>
+        <Header noShadow style={{ backgroundColor: 'tomato' }}>
+          <Left>
+            <Button transparent onPress={this.goBackToMap} >
+              <Icon name='arrow-back' />
+            </Button>
+          </Left>
+          <Body>
+            <Title style={{ fontWeight: 'bold', color: 'white' }}>Select Date</Title>
+          </Body>
+          <Right />
+        </Header>
         {/*Calendar*/}
-        <Label style={{ textAlign: 'center', fontWeight: 'bold' }}>SELECT DATE</Label>
         <Calendar
           minDate={new Date()}
           onDayPress={day => {
-            this.setState({ calendar: day.dateString })
+            this.setState({ calendar: day.dateString });
           }}
           monthFormat={'yyyy MM'}
           markedDates={{ [this.state.calendar]: { selected: true, disableTouchEvent: true, selectedDotColor: 'blue' } }}
@@ -57,7 +78,7 @@ export default class PlanDetailsScreen extends Component {
         />
         {/*Time*/}
         <View style={{ margin: 10 }}>
-          <Label style={{ textAlign: 'center', fontWeight: 'bold' }}>SELECT TIME</Label>
+          <Label style={{ textAlign: 'center', fontWeight: 'bold', color: 'red' }}>Select Time</Label>
           <Item disabled>
             <Input
               style={{ alignItems: 'center' }}
@@ -68,10 +89,11 @@ export default class PlanDetailsScreen extends Component {
           </Item>
           <Button
             style={{ margin: 3 }}
-            primary
+            bordered
+            danger
             block
             onPress={this._showDateTimePicker} >
-            <Text style={{ alignItems: 'center', color: 'white' }}>Choosing Time</Text>
+            <Text style={{ fontWeight: 'bold', alignItems: 'center', color: 'red' }}>Choosing Time</Text>
           </Button>
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
@@ -94,20 +116,34 @@ export default class PlanDetailsScreen extends Component {
             onValueChange={this.onChange}
           >
             <Picker.Item label='Activities' value='Activities' />
-            <Picker.Item label='Movies' value='Movies' />
+            <Picker.Item label='Hotels' value='Hotels' />
             <Picker.Item label='Restaruants' value='Restaruants' />
           </Picker>
         </Form>
         {/*Submit*/}
         <Button
-          style={{ margin: 10, marginTop: 100, }}
-          primary
+          style={{ margin: 10, marginTop: 100 }}
+          bordered
+          danger
           block
-          onPress={this._showDateTimePicker} >
-          <Text style={{ alignItems: 'center', color: 'white', }}>Submit</Text>
+          onPress={this.onSave} >
+          <Text style={{ fontWeight: 'bold', alignItems: 'center', color: 'red' }}>Submit</Text>
         </Button>
       </View>
     );
   }
 }
 
+const mapState = ({ users }) => {
+  return {
+
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    createPlan: (plan) => dispatch(createPlan(plan))
+  };
+};
+
+export default connect(mapState, mapDispatch)(PlanDetailsScreen);
