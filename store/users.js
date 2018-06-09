@@ -1,5 +1,5 @@
 import call from './axiosFunc';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native';
 import { GET_USER, CREATE_USER, UPDATE_USER, DELETE_USER, LOGOUT  } from './constants';
 
 export const authenticate = (credentials) => {
@@ -8,11 +8,11 @@ export const authenticate = (credentials) => {
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token);
-        dispatch(fetchUser())
-        return token
-      })
-  }
-}
+        dispatch(fetchUser());
+        return token;
+      });
+  };
+};
 
 export const fetchUser = () => {
   return (dispatch) => {

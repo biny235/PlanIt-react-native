@@ -42,17 +42,16 @@ class PlanDetailsScreen extends Component {
 
   onSave = () => {
     const plan = {
-      date: this.state.category,
+      category: this.state.category,
       time: this.state.time,
-      calendar: this.state.calendar
+      date: this.state.calendar
     };
     this.props.createPlan(plan);
     this.props.navigation.navigate('Map');
   }
 
   render() {
-    console.log(this.props.navigation);
-    console.log('this.state :', this.state);
+    console.log('this.props :', this.props);
     return (
       <View style={{ marginTop: 40, backgroundColor: 'white' }}>
         <Header noShadow style={{ backgroundColor: 'tomato' }}>
@@ -134,9 +133,9 @@ class PlanDetailsScreen extends Component {
   }
 }
 
-const mapState = ({ users }) => {
+const mapState = (props) => {
   return {
-
+    props
   };
 };
 
