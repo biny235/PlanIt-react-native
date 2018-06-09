@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
 import GoogleSearch from './GoogleSearch';
 import MapView from 'react-native-maps';
+import { fetchPlaces } from '../store/places';
 import { connect } from 'react-redux';
 
 const chicago = {
@@ -19,8 +20,6 @@ class SuggestToFriendScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      planId: 1,
-      userId: null,
       region: {
         latitude: 41.881832,
         longitude: -87.623177,
@@ -30,20 +29,16 @@ class SuggestToFriendScreen extends Component {
     };
   }
 
-  componentDidMount(){
-    console.log(this.state);
-  }
-
   render() {
-    const { userId, planId, region } = this.state;
+    const {  region } = this.state;
     return (
       <Container>
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
-          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" userId={userId} planId={planId} />
+          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" />
           <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
             <MapView
-              style={{ flex: 1, width: 300 }}
+              style={{ flex: 1, width: 350 }}
               initialRegion={region}
               provider={MapView.PROVIDER_GOOGLE}
             />
@@ -56,11 +51,17 @@ class SuggestToFriendScreen extends Component {
   }
 }
 
-const mapStateToProps = ({plan, users}) => {
+const mapState = ({users, places}) => {
   return {
     users,
-    plan
+    places
   };
 };
 
-export default connect(mapStateToProps)(SuggestToFriendScreen);
+const mapDispatch = dispatch => {
+  return {
+      fetchPlaces: () => dispatch(fetchPlaces())
+    };
+  };
+
+export default connect(mapState, mapDispatch)(SuggestToFriendScreen);
