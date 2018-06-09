@@ -12,8 +12,8 @@ const chicago = {
 };
 
 const hawaii = {
-  lat: '21.289373',
-  lng: '-157.917480'
+  lat: '21.315603',
+  lng: '-157.858093'
 }
 
 class SuggestToFriendScreen extends Component {
@@ -23,8 +23,8 @@ class SuggestToFriendScreen extends Component {
       planId: 1,
       userId: 1,
       region: {
-        latitude: 40.7050758,
-        longitude: -74.00916039999998,
+        latitude: 41.881832,
+        longitude: -87.623177,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       }
@@ -42,7 +42,7 @@ class SuggestToFriendScreen extends Component {
       <Container>
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
-          <GoogleSearch lat={hawaii.lat} lng={hawaii.lng} type="establishment" userId={userId} planId={planId} />
+          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" userId={userId} planId={planId} />
           <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
             <MapView
               style={{ flex: 1, width: 300 }}
