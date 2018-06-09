@@ -9,15 +9,14 @@ const GooglePlacesInput = ( {lat, lng, type} ) => {
     let place;
     if (data.place_id){
       place = {
-        name: details.name,
-        url: details.url,
-        lat: details.geometry.location.lat,
-        lng: details.geometry.location.lng,
-        place_id: details.place_id
+        name: details.name.toString(),
+        // url: details.url.toString(),
+        lat: details.geometry.location.lat.toString(),
+        lng: details.geometry.location.lng.toString(),
+        place_id: details.place_id.toString()
       };
     call('post', '/api/places', place);
     }
-    console.log(place);
   };
   return (
     <GooglePlacesAutocomplete
@@ -35,6 +34,9 @@ const GooglePlacesInput = ( {lat, lng, type} ) => {
           }}
       onPress={(data, details) => onPress(data, details)}
       styles={{
+        container: {
+          height: 50
+        },
         textInputContainer: {
           backgroundColor: 'rgba(0,0,0,0)',
           width: '100%'
