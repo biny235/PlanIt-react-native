@@ -42,7 +42,6 @@ class SuggestToFriendScreen extends Component {
               initialRegion={region}
               provider={MapView.PROVIDER_GOOGLE}
             />
-            ))}
         </Content>
           <Text style={{ flex: 1 }}>Find suggestions for your friend's plan. This screen should contain a map focused on the location where your friend is traveling to. Search for places to suggest to your friend. Your favorites should also appear on this map.</Text>
         </Content>
