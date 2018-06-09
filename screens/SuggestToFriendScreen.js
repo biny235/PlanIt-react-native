@@ -3,6 +3,8 @@ import { Text } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
 import GoogleSearch from './GoogleSearch';
 import MapView from 'react-native-maps';
+import { connect } from 'react-redux';
+import { fetchUser } from '../store/users';
 
 const chicago = {
   lat: '41.881832',
@@ -14,7 +16,7 @@ const hawaii = {
   lng: '-157.917480'
 }
 
-export default class SuggestToFriendScreen extends Component {
+class SuggestToFriendScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +30,12 @@ export default class SuggestToFriendScreen extends Component {
       }
     };
   }
+
+  componentDidMount(){
+    this.props.getUser();
+    console.log(this.state);
+  }
+
   render() {
     const { userId, planId, region } = this.state;
     return (
@@ -50,3 +58,17 @@ export default class SuggestToFriendScreen extends Component {
   }
 }
 
+const mapStateToProps = ({plan, user}) => {
+  return {
+    user,
+    plan
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getUser: () => dispatch(fetchUser())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SuggestToFriendScreen);
