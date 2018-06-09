@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { Text } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
 import GoogleSearch from './GoogleSearch';
 import MapView from 'react-native-maps';
@@ -15,7 +15,7 @@ const hawaii = {
 }
 
 export default class SuggestToFriendScreen extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       planId: 1,
@@ -29,23 +29,21 @@ export default class SuggestToFriendScreen extends Component {
     };
   }
   render() {
-    const {userId, planId, region} = this.state;
+    const { userId, planId, region } = this.state;
     return (
       <Container>
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
-            <H1 style={{marginBottom: 10}}>Give Moe a Suggestion</H1>
-            <GoogleSearch lat={hawaii.lat} lng={hawaii.lng} type="establishment" userId={userId} planId={planId} />
-            <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-          {/* <View style={{flex: 1, width: 100}}> */}
-          <MapView
-            style={{flex: 1, width: 200}}
-            initialRegion={region}
-            provider={MapView.PROVIDER_GOOGLE}
-           >Map</MapView>
-          ))}
-          {/* </View> */}
+          <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
+          <GoogleSearch lat={hawaii.lat} lng={hawaii.lng} type="establishment" userId={userId} planId={planId} />
+          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+            <MapView
+              style={{ flex: 1, width: 300 }}
+              initialRegion={region}
+              provider={MapView.PROVIDER_GOOGLE}
+            />
+            ))}
         </Content>
-            <Text style={{flex: 1}}>Find suggestions for your friend's plan. This screen should contain a map focused on the location where your friend is traveling to. Search for places to suggest to your friend. Your favorites should also appear on this map.</Text>
+          <Text style={{ flex: 1 }}>Find suggestions for your friend's plan. This screen should contain a map focused on the location where your friend is traveling to. Search for places to suggest to your friend. Your favorites should also appear on this map.</Text>
         </Content>
       </Container>
     );
