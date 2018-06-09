@@ -1,6 +1,7 @@
 import React from 'react';
-import { Image } from 'react-native';
 import { Text, Container, List, ListItem, Left, Body, Right, Icon, Separator, Content, Grid, Row, Col, Button } from 'native-base';
+import { connect } from 'react-redux';
+import { logout } from '../store/users'
 const routes = [
   {
     name: 'Profile',
@@ -21,8 +22,17 @@ const routes = [
     iconType: 'Foundation'
   },
 ];
-export default class DrawerSideBar extends React.Component {
+class DrawerSideBar extends React.Component {
+  constructor(){
+    super()
+    this.logout = this.logout.bind(this)
+  }
+  logout(){
+    this.props.logout()
+    this.props.navigation.navigate('SignIn')
+  }
   render() {
+    const { logout } = this
     return (
       <Container>
         <Content>
@@ -76,6 +86,7 @@ export default class DrawerSideBar extends React.Component {
                   <ListItem
                     icon
                     button
+                    onPress={logout}
                   >
                     <Left>
                       <Icon
@@ -96,3 +107,11 @@ export default class DrawerSideBar extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(logout())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(DrawerSideBar)

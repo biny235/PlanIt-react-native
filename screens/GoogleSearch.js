@@ -3,50 +3,56 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import call from '../store/axiosFunc';
 const config = require('../config');
 
-const GooglePlacesInput = () => {
-  return (
- <GooglePlacesAutocomplete
-  placeholder='Enter Location'
-  minLength={2}
-  autoFocus={false}
-  returnKeyType={'default'}
-  fetchDetails={true}
-  query={{
-        key:  config.GOOGLE_PLACES_KEY,
-        language: 'en'
-      }}
-  onPress={(data, details = null) => {
+const GooglePlacesInput = ( {lat, lng, type} ) => {
+  const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
+  const onPress = (data, details = null) => {
     let place;
-    if(data.place_id){
+    if (data.place_id){
       place = {
-        name: details.name,
-        lat: details.geometry.location.lat,
-        lng: details.geometry.location.lng,
-        place_id: details.place_id
+        name: details.name.toString(),
+        // url: details.url.toString(),
+        lat: details.geometry.location.lat.toString(),
+        lng: details.geometry.location.lng.toString(),
+        place_id: details.place_id.toString()
       };
-    call('post', 'api/places', place);
+    call('post', '/api/places', place);
     }
-  }}
-  styles={{
-    textInputContainer: {
-      backgroundColor: 'rgba(0,0,0,0)',
-      width: '100%'
-    },
-    textInput: {
-      marginLeft: 0,
-      marginRight: 0,
-      height: 38,
-      color: '#5d5d5d',
-      fontSize: 16
-    },
-    predefinedPlacesDescription: {
-      color: '#1faadb'
-    },
-  }}
+  };
+  return (
+    <GooglePlacesAutocomplete
+      placeholder= {placeHolder}
+      minLength={2}
+      autoFocus={false}
+      returnKeyType={'default'}
+      fetchDetails={true}
+      query={{
+            key: config.GOOGLE_PLACES_KEY,
+            language: 'en',
+            location: `${lat}, ${lng}`,
+            radius: 5000,
+            types: `${type}`
+          }}
+      onPress={(data, details) => onPress(data, details)}
+      styles={{
+        container: {
+          height: 50
+        },
+        textInputContainer: {
+          backgroundColor: 'rgba(0,0,0,0)',
+          width: '100%'
+        },
+        textInput: {
+          marginLeft: 0,
+          marginRight: 0,
+          height: 38,
+          color: '#5d5d5d',
+          fontSize: 16
+        }
+      }}
 
-  currentLocation={false}
-/>
+      currentLocation={false}
+    />
   );
-}
+};
 
 module.exports = GooglePlacesInput;

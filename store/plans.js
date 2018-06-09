@@ -9,7 +9,7 @@ const removePlan = plan => ({ type: DELETE_PLAN, plan });
 // Thunks
 export const fetchPlans = () => async dispatch => {
   try {
-    const res = await call('get', 'http://localhost:3000/api/user/plan');
+    const res = await call('get', '/api/user/plan');
     const planData = await res.data;
     dispatch(getPlan(planData));
   } catch (error) {
@@ -19,7 +19,7 @@ export const fetchPlans = () => async dispatch => {
 
 export const createPlan = plan => async dispatch => {
   try {
-    const res = await call('post', 'http://localhost:3000/api/user/plan', plan);
+    const res = await call('post', '/api/user/plan', plan);
     const planData = await res.data;
     dispatch(planCreate(planData));
   } catch (error) {
@@ -35,8 +35,32 @@ export const deletePlan = (plan) => async dispatch => {
     console.warn(error);
   }
 };
+// import call from './axiosFunc';
+// import { GET_PLAN, UPDATE_PLAN, LOGOUT } from './constants';
 
-const planReducer = (state = [], action) => {
+// export const fetchPlan = () => {
+//   return (dispatch) => {
+//     console.log("fetching plan")
+//     return call('get', '/api/user/plan')
+//       .then(res => res.data)
+//       .then(plan => {
+//         dispatch({ type: GET_PLAN, plan })
+//       })
+//       .catch(err => alert(err));
+//   }
+// }
+
+// export const updatePlan = (plan) => {
+//   return (dispatch) => {
+//     return call('put', `/api/plans/${plan.id}`, plan)
+//       .then(res => res.data)
+//       .then(plan => dispatch({ type: UPDATE_PLAN, plan }))
+//       .catch(err => alert(err));
+//   };
+// };
+
+
+const planReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_PLANS:
       return action.plans;
@@ -50,3 +74,10 @@ const planReducer = (state = [], action) => {
 };
 
 export default planReducer;
+/*
+ case GET_PLAN:
+      return action.plan
+    case UPDATE_PLAN:
+      return Object.assign({}, state, action.plan)
+    case LOGOUT:
+      return {} */

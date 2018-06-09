@@ -1,5 +1,6 @@
 import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
+import { AsyncStorage } from 'react-native';
 // screens
 import SignInScreen from '../screens/SignInScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -17,6 +18,6 @@ export default createSwitchNavigator(
     Main: DrawerNav
   },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'SignIn',
   }
 );

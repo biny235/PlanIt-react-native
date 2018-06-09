@@ -1,11 +1,11 @@
 /* Consts for Users */
-export const GET_USERS = 'GET_USERS';
+export const GET_USER = 'GET_USER';
 export const CREATE_USER = 'CREATE_USER';
 export const UPDATE_USER = 'UPDATE_USER';
 export const DELETE_USER = 'DELETE_USER';
-
+export const LOGOUT = 'LOGOUT';
 /* Consts for Plans */
-export const GET_PLANS = 'GET_PLANS';
+export const GET_PLAN = 'GET_PLAN';
 export const CREATE_PLAN = 'CREATE_PLAN';
 export const UPDATE_PLAN = 'UPDATE_PLAN';
 export const DELETE_PLAN = 'DELETE_PLAN';
