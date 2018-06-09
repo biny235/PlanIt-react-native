@@ -44,7 +44,8 @@ class PlanDetailsScreen extends Component {
     const plan = {
       category: this.state.category,
       time: this.state.time,
-      date: this.state.calendar
+      date: this.state.calendar,
+      userId: this.props.users.id
     };
     this.props.createPlan(plan);
     this.props.navigation.navigate('Map');
@@ -57,7 +58,7 @@ class PlanDetailsScreen extends Component {
         <Header noShadow style={{ backgroundColor: 'tomato' }}>
           <Left>
             <Button transparent onPress={this.goBackToMap} >
-              <Icon name='arrow-back' />
+              <Icon style={{ color: 'white' }} name='arrow-back' />
             </Button>
           </Left>
           <Body>
@@ -72,7 +73,7 @@ class PlanDetailsScreen extends Component {
             this.setState({ calendar: day.dateString });
           }}
           monthFormat={'yyyy MM'}
-          markedDates={{ [this.state.calendar]: { selected: true, disableTouchEvent: true, selectedDotColor: 'blue' } }}
+          markedDates={{ [this.state.calendar]: { selected: true, disableTouchEvent: true, selectedDotColor: 'tomato' } }}
           firstDay={1}
         />
         {/*Time*/}
@@ -105,7 +106,7 @@ class PlanDetailsScreen extends Component {
         {/*Category*/}
         <Form>
           <Picker
-            iosIcon={<Icon name="ios-arrow-down-outline" />}
+            iosIcon={<Icon style={{ color: 'tomato' }} name="ios-arrow-down-outline" />}
             placeholder="Select Category"
             placeholderStyle={{ color: "#bfc6ea" }}
             placeholderIconColor="#007aff"
@@ -133,15 +134,15 @@ class PlanDetailsScreen extends Component {
   }
 }
 
-const mapState = (props) => {
+const mapState = ({ users }) => {
   return {
-    props
+    users
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    createPlan: (plan) => dispatch(createPlan(plan))
+    createPlan: (plan) => dispatch(createPlan(plan)),
   };
 };
 

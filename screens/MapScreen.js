@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchPlans } from '../store/plans';
-import { fetchUser } from '../store/users';
+//import { fetchPlans } from '../store/plans';
+//import { fetchUser } from '../store/users';
 
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
 import MapView from 'react-native-maps';
@@ -57,9 +57,8 @@ class MapScreen extends Component {
   componentDidMount() {
     // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
-    this.props.fetchPlans();
-    this.props.fetchUser();
-
+    //this.props.fetchUser();
+    //this.props.fetchPlans();
   }
 
   toggleBroadcastPlan = () => {
@@ -198,7 +197,6 @@ class MapScreen extends Component {
             >
               {this.renderMarkers()}
             </MapView>
-            ))}
           </View>
         </Content>
         <Footer>
@@ -316,7 +314,7 @@ const mapStateToProps = ({ plans, users }) => {
 const mapDispatchToProps = dispatch => {
   return {
     //fetchPlans: () => dispatch(fetchPlans()),
-    fetchUser: () => dispatch(fetchUser())
+    //fetchUser: () => dispatch(fetchUser())
   };
 };
 

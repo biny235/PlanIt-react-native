@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
 import GoogleSearch from './GoogleSearch';
 import MapView from 'react-native-maps';
@@ -16,12 +16,11 @@ const hawaii = {
   lng: '-157.858093'
 }
 
-class SuggestToFriendScreen extends Component {
+export default class SuggestToFriendScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      planId: 1,
-      userId: 1,
+      mapLoaded: false,
       region: {
         latitude: 41.881832,
         longitude: -87.623177,
@@ -31,44 +30,30 @@ class SuggestToFriendScreen extends Component {
     };
   }
 
-  componentDidMount(){
-    this.props.getUser();
-    console.log(this.state);
+  componentDidMount() {
+    this.setState({ mapLoaded: true });
   }
 
   render() {
-    const { userId, planId, region } = this.state;
+
     return (
-      <Container>
-        <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
-          <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
-          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" userId={userId} planId={planId} />
-          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-            <MapView
-              style={{ flex: 1, width: 300 }}
-              initialRegion={region}
-              provider={MapView.PROVIDER_GOOGLE}
-            />
-            ))}
-        </Content>
-          <Text style={{ flex: 1 }}>Find suggestions for your friend's plan. This screen should contain a map focused on the location where your friend is traveling to. Search for places to suggest to your friend. Your favorites should also appear on this map.</Text>
-        </Content>
-      </Container>
+      <View style={{ flex: 1 }}>
+        <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment"  />
+        <MapView
+          style={{ flex: 1, width: 350 }}
+          initialRegion={this.state.region}
+          provider={MapView.PROVIDER_GOOGLE}
+          // customMapStyle={mapStyle}
+          showsUserLocation={true}
+          followsUserLocation={true}
+          showsMyLocationButton={true}
+          showsPointsOfInterest={true}
+          showsBuildings={true}
+
+        />
+
+      </View>
     );
   }
 }
 
-const mapStateToProps = ({plan, user}) => {
-  return {
-    user,
-    plan
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getUser: () => dispatch(fetchUser())
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SuggestToFriendScreen);

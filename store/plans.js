@@ -1,9 +1,9 @@
-import { GET_PLANS, CREATE_PLAN, DELETE_PLAN } from './constants';
+import { GET_PLAN, CREATE_PLAN, DELETE_PLAN } from './constants';
 import call from './axiosFunc';
 
 // Action Creators
 const planCreate = plan => ({ type: CREATE_PLAN, plan });
-const getPlan = plans => ({ type: GET_PLANS, plans });
+const getPlan = plans => ({ type: GET_PLAN, plans });
 const removePlan = plan => ({ type: DELETE_PLAN, plan });
 
 // Thunks
@@ -35,6 +35,7 @@ export const deletePlan = (plan) => async dispatch => {
     console.warn(error);
   }
 };
+
 // import call from './axiosFunc';
 // import { GET_PLAN, UPDATE_PLAN, LOGOUT } from './constants';
 
@@ -62,7 +63,7 @@ export const deletePlan = (plan) => async dispatch => {
 
 const planReducer = (state = {}, action) => {
   switch (action.type) {
-    case GET_PLANS:
+    case GET_PLAN:
       return action.plans;
     case CREATE_PLAN:
       return [...state, action.plan];

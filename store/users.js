@@ -22,8 +22,8 @@ export const fetchUser = () => {
         dispatch({ type: GET_USER, user });
       })
       .catch(err => alert(err));
-  }
-}
+  };
+};
 
 export const logout = () => {
   return (dispatch) => {
