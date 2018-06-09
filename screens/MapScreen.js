@@ -198,7 +198,6 @@ class MapScreen extends Component {
             >
             {this.renderMarkers()}
           </MapView>
-          ))}
           </View>
         </Content>
         <Footer>
