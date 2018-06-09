@@ -103,16 +103,7 @@ export default class ChoosingFriends extends Component {
     );
   }
 
-  onSave(item) {
-    const friend = {
-      id: item.id,
-      username: item.username,
-      
-    }
-  }
-
   render() {
-    console.log(this.state)
     return (
       <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
         <FlatList

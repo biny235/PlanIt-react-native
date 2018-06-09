@@ -1,5 +1,5 @@
 import call from './axiosFunc';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native';
 import { GET_USER, CREATE_USER, UPDATE_USER, DELETE_USER, LOGOUT  } from './constants';
 
 export const authenticate = (credentials) => {
@@ -8,29 +8,29 @@ export const authenticate = (credentials) => {
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token);
-        dispatch(fetchUser())
-        return token
-      })
-  }
-}
+        dispatch(fetchUser());
+        return token;
+      });
+  };
+};
 
 export const fetchUser = () => {
   return (dispatch) => {
     return call('get', '/api/user')
       .then(res => res.data)
       .then(user => {
-        dispatch({ type: GET_USER, user })
+        dispatch({ type: GET_USER, user });
       })
       .catch(err => alert(err));
-  }
-}
+  };
+};
 
 export const logout = () => {
   return (dispatch) => {
     AsyncStorage.removeItem('token')
       .then(()=> dispatch({ type: LOGOUT }))
-      .catch(err => console.log(err))
-    
+      .catch(err => console.log(err));
+
   }
 
 }
@@ -46,7 +46,7 @@ export const createUser = (user) => {
 
 export const updateUser = (user) => {
   return (dispatch) => {
-    return call('put',`/api/user/${user.id}`, user)
+    return call('put', `/api/user/${user.id}`, user)
       .then(res => res.data)
       .then(user => dispatch({ type: UPDATE_USER, user }))
       .catch(err => alert(err));
@@ -65,7 +65,7 @@ export const deleteUser = (user) => {
 const userReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_USER:
-      return action.user
+      return action.user;
     case UPDATE_USER:
       return action.user;
     case DELETE_USER:

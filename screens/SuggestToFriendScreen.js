@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
 import GoogleSearch from './GoogleSearch';
 import MapView from 'react-native-maps';
@@ -14,7 +14,7 @@ const chicago = {
 const hawaii = {
   lat: '21.315603',
   lng: '-157.858093'
-}
+};
 
 class SuggestToFriendScreen extends Component {
   constructor(props) {
