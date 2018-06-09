@@ -3,7 +3,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import call from '../store/axiosFunc';
 const config = require('../config');
 
-const GooglePlacesInput = ( {lat, lng, type} ) => {
+const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
   const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
   const onPress = (data, details = null) => {
     let place;
@@ -13,7 +13,9 @@ const GooglePlacesInput = ( {lat, lng, type} ) => {
         // url: details.url.toString(),
         lat: details.geometry.location.lat.toString(),
         lng: details.geometry.location.lng.toString(),
-        place_id: details.place_id.toString()
+        place_id: details.place_id.toString(),
+        planId: planId,
+        userId: userId
       };
     call('post', '/api/places', place);
     }

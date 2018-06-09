@@ -14,6 +14,6 @@ const call = async (type, link, body) => {
     await setHeader();
   }
   return axios[type](`${local}${link}`, body);
-}
+};
 
 module.exports = call;
