@@ -2,10 +2,14 @@ import React from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import call from '../store/axiosFunc';
 const config = require('../config');
+import { connect } from 'react-redux';
+import { createPlace } from '../store/places';
 
-const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
+const GooglePlacesInput = ( {lat, lng, type, users} ) => {
+
+  console.log('users', users.id);
   const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
-  const onPress = (data, details = null) => {
+  const onPress = (data, details = null, type) => {
     let place;
     if (data.place_id){
       place = {
@@ -14,8 +18,8 @@ const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
         lat: details.geometry.location.lat.toString(),
         lng: details.geometry.location.lng.toString(),
         place_id: details.place_id.toString(),
-        planId: planId,
-        userId: userId
+        planId: 1,
+        userId: users.id
       };
     call('post', '/api/places', place);
     }
@@ -57,4 +61,16 @@ const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
   );
 };
 
-module.exports = GooglePlacesInput;
+const mapState = ({ users }) => {
+  return {
+    users
+  };
+};
+
+const mapDispatch = dispatch => {
+return {
+    createPlace: () => dispatch(createPlace())
+  };
+};
+
+export default connect(mapState, mapDispatch)(GooglePlacesInput);

@@ -3,8 +3,8 @@ import { Text } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
 import GoogleSearch from './GoogleSearch';
 import MapView from 'react-native-maps';
+import { fetchPlaces } from '../store/places';
 import { connect } from 'react-redux';
-import { fetchUser } from '../store/users';
 
 const chicago = {
   lat: '41.881832',
@@ -20,8 +20,6 @@ class SuggestToFriendScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      planId: 1,
-      userId: 1,
       region: {
         latitude: 41.881832,
         longitude: -87.623177,
@@ -31,21 +29,16 @@ class SuggestToFriendScreen extends Component {
     };
   }
 
-  componentDidMount(){
-    this.props.getUser();
-    console.log(this.state);
-  }
-
   render() {
-    const { userId, planId, region } = this.state;
+    const {  region } = this.state;
     return (
       <Container>
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
-          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" userId={userId} planId={planId} />
+          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" />
           <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
             <MapView
-              style={{ flex: 1, width: 300 }}
+              style={{ flex: 1, width: 350 }}
               initialRegion={region}
               provider={MapView.PROVIDER_GOOGLE}
             />
@@ -58,17 +51,17 @@ class SuggestToFriendScreen extends Component {
   }
 }
 
-const mapStateToProps = ({plan, user}) => {
+const mapState = ({users, places}) => {
   return {
-    user,
-    plan
+    users,
+    places
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatch = dispatch => {
   return {
-    getUser: () => dispatch(fetchUser())
+      fetchPlaces: () => dispatch(fetchPlaces())
+    };
   };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SuggestToFriendScreen);
+export default connect(mapState, mapDispatch)(SuggestToFriendScreen);

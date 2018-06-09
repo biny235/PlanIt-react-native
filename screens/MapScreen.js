@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { View, ActivityIndicator, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchPlan } from '../store/plans';
-
+import { fetchUser } from '../store/users';
+import GoogleSearch from './GoogleSearch';
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
+
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
@@ -56,6 +57,7 @@ class MapScreen extends Component {
   componentDidMount() {
     // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
+    this.props.fetchUser();
 
   }
 
@@ -164,6 +166,7 @@ class MapScreen extends Component {
 
   render() {
     const { mapLoaded, region, markers } = this.state;
+    console.log(this.props)
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation } = this.props;
     if (!mapLoaded) {
@@ -178,6 +181,7 @@ class MapScreen extends Component {
         {renderSearchInput()}
         <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
           <View style={{flex: 1}}>
+          <GoogleSearch type="(cities)" />
           <MapView
             style={{flex: 1}}
             initialRegion={region}
@@ -311,8 +315,8 @@ const mapStateToProps = ({plans, users})=>{
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPlan: ()=> dispatch(fetchPlan())
-  }
+    fetchUser: () => dispatch(fetchUser())
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapScreen);
