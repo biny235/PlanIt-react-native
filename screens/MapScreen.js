@@ -56,7 +56,7 @@ class MapScreen extends Component {
   componentDidMount() {
     // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
-    
+
   }
 
   toggleBroadcastPlan = () => {
