@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-//import { fetchPlans } from '../store/plans';
-//import { fetchUser } from '../store/users';
-
+import { fetchUser } from '../store/users';
+import GoogleSearch from './GoogleSearch';
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
+
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
@@ -57,8 +57,8 @@ class MapScreen extends Component {
   componentDidMount() {
     // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
-    //this.props.fetchUser();
-    //this.props.fetchPlans();
+    this.props.fetchUser();
+
   }
 
   toggleBroadcastPlan = () => {
@@ -167,6 +167,7 @@ class MapScreen extends Component {
   render() {
     console.log('this.props :', this.props);
     const { mapLoaded, region, markers } = this.state;
+    console.log(this.props)
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation } = this.props;
     if (!mapLoaded) {
@@ -180,23 +181,24 @@ class MapScreen extends Component {
       <Container>
         {renderSearchInput()}
         <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-          <View style={{ flex: 1 }}>
-            <MapView
-              style={{ flex: 1 }}
-              initialRegion={region}
-              provider={MapView.PROVIDER_GOOGLE}
-              // customMapStyle={mapStyle}
-              showsUserLocation={true}
-              followsUserLocation={true}
-              showsMyLocationButton={true}
-              showsPointsOfInterest={true}
-              showsBuildings={true}
-              // onPoiClick={e => console.log(e.nativeEvent)}
-              onRegionChangeComplete={this.onRegionChangeComplete}
+          <View style={{flex: 1}}>
+          <GoogleSearch type="(cities)" />
+          <MapView
+            style={{flex: 1}}
+            initialRegion={region}
+            provider={MapView.PROVIDER_GOOGLE}
+            // customMapStyle={mapStyle}
+            showsUserLocation={true}
+            followsUserLocation={true}
+            showsMyLocationButton={true}
+            showsPointsOfInterest={true}
+            showsBuildings={true}
+            // onPoiClick={e => console.log(e.nativeEvent)}
+            onRegionChangeComplete={this.onRegionChangeComplete}
             // onPress={ev => console.log(ev.nativeEvent)}
             >
-              {this.renderMarkers()}
-            </MapView>
+            {this.renderMarkers()}
+          </MapView>
           </View>
         </Content>
         <Footer>
@@ -313,9 +315,8 @@ const mapStateToProps = ({ plans, users }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    //fetchPlans: () => dispatch(fetchPlans()),
-    //fetchUser: () => dispatch(fetchUser())
+    fetchUser: () => dispatch(fetchUser())
   };
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapScreen);

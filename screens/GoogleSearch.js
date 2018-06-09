@@ -2,10 +2,21 @@ import React from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import call from '../store/axiosFunc';
 const config = require('../config');
+import { connect } from 'react-redux';
+import { createPlace } from '../store/places';
 
-const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
-  const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
-  const onPress = (data, details = null) => {
+
+class GooglePlacesInput extends React.Component  {
+  constructor(props){
+    super(props);
+    this.state = {
+      text: ''
+    };
+    this.onPress = this.onPress.bind(this);
+  }
+
+
+  onPress (data, details = null) {
     let place;
     if (data.place_id){
       place = {
@@ -14,12 +25,23 @@ const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
         lat: details.geometry.location.lat.toString(),
         lng: details.geometry.location.lng.toString(),
         place_id: details.place_id.toString(),
-        planId: planId,
-        userId: userId
+        planId: 1,
+        userId: this.props.users.id
       };
     call('post', '/api/places', place);
     }
-  };
+  }
+
+  showContainer  = () => {
+    console.log('showContainer');
+  }
+
+  render() {
+
+  const { lat, lng, type, users } = this.props;
+  const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
+  const { onPress } = this;
+  console.log('users', users.id);
   return (
     <GooglePlacesAutocomplete
       placeholder= {placeHolder}
@@ -27,6 +49,8 @@ const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
       autoFocus={false}
       returnKeyType={'default'}
       fetchDetails={true}
+      suppressDefaultStyles={true}
+      showContainer={this.showContainer}
       query={{
             key: config.GOOGLE_PLACES_KEY,
             language: 'en',
@@ -36,8 +60,11 @@ const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
           }}
       onPress={(data, details) => onPress(data, details)}
       styles={{
+        listView: {
+          backgroundColor: 'blue',
+        },
         container: {
-          height: 50
+          flexGrow: 0.15
         },
         textInputContainer: {
           backgroundColor: 'rgba(0,0,0,0)',
@@ -55,6 +82,19 @@ const GooglePlacesInput = ( {lat, lng, type, planId, userId} ) => {
       currentLocation={false}
     />
   );
+  }
 };
 
-module.exports = GooglePlacesInput;
+const mapState = ({ users }) => {
+  return {
+    users
+  };
+};
+
+const mapDispatch = dispatch => {
+return {
+    createPlace: () => dispatch(createPlace())
+  };
+};
+
+export default connect(mapState, mapDispatch)(GooglePlacesInput);
