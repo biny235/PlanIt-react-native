@@ -170,7 +170,7 @@ class MapScreen extends Component {
   }
 
   render() {
-    console.log('this.props :', this.props);
+    //console.log('this.props :', this.props);
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation } = this.props;
@@ -186,7 +186,7 @@ class MapScreen extends Component {
         {renderSearchInput()}
         <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
           <View style={{flex: 1}}>
-            <GoogleSearch type="(cities)" />
+            <GoogleSearch type="(cities)" name="Map" />
           <MapView
             style={{flex: 1}}
             initialRegion={region}

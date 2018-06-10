@@ -35,7 +35,7 @@ class SuggestToFriendScreen extends Component {
       <Container>
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
-          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" />
+          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" name="SuggestToFriend" />
           <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
             <MapView
               style={{ flex: 1, width: 350 }}

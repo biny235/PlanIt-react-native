@@ -10,7 +10,8 @@ class GooglePlacesInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: ''
+      text: '',
+      city: ''
     };
     this.onPress = this.onPress.bind(this);
   }
@@ -18,16 +19,22 @@ class GooglePlacesInput extends React.Component {
   onPress(data, details = null) {
     if (data.place_id) {
       place = {
-        name: details.name.toString(),
+        name: details.name,
         // url: details.url.toString(),
-        lat: details.geometry.location.lat.toString(),
-        lng: details.geometry.location.lng.toString(),
-        place_id: details.place_id.toString(),
+        lat: details.geometry.location.lat,
+        lng: details.geometry.location.lng,
+        place_id: details.place_id,
         planId: 1,
         userId: this.props.users.id
       };
-      console.log('place :', place);
-      call('post', '/api/places', place);
+      if (this.props.name === 'SuggestToFriend') {
+        call('post', '/api/places', place);
+      } else {
+        this.setState({
+          city: details.name,
+          
+         });
+      }
     }
   }
 
@@ -36,11 +43,10 @@ class GooglePlacesInput extends React.Component {
   }
 
   render() {
-
+    console.log('this.props :', this.props);
     const { lat, lng, type, users } = this.props;
     const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
     const { onPress } = this;
-    console.log('users', users.id);
     return (
       <GooglePlacesAutocomplete
         placeholder={placeHolder}
@@ -57,12 +63,9 @@ class GooglePlacesInput extends React.Component {
           radius: 5000,
           types: `${type}`
         }}
-        onPress={(data, details) => {
-          onPress(data, details);
-        }
-        }
+        onPress={(data, details) => onPress(data, details)}
         onTextChange={(text) => {
-          console.log(text);
+          console.log('text', text);
         }}
         styles={{
           listView: {
@@ -76,7 +79,7 @@ class GooglePlacesInput extends React.Component {
             elevation: 3,
             zIndex: 10
           },
-            container: {
+          container: {
             zIndex: 10,
             overflow: 'visible',
             height: 50,
