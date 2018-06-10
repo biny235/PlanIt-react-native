@@ -11,6 +11,7 @@ const chicago = {
   lng: '-87.623177'
 };
 
+//sample data
 const hawaii = {
   lat: '21.315603',
   lng: '-157.858093'
@@ -20,6 +21,7 @@ class SuggestToFriendScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      googleObject: null,
       region: {
         latitude: 41.881832,
         longitude: -87.623177,
@@ -27,15 +29,21 @@ class SuggestToFriendScreen extends Component {
         longitudeDelta: 0.0421
       }
     };
+    this.addToState = this.addToState.bind(this);
+  }
+
+  addToState(obj) {
+    this.setState({googleObject: obj});
   }
 
   render() {
+    if (this.state.googleObject){console.log(`Got Google Object: ${this.state.googleObject.name}`);}
     const {  region } = this.state;
     return (
       <Container>
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
-          <GoogleSearch lat={chicago.lat} lng={chicago.lng} type="establishment" />
+          <GoogleSearch setLoc={this.addToState} lat={chicago.lat} lng={chicago.lng} type="establishment" />
           <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
             <MapView
               style={{ flex: 1, width: 350 }}

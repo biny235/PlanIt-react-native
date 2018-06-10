@@ -10,25 +10,31 @@ class GooglePlacesInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: ''
+      googlePlace: {}
     };
     this.onPress = this.onPress.bind(this);
   }
 
   onPress(data, details = null) {
-    if (data.place_id) {
-      place = {
-        name: details.name.toString(),
-        // url: details.url.toString(),
-        lat: details.geometry.location.lat.toString(),
-        lng: details.geometry.location.lng.toString(),
-        place_id: details.place_id.toString(),
-        planId: 1,
-        userId: this.props.users.id
-      };
-      console.log('place :', place);
-      call('post', '/api/places', place);
+    if (details) {
+      this.setState({googlePlace: details});
+      if (this.props.setLoc){
+        this.props.setLoc(details);
+      }
     }
+    // if (data.place_id) {
+    //   place = {
+    //     name: details.name.toString(),
+    //     // url: details.url.toString(),
+    //     lat: details.geometry.location.lat.toString(),
+    //     lng: details.geometry.location.lng.toString(),
+    //     place_id: details.place_id.toString(),
+    //     planId: 1,
+    //     userId: this.props.users.id
+    //   };
+    //   console.log('place :', place);
+    //   call('post', '/api/places', place);
+    // }
   }
 
   showContainer = () => {
@@ -36,7 +42,7 @@ class GooglePlacesInput extends React.Component {
   }
 
   render() {
-
+    console.log(this.state.googlePlace.name);
     const { lat, lng, type, users } = this.props;
     const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
     const { onPress } = this;
@@ -59,9 +65,9 @@ class GooglePlacesInput extends React.Component {
         }}
         onPress={(data, details) => {
           if (type === '(cities)'){
-            console.log('Set City');
+            console.log('Set City'); //set location of plan
           } else {
-            onPress(data, details);
+            onPress(data, details); //create place on plan
           }
         }
         }
