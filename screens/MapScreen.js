@@ -57,7 +57,8 @@ class MapScreen extends Component {
   componentDidMount() {
     // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
-    this.props.fetchUser();
+    this.props.fetchUser()
+      .catch(err => console.log(err));
 
   }
 
@@ -165,11 +166,11 @@ class MapScreen extends Component {
   }
 
   render() {
-    console.log('this.props :', this.props);
+
     const { mapLoaded, region, markers } = this.state;
-    console.log(this.props)
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
-    const { navigation } = this.props;
+    const { navigation, plans } = this.props;
+    console.log(plans)
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>

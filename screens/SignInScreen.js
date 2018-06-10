@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
-import { View, Text, Header, ActivityIndicator, AsyncStorage, Linking} from 'react-native';
-import Expo from 'expo';
+import { View, Text, AsyncStorage} from 'react-native';
 import { Container, Content, Body, Title, Form, Item, Label, Input, Button } from 'native-base';
-import call from '../store/axiosFunc';
 import { connect } from 'react-redux';
-import { authenticate } from '../store/users'
+import { authenticate, register } from '../store/users'
 
 class SignInScreen extends Component {
   constructor(props){
     super(props)
     this.state = {
+      register: false,
       username: '',
-      password: ''
+      password: '',
+      email: ''
     }
     this.onChange = this.onChange.bind(this);
     this.signIn = this.signIn.bind(this);
     // this.handleOpenURL = this.handleOpenURL.bind(this)
-    this.googleSignIn = this.googleSignIn.bind(this);
+    // this.googleSignIn = this.googleSignIn.bind(this);
   }
   static navigationOptions = {
-    title: 'Please sign in',
+    title: 'Sign In or Register',
   }
   componentDidMount(){
     // Linking.addEventListener('url', this.handleOpenURL);
@@ -48,8 +48,13 @@ class SignInScreen extends Component {
 
   }
   signIn(){
-    const { username, password } = this.state;
+    const { username, password, email, register } = this.state;
+    !register ?
     this.props.authenticate({ username, password })
+      .then(token => token ? this.props.navigation.navigate('Map') : null)
+
+    :
+    this.props.register({username, password, email})
       .then(token => token ? this.props.navigation.navigate('Map') : null)
   }
   onChange(text, type){
@@ -57,18 +62,20 @@ class SignInScreen extends Component {
   }
 
   navToRegister = () => {
-    this.props.navigation.navigate('Register');
+    const register = !this.state.register
+    this.setState({ register })
   }
-  async googleSignIn(){
+  // async googleSignIn(){
 
-    await Expo.AuthSession.startAsync({
-      authUrl: `http://localhost:3000/auth/google`
-    })
-      .then(result => AsyncStorage.setItem('token', result.params.token))
-    this.checker()
-  }
+  //   await Expo.AuthSession.startAsync({
+  //     authUrl: `http://localhost:3000/auth/google`
+  //   })
+  //     .then(result => AsyncStorage.setItem('token', result.params.token))
+  //   this.checker()
+  // }
   render() {
-    const { onChange, navToRegister, signIn, googleSignIn } = this;
+    const { onChange, navToRegister, signIn,  } = this;
+    const { register } = this.state
     return (
       <Container style={{marginTop: 50}}>
         <Content padder>
@@ -81,6 +88,17 @@ class SignInScreen extends Component {
                 onChangeText={(username)=>onChange(username, "username")}
                 />
             </Item>
+            {register ? (
+              <Item floatingLabel>
+                <Label>Email</Label>
+                <Input
+                  autoCorrect={false}
+                  name="email"
+                  onChangeText={(email)=>onChange(email, "email")}
+                  />
+              </Item>) 
+              :
+            null}
             <Item floatingLabel>
               <Label>Password</Label>
               <Input
@@ -97,15 +115,12 @@ class SignInScreen extends Component {
               block
               onPress={signIn}
             >
-              <Text style={{color: 'white'}}>Sign In</Text>
+              <Text style={{color: 'white'}}>{register ? 'Sign Up' : 'Sign In'}</Text>
             </Button>
           </View>
           <Body style={{alignItems: 'center', marginTop: 20}}>
             <Button transparent onPress={navToRegister}>
-              <Text>Register</Text>
-            </Button>
-            <Button transparent onPress={()=> googleSignIn()}>
-              <Text>Sign In With Google</Text>
+              <Text>{register ? "Back to Sign In" : "Register" }</Text>
             </Button>
           </Body>
         </Content>
@@ -123,7 +138,8 @@ const mapStateToProps = ({ users }) =>{
 
 const mapDispatchToProps = dispatch => {
   return {
-    authenticate: credentials => dispatch(authenticate(credentials))
+    authenticate: credentials => dispatch(authenticate(credentials)),
+    register: credentials => dispatch(register(credentials))
   }
 }
 

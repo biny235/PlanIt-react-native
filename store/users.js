@@ -14,6 +14,18 @@ export const authenticate = (credentials) => {
   };
 };
 
+export const register = ( credentials ) => {
+  return dispatch => {
+    return call( 'post', '/api/user/signup', credentials)
+      .then(res => res.data)
+      .then(token => {
+        AsyncStorage.setItem('token', token);
+        dispatch(fetchUser());
+        return token;
+      })
+  }
+}
+
 export const fetchUser = () => {
   return (dispatch) => {
     return call('get', '/api/user')
