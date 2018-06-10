@@ -23,20 +23,23 @@ class SuggestToFriendScreen extends Component {
 
   render() {
     const { region } = this.state;
-    const {plan } = this.props
+    const {plan} = this.props
     return (
       <Container>
-          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <MapView
-              style={{ flex: 1, width: 350 }}
-              initialRegion={region}
-              provider={MapView.PROVIDER_GOOGE}
-              scrollEnabled={false}
-              zoomEnabled={false}
-              userInteractionEnabled={false}
-            />
-            <H1 >Give USER a Suggestion</H1>
-            <GoogleSearch lat={plan.lat} lng={plan.lng} type="establishment" />
+          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center', }}>
+            <Content contentContainerStyle={{height: 200}}>
+              <MapView
+                style={{ flex: 1, height: 200 }}
+                initialRegion={region}
+                provider={MapView.PROVIDER_GOOGE}
+                scrollEnabled={false}
+                zoomEnabled={false}
+                userInteractionEnabled={false}
+              />
+              <H1 >Give USER a Suggestion</H1>
+              <GoogleSearch lat={plan.lat} lng={plan.lng} type="establishment" />
+              </Content>
+           
         </Content>
       </Container>
     );
