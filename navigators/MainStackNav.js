@@ -24,7 +24,7 @@ const MainStackNav = createStackNavigator({
       },
     }
   },
-  SuggestToFriend: {
+  Suggest: {
     screen: Suggest,
     navigationOptions: {
       title: 'Suggest a Place',

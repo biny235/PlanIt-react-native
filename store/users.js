@@ -1,6 +1,7 @@
 import call from './axiosFunc';
 import { AsyncStorage } from 'react-native';
 import { GET_USER, CREATE_USER, UPDATE_USER, DELETE_USER, LOGOUT  } from './constants';
+import { fetchFriends } from './friends';
 
 export const authenticate = (credentials) => {
   return (dispatch) => {
@@ -32,6 +33,7 @@ export const fetchUser = () => {
       .then(res => res.data)
       .then(user => {
         dispatch({ type: GET_USER, user });
+        dispatch(fetchFriends());
       })
       .catch(err => alert(err));
   };

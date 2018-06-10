@@ -23,7 +23,8 @@ class SuggestToFriendScreen extends Component {
 
   render() {
     const { region } = this.state;
-    const {plan} = this.props
+    const { plan, id} = this.props
+    console.log(id)
     return (
       <Container>
           <Content contentContainerStyle={{ flex: 1, justifyContent: 'center', }}>
@@ -36,8 +37,8 @@ class SuggestToFriendScreen extends Component {
                 zoomEnabled={false}
                 userInteractionEnabled={false}
               />
-              <H1 >Give USER a Suggestion</H1>
-              <GoogleSearch lat={plan.lat} lng={plan.lng} type="establishment" />
+                <H1 >Give USER a Suggestion</H1>
+                <GoogleSearch lat={plan.lat} lng={plan.lng} type="establishment" />
               </Content>
            
         </Content>
