@@ -15,7 +15,6 @@ class GooglePlacesInput extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
-
   onPress(data, details = null) {
     if (data.place_id) {
       place = {
@@ -27,6 +26,7 @@ class GooglePlacesInput extends React.Component {
         planId: 1,
         userId: this.props.users.id
       };
+      console.log('place :', place);
       call('post', '/api/places', place);
     }
   }

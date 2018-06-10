@@ -5,33 +5,21 @@ import { Thumbnail, ListItem, Button, Icon } from 'native-base';
 
 class SuggestionAccordion extends Component {
 
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     data: []
-  //   };
-  // }
-
-  // componentWillMount() {
-  //   console.log('component will mount', this.props.data);
-  //   this.setState = { data: this.props.data };
-  // }
-
-  onFavoriteToggle = (indx, bool) => {
+  toggleSuggestField = (indx, field) => {
     let accordItemData = this.props.data[indx];
-    accordItemData.isFavorite = bool;
+    accordItemData[field] = !accordItemData[field];
     const newDataSet = Object.assign(this.props.data, accordItemData);
     this.setState = { data: newDataSet };
     this.props.changeState(newDataSet);
   }
 
-  // helper function (add to global function file?)
+  // helper function
   commentClipped = (str) => {
     const numChars = 22;
     return '"' + str.substr(0, numChars) + (str.length >= numChars ? '...' : '') + '"';
   };
 
-  _renderHeader = (section) => {
+  renderHeader = (section) => {
     const { navigation } = this.props;
     return (
       <View style={styles.header}>
@@ -62,29 +50,46 @@ class SuggestionAccordion extends Component {
     );
   };
 
-  _renderContent = (section) => {
-    const { onFavoriteToggle } = this;
-    // const { favorite } = this.props;
+  styleIcons = (active, activeColor) => {
+    let iconStyles = {};
+    if (active) {
+      iconStyles.color = activeColor;
+    } else {
+      iconStyles.color = '#9E9E9E';
+    }
+    const iconFontSize = 20;
+    iconStyles.fontSize = iconFontSize;
+    return iconStyles;
+  }
+
+  renderContent = (section) => {
+    const { toggleSuggestField } = this;
+
+    // set icon styles
+    section.isFavorite ? styles.favoriteIcon = this.styleIcons(true, 'tomato') : styles.favoriteIcon = this.styleIcons(false);
+    section.doneThat ? styles.doneIcon = this.styleIcons(true, '#0D47A1') : styles.doneIcon = this.styleIcons(false);
+    section.isHidden ? styles.hiddenIcon = this.styleIcons(true, '#0D47A1') : styles.hiddenIcon = this.styleIcons(false);
+
     return (
       <View>
         <View style={styles.content}>
           <Button
             transparent
-            onPress={() => onFavoriteToggle(section.id, !this.props.isFavorite)}
+            onPress={() => toggleSuggestField(section.id, 'isFavorite')}
           >
-            <Icon type="MaterialIcons" name="favorite-border" style={styles.buttonIcons} />
+            <Icon type="MaterialIcons" name={section.isFavorite ? 'favorite' : 'favorite-border'} style={styles.favoriteIcon} />
           </Button>
           <Button
             transparent
-            onPress={() => console.log('DONE THAT')}
+            onPress={() => toggleSuggestField(section.id, 'doneThat')}
           >
-            <Icon type="MaterialIcons" name="done"  style={styles.buttonIcons} />
+            <Icon type="MaterialIcons" name="done" style={styles.doneIcon} />
           </Button>
           <Button
             transparent
-            onPress={() => console.log('HIDE')}
+            onPress={() => toggleSuggestField(section.id, 'isHidden')}
           >
-            <Icon  type="MaterialIcons" name="visibility-off"  style={styles.buttonIcons} />
+            <Icon type="MaterialIcons" name="visibility-off"  style={styles.hiddenIcon} />
           </Button>
         </View>
       </View>
@@ -93,15 +98,13 @@ class SuggestionAccordion extends Component {
 
   render() {
     const { data } = this.props;
-    // console.log('render', data)
-    // const { data } = this.state;
-    const { _renderContent, _renderHeader } = this;
+    const { renderContent, renderHeader } = this;
     return (
       <View style={{}}>
         <Accordion
           sections={data}
-          renderHeader={_renderHeader}
-          renderContent={_renderContent}
+          renderHeader={renderHeader}
+          renderContent={renderContent}
           easing="easeOutCubic"
           activeOpacity={0}
           underlayColor="tomato"
@@ -124,10 +127,6 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor: '#FBE9E7',
-  },
-  buttonIcons: {
-    fontSize: 20,
-    color: '#9E9E9E',
   },
 };
 

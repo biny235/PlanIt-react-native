@@ -50,20 +50,13 @@ export default class SuggestionsScreen extends Component {
     };
   }
 
-  // methods for Accordion Component
-  // favorite = bool => {
-  //   if (!bool) bool = true;
-  //   // this.setState({})
-  //   console.log('fave', bool);
-  // }
-
   // passed to child accordion component to like, hide...
   changeReco = reco => {
     console.log('NEW RECO', reco);
     this.setState({reco});
   }
 
-  // helper function (add to global function file?)
+  // helper function to clip comment, "Blah, blah..."
   formatText = (str, numChars) => {
     return '"' + str.substr(0, numChars) + (str.length >= numChars ? '...' : '') + '"';
   };
