@@ -10,31 +10,26 @@ class GooglePlacesInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      googlePlace: {},
+      region: {},
       city: ''
     };
-    this.onPress = this.onPress.bind(this);
   }
 
-  onPress(data, details = null) {
-    if (data.place_id) {
-      place = {
-        name: details.name,
-        // url: details.url.toString(),
-        lat: details.geometry.location.lat,
-        lng: details.geometry.location.lng,
-        place_id: details.place_id,
-        planId: 1,
-        userId: this.props.users.id
-      };
-      if (this.props.name === 'SuggestToFriend') {
-        call('post', '/api/places', place);
-      } else {
-        this.setState({
-          city: details.name,
-          
-         });
+  onPress = (data, details = null) => {
+    if (details) {
+      this.setState({googlePlace: details});
+      if (this.props.setLoc){
+        this.props.setLoc(details);
       }
+    }
+  }
+
+  onPressMapScreen = (data, details = null) => {
+    if (details) {
+      this.props.region(details.geometry.location);
+      //console.log('details :', details);
+      this.props.city(details.formatted_address);
     }
   }
 
@@ -43,7 +38,7 @@ class GooglePlacesInput extends React.Component {
   }
 
   render() {
-    console.log('this.props :', this.props);
+    console.log(this.state.googlePlace.name);
     const { lat, lng, type, users } = this.props;
     const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
     const { onPress } = this;
@@ -63,10 +58,14 @@ class GooglePlacesInput extends React.Component {
           radius: 5000,
           types: `${type}`
         }}
-        onPress={(data, details) => onPress(data, details)}
-        onTextChange={(text) => {
-          console.log('text', text);
-        }}
+        onPress={(data, details) => {
+          if (type === '(cities)'){
+            this.onPressMapScreen(data, details); //set location of plan
+          } else {
+            onPress(data, details); //create place on plan
+          }
+        }
+        }
         styles={{
           listView: {
             position: 'absolute',
