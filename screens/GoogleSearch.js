@@ -58,12 +58,13 @@ class GooglePlacesInput extends React.Component {
           types: `${type}`
         }}
         onPress={(data, details) => {
-          onPress(data, details);
+          if (type === '(cities)'){
+            console.log('Set City');
+          } else {
+            onPress(data, details);
+          }
         }
         }
-        onTextChange={(text) => {
-          console.log(text);
-        }}
         styles={{
           listView: {
             position: 'absolute',
