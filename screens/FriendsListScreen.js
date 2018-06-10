@@ -115,7 +115,6 @@ export default class ChoosingFriends extends Component {
               subtitle={item.email}
               avatar={{ uri: item.picture.thumbnail }}
               containerStyle={{ borderBottomWidth: 0 }}
-              button onPress={this.onSave(item)}
             />
           )}
           keyExtractor={item => item.email}

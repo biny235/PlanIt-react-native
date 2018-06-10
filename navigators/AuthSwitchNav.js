@@ -1,9 +1,7 @@
 import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
-import { AsyncStorage } from 'react-native';
 // screens
 import SignInScreen from '../screens/SignInScreen';
-import RegisterScreen from '../screens/RegisterScreen';
 import DrawerNav from './DrawerNav';
 
 /*** Principal navigation path ***
@@ -14,7 +12,6 @@ import DrawerNav from './DrawerNav';
 export default createSwitchNavigator(
   {
     SignIn: SignInScreen,
-    Register: RegisterScreen,
     Main: DrawerNav
   },
   {

@@ -1,71 +1,37 @@
-import React, { Component } from 'react';
-import { TouchableOpacity, Label } from 'react-native';
-import { Container, Content, Body, Button, Icon, List, ListItem, Text, Right } from 'native-base';
+import React from 'react';
+import { Container, Content, List, ListItem, Body, Right, Icon, Text } from 'native-base';
+import {connect} from 'react-redux'
 
-
-const plan1 = {
-  id: 1,
-  name: 'Washington D.C.',
-  date: '2018-06-25',
-  time: '11:40',
-  lat: '41.881832',
-  lng: '-87.623177',
-  status: 'activate',
-  category: 'Restaurants',
-  userId: 'a88fcda3-51bf-4594-a471-e35c24543065'
-};
-
-const plan2 = {
-  id: 1,
-  name: 'BangKok',
-  date: '2018-06-20',
-  time: '11:40',
-  lat: '41.881832',
-  lng: '-87.623177',
-  status: 'activate',
-  category: 'Restaurants',
-  userId: 'a88fcda3-51bf-4594-a471-e35c24543065'
-};
-
-const plan3 = {
-  id: 1,
-  name: 'London',
-  date: '2018-08-13',
-  time: '11:40',
-  lat: '41.881832',
-  lng: '-87.623177',
-  status: 'activate',
-  category: 'Restaurants',
-  userId: 'a88fcda3-51bf-4594-a471-e35c24543065'
-};
-
-const plan = [plan1, plan2, plan3];
-export default class FriendsPlansScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
+class FriendsPlansScreen extends React.Component {
+  getIcon(category){
+    switch(category){
+      case 'Restaurants':
+        return 'cutlery'
+      case 'Hotels':
+        return 'bed'
+      default:
+      return 'map-marker'
+    }
   }
-
   render() {
+    const {friendsPlans} = this.props
+    console.log(this.props)
     return (
       <Container>
         <Content>
-          <List
-            dataArray={plan}
-            renderRow={(item) =>
-              (<ListItem icon button onPress={() => { this.props.navigation.navigate('SuggestToFriend')}}>
+          <List>
+            {friendsPlans.map(plan => (
+              <ListItem key={plan.id} onPress={()=> this.props.navigation.navigate('Suggest', {plan})}>
                 <Body>
-                  <Text>
-                     {item.name} {item.date}
-                  </Text>
+                  <Text>{plan.name}</Text>
+                  <Text note>{plan.location}</Text>
+                  <Text note>{`${plan.date} ${plan.time}`}</Text>
                 </Body>
                 <Right>
-                  <Icon style={{ color:'tomato' }} name='navigate' />
+                  <Icon type="FontAwesome" name={this.getIcon(plan.category)}/>
                 </Right>
-              </ListItem>)
-            }>
+              </ListItem>
+            ))}
           </List>
         </Content>
       </Container>
@@ -73,3 +39,13 @@ export default class FriendsPlansScreen extends Component {
   }
 }
 
+const mapStateToProps = ({friends, friendsPlans})=>{
+  console.log(friendsPlans)
+  return{
+    friends,
+    friendsPlans
+  }
+}
+
+
+export default connect(mapStateToProps)(FriendsPlansScreen)
