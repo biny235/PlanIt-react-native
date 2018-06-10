@@ -29,10 +29,9 @@ class SuggestToFriendScreen extends Component {
         longitudeDelta: 0.0421
       }
     };
-    this.addToState = this.addToState.bind(this);
   }
 
-  addToState(obj) {
+  addToState = (obj) => {
     this.setState({googleObject: obj});
   }
 

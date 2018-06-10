@@ -58,9 +58,8 @@ class MapScreen extends Component {
   componentDidMount() {
     // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
-    this.props.fetchUser()
-    this.props.fetchPlans()
-    //this.props.fetchPlan();
+    this.props.fetchUser();
+    this.props.fetchPlans();
   }
 
   toggleBroadcastPlan = () => {
@@ -97,7 +96,7 @@ class MapScreen extends Component {
     this.props.navigation.openDrawer();
   }
 
-  onRegionChangeComplete = (region) => {
+  onRegionChange = (region) => {
     this.setState({ region });
   }
 
@@ -121,40 +120,46 @@ class MapScreen extends Component {
   renderSearchInput = () => {
     if (this.state.isBroadcasting) {
       return (
-        <Header rounded searchBar>
+        <Header rounded searchBar style={{ backgroundColor: 'tomato' }}>
           <Left>
             <Button
               transparent
               onPress={this.openDrawer}
             >
-              <Icon name="menu" />
+              <Icon style={{ color: 'white' }} name="menu" />
             </Button>
           </Left>
-          <Item>
-            <Input placeholder="Where to..." />
-          </Item>
-          <Button small transparent>
-            <Text>Search</Text>
-          </Button>
         </Header>
       );
     } else {
       return (
-        <Header>
+        <Header style={{ backgroundColor: 'tomato' }}>
           <Left>
             <Button
               transparent
               onPress={this.openDrawer}
             >
-              <Icon name="menu" />
+              <Icon style={{ color: 'white' }} name="menu" />
             </Button>
           </Left>
-          <Button small rounded info>
-            <Icon active name="search" />
-          </Button>
         </Header>
       );
     }
+  }
+
+  addToRegion = (obj) => {
+    this.setState({
+      region: {
+        latitude: obj.lat,
+        longitude: obj.lng,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }
+    });
+  }
+
+  addToCity = (val) => {
+    this.setState({ city: val });
   }
 
   renderCallButtonIcon = () => {
@@ -170,7 +175,8 @@ class MapScreen extends Component {
   }
 
   render() {
-
+    //console.log('this.props :', this.props);
+    console.log('this.state :', this.state);
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation, plans } = this.props;
@@ -186,24 +192,26 @@ class MapScreen extends Component {
       <Container>
         {renderSearchInput()}
         <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-          <View style={{flex: 1}}>
-            <GoogleSearch type="(cities)" />
-          <MapView
-            style={{flex: 1}}
-            initialRegion={region}
-            provider={MapView.PROVIDER_GOOGLE}
-            // customMapStyle={mapStyle}
-            showsUserLocation={true}
-            followsUserLocation={true}
-            showsMyLocationButton={true}
-            showsPointsOfInterest={true}
-            showsBuildings={true}
-            // onPoiClick={e => console.log(e.nativeEvent)}
-            onRegionChangeComplete={this.onRegionChangeComplete}
+          <View style={{ flex: 1 }}>
+            <GoogleSearch region={this.addToRegion} city={this.addToCity} type="(cities)" />
+            <MapView
+              style={{ flex: 1 }}
+              //initialRegion={initialRegion}
+              region={region}
+              provider={MapView.PROVIDER_GOOGLE}
+              //customMapStyle={mapStyle}
+              showsUserLocation={true}
+              followsUserLocation={true}
+              showsMyLocationButton={true}
+              showsPointsOfInterest={true}
+              showsBuildings={true}
+              // onPoiClick={e => console.log(e.nativeEvent)}
+              onRegionChange={this.onRegionChange}
+            //onRegionChangeComplete={this.onRegionChangeComplete}
             // onPress={ev => console.log(ev.nativeEvent)}
             >
-            {this.renderMarkers()}
-          </MapView>
+              {this.renderMarkers()}
+            </MapView>
           </View>
         </Content>
         <Footer>
