@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
-import { Container, Content, H3, List, Text, Icon, Button } from 'native-base';
+import { Container, Content, Header, Left, Body, Right, Text, Icon, Button } from 'native-base';
 import SuggestionAccordion from '../components/SuggestionAccordion';
 
 const recosData = [
@@ -66,9 +66,12 @@ export default class SuggestionsScreen extends Component {
     const { recos } = this.state;
     return (
       <Container>
-        <Content padder>
-          <View
-            style={styles.closeButtonView}>
+        <Header style={{ backgroundColor: 'tomato' }}>
+          <Left />
+          <Body>
+            <Text style={styles.title}>Friends Suggest</Text>
+          </Body>
+          <Right>
             <Button
               transparent
               onPress={() => this.props.navigation.navigate('Map')}
@@ -79,13 +82,12 @@ export default class SuggestionsScreen extends Component {
                 style={styles.closeButtonIcon}
               />
             </Button>
+          </Right>
+        </Header>
+        <Content padder>
+          <View>
+            <SuggestionAccordion data={recos} navigation={this.props.navigation} changeState={changeReco} />
           </View>
-          <View style={styles.titleView}>
-            <H3 style={styles.title}>Friends Suggest</H3>
-          </View>
-            <View>
-              <SuggestionAccordion data={recos} navigation={this.props.navigation} changeState={changeReco} />
-            </View>
           <Button
             transparent
             onPress={() => this.props.navigation.navigate('Map')}
@@ -100,24 +102,12 @@ export default class SuggestionsScreen extends Component {
 }
 
 const styles = {
-  closeButtonView: {
-    top: 14,
-    position: 'absolute',
-    right: 10
+  title: {
+    color: 'white',
+    fontSize: 18,
   },
   closeButtonIcon: {
-    color: '#424242'
-  },
-  titleView: {
-    marginTop: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: 'tomato',
-    alignSelf: 'center',
-    marginBottom: 6
-  },
-  title: {
-    marginBottom: 6,
-    color: 'tomato'
+    color: 'white'
   },
   closeWinTextView: {
     marginTop: 20,
