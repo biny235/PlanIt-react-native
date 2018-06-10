@@ -1,6 +1,5 @@
 import React from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import call from '../store/axiosFunc';
 const config = require('../config');
 import { connect } from 'react-redux';
 import { createPlace } from '../store/places';
@@ -22,23 +21,6 @@ class GooglePlacesInput extends React.Component {
         this.props.setLoc(details);
       }
     }
-    // if (data.place_id) {
-    //   place = {
-    //     name: details.name.toString(),
-    //     // url: details.url.toString(),
-    //     lat: details.geometry.location.lat.toString(),
-    //     lng: details.geometry.location.lng.toString(),
-    //     place_id: details.place_id.toString(),
-    //     planId: 1,
-    //     userId: this.props.users.id
-    //   };
-    //   console.log('place :', place);
-    //   call('post', '/api/places', place);
-    // }
-  }
-
-  showContainer = () => {
-    console.log('showContainer');
   }
 
   render() {
@@ -65,9 +47,9 @@ class GooglePlacesInput extends React.Component {
         }}
         onPress={(data, details) => {
           if (type === '(cities)'){
-            console.log('Set City'); //set location of plan
+            console.log('Set City');
           } else {
-            onPress(data, details); //create place on plan
+            onPress(data, details);
           }
         }
         }
