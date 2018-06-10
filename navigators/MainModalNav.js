@@ -1,17 +1,13 @@
 import React from 'react';
-
 //screens
 import MapScreen from '../screens/MapScreen';
 import PlanDetailsScreen from '../screens/PlanDetailsScreen';
 import SuggestionsScreen from '../screens/SuggestionsScreen';
 import SuggestionDetailsScreen from '../screens/SuggestionDetailsScreen';
-
 // navigators
 import { createStackNavigator } from 'react-navigation';
 // TabNavigator is not used, because the bottom nav is fake. The items on the sides open modal windows.
 
-// stack for main/map items
-// removed header to use tab header below
 const MainModalNav = createStackNavigator(
   {
     Map: MapScreen,

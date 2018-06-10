@@ -1,20 +1,21 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 
 import users from './users';
+import plans from './plans';
+import places from './places';
 
 const reducer = combineReducers({
   //auth,
   users,
-  // plans,
-  // places,
+  plans,
+  places,
   // groups,
 });
 
 const store = createStore(
   reducer,
-  applyMiddleware(thunk, logger)
-)
+  applyMiddleware(thunk)
+);
 
-export default store
+export default store;

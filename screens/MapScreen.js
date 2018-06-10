@@ -1,6 +1,10 @@
-import React, {Component} from 'react';
-import { View, ActivityIndicator, Image } from 'react-native';
+import React, { Component } from 'react';
+import { View, ActivityIndicator, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
+import { fetchUser } from '../store/users';
+import GoogleSearch from './GoogleSearch';
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
+
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
@@ -49,22 +53,26 @@ class MapScreen extends Component {
     };
   }
 
+
   componentDidMount() {
+    // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
+    this.props.fetchUser();
+
   }
 
   toggleBroadcastPlan = () => {
     const isBroadcasting = !this.state.isBroadcasting;
-    this.setState({isBroadcasting: isBroadcasting});
+    this.setState({ isBroadcasting: isBroadcasting });
     this.simulateFriendsRecommending();
   }
 
   addMarker = marker => {
     const markers = [...this.state.markers, marker];
-    this.setState({markers});
+    this.setState({ markers });
   }
 
-  simulateFriendsRecommending =() => {
+  simulateFriendsRecommending = () => {
     if (this.state.isBroadcasting) {
       let counter = markerData.length - 1;
       const nIntervId = setInterval(() => {
@@ -76,7 +84,7 @@ class MapScreen extends Component {
         counter--;
       }, 1000);
     } else {
-      this.setState({markers: []});
+      this.setState({ markers: [] });
     }
   }
 
@@ -97,7 +105,7 @@ class MapScreen extends Component {
         <MapView.Marker
           key={marker.place_id}
           id={marker.place_id}
-          coordinate={{latitude: marker.lat, longitude: marker.lng}}
+          coordinate={{ latitude: marker.lat, longitude: marker.lng }}
           title={marker.name}
           description={marker.details}
         />
@@ -147,31 +155,34 @@ class MapScreen extends Component {
   renderCallButtonIcon = () => {
     if (this.state.isBroadcasting) {
       return (
-         <Icon type="MaterialCommunityIcons" name="signal-variant" style={styles.planCallIcon} />
-       );
-     } else {
-       return (
-          <Icon type="Foundation" name="x" style={styles.planCallIcon} />
+        <Icon type="MaterialCommunityIcons" name="signal-variant" style={styles.planCallIcon} />
+      );
+    } else {
+      return (
+        <Icon type="Foundation" name="x" style={styles.planCallIcon} />
       );
     }
   }
 
   render() {
+    console.log('this.props :', this.props);
     const { mapLoaded, region, markers } = this.state;
+    console.log(this.props)
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation } = this.props;
     if (!mapLoaded) {
       return (
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <ActivityIndicator size="large" />
-      </View>
-);
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
     }
     return (
       <Container>
         {renderSearchInput()}
         <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
           <View style={{flex: 1}}>
+          <GoogleSearch type="(cities)" />
           <MapView
             style={{flex: 1}}
             initialRegion={region}
@@ -188,7 +199,6 @@ class MapScreen extends Component {
             >
             {this.renderMarkers()}
           </MapView>
-          ))}
           </View>
         </Content>
         <Footer>
@@ -198,23 +208,23 @@ class MapScreen extends Component {
               onPress={this.navToPlanSettings}
             >
               <Icon name="calendar" />
-              <Text style={{fontSize: 12}}>Plan Settings</Text>
+              <Text style={{ fontSize: 12 }}>Plan Settings</Text>
             </Button>
             <Button vertical>
               <Text />
             </Button>
             <Button badge vertical>
-              <Badge  style={(markers.length ? styles.badgeVisible : styles.badgeInvisible )}><Text>{markers.length}</Text></Badge>
+              <Badge style={(markers.length ? styles.badgeVisible : styles.badgeInvisible)}><Text>{markers.length}</Text></Badge>
               <Icon type="MaterialCommunityIcons" name="thought-bubble-outline" />
-              <Text style={{fontSize: 12}}>Suggestions</Text>
+              <Text style={{ fontSize: 12 }}>Suggestions</Text>
             </Button>
           </FooterTab>
         </Footer>
         <View style={styles.friendIcons}>
           <Button transparent onPress={() => this.props.navigation.navigate('FriendsPlans')}>
-            <Thumbnail circle small source={friendIcons[2]} style={{ zIndex: 30}} />
+            <Thumbnail circle small source={friendIcons[2]} style={{ zIndex: 30 }} />
             <Thumbnail circle small source={friendIcons[1]} style={{ marginLeft: -10, zIndex: 20 }} />
-            <Thumbnail circle small source={friendIcons[0]}  style={{ marginLeft: -10, zIndex: 10} } />
+            <Thumbnail circle small source={friendIcons[0]} style={{ marginLeft: -10, zIndex: 10 }} />
             <Badge style={{
               marginLeft: -12, marginTop: -12, zIndex: 40,
               transform: [{ scale: 0.7 }]
@@ -296,4 +306,17 @@ const styles = {
   },
 };
 
-export default MapScreen;
+const mapStateToProps = ({ plans, users }) => {
+  return {
+    users,
+    plans
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUser: () => dispatch(fetchUser())
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapScreen);
