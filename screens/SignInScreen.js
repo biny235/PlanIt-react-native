@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage} from 'react-native';
+import { View, Text, AsyncStorage, Image,} from 'react-native';
 import { Container, Content, Body, Title, Form, Item, Label, Input, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { authenticate, register } from '../store/users'
@@ -36,11 +36,11 @@ class SignInScreen extends Component {
   // handleOpenURL(event){
   //   const url = event.url.split('token=')
   //   if(url.length === 2){
-  //     const token = url[1];   
+  //     const token = url[1];
   //     AsyncStorage.setItem('token', token)
   //     this.props.navigation.navigate('Map')
   //   }
-    
+
   // }
   async checker(){
     const token = await AsyncStorage.getItem('token')
@@ -79,7 +79,10 @@ class SignInScreen extends Component {
     return (
       <Container style={{marginTop: 50}}>
         <Content padder>
-          <Title>Fine with Whatever</Title>
+          <Image
+          style={{alignSelf: 'center', width: 200, height: 120}}
+          source={require('../assets/PlanItLogo.png')}
+        />
           <Form>
             <Item floatingLabel>
               <Label>Username</Label>
