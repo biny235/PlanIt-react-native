@@ -23,5 +23,6 @@ export const UPDATE_GROUP = 'UPDATE_GROUP';
 export const DELETE_GROUP = 'DELETE_GROUP';
 
 /* FRIENDS */
-export const GET_PLANS = 'GET_PLANS'
-export const GET_FRIENDS = 'GET_FRIENDS'
+export const GET_PLANS = 'GET_PLANS';
+export const GET_FRIENDS = 'GET_FRIENDS';
+export const GET_DETAILS = 'GET_DETAILS';
