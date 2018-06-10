@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Text } from 'react-native';
-import { Container, Content, H1, Button } from 'native-base';
+import { Container, Content, Header, Left, Body, Right, Icon, Button } from 'native-base';
 
 export default class SuggestionDetailsScreen extends Component {
   constructor() {
@@ -12,9 +12,26 @@ export default class SuggestionDetailsScreen extends Component {
   render() {
     return (
       <Container>
+        <Header style={{ backgroundColor: 'tomato' }}>
+          <Left />
+          <Body>
+            <Text style={styles.title}>Larry Suggests</Text>
+          </Body>
+          <Right>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate('Map')}
+            >
+              <Icon
+                type="Ionicons"
+                name="ios-close-circle-outline"
+                style={styles.closeButtonIcon}
+              />
+            </Button>
+          </Right>
+        </Header>
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
-          <H1 style={{marginBottom: 10}}>Larry's Suggestion</H1>
-          <Text>Map of recommendation?</Text>
+          <Text>Details</Text>
           <Button
             transparent
             onPress={() => this.props.navigation.navigate('Suggestions')}
@@ -29,24 +46,12 @@ export default class SuggestionDetailsScreen extends Component {
 }
 
 const styles = {
-  closeButtonView: {
-    top: 14,
-    position: 'absolute',
-    right: 10
+  title: {
+    color: 'white',
+    fontSize: 18,
   },
   closeButtonIcon: {
-    color: '#424242'
-  },
-  titleView: {
-    marginTop: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: 'tomato',
-    alignSelf: 'center',
-    marginBottom: 6
-  },
-  title: {
-    marginBottom: 6,
-    color: 'tomato'
+    color: 'white'
   },
   closeWinTextView: {
     marginTop: 20,
