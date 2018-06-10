@@ -9,7 +9,6 @@ const setHeader = async () => {
 };
 
 const call = async (type, link, body) => {
-  console.log(body);
   if (!axios.defaults.headers.common.token) {
     await setHeader();
   }

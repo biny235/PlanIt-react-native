@@ -179,7 +179,8 @@ class MapScreen extends Component {
     console.log('this.state :', this.state);
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
-    const { navigation } = this.props;
+    const { navigation, plans } = this.props;
+    console.log(plans)
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>

@@ -21,3 +21,7 @@ export const GET_GROUPS = 'GET_GROUPS';
 export const CREATE_GROUP = 'CREATE_GROUP';
 export const UPDATE_GROUP = 'UPDATE_GROUP';
 export const DELETE_GROUP = 'DELETE_GROUP';
+
+/* FRIENDS */
+export const GET_PLANS = 'GET_PLANS'
+export const GET_FRIENDS = 'GET_FRIENDS'
