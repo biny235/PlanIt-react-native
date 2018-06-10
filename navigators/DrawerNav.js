@@ -104,9 +104,9 @@ const History = createStackNavigator(
 // app needs to be inside the drawer so components can open drawer
 export default createDrawerNavigator(
   {
-    MainSwitch: MainStackNav,
+    MainStack: MainStackNav,
     Profile,
-    Friends: Friends,
+    Friends,
     History
   },
   {

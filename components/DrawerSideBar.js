@@ -17,8 +17,8 @@ const routes = [
   {
     name: 'History',
     display: 'Travel Plans Completed',
-    icon: 'power',
-    iconType: 'Foundation'
+    icon: 'ios-plane',
+    iconType: 'Ionicons'
   },
 ];
 export default class DrawerSideBar extends React.Component {
@@ -79,7 +79,8 @@ export default class DrawerSideBar extends React.Component {
                   >
                     <Left>
                       <Icon
-                        name="plane"
+                        type="Foundation"
+                        name="power"
                         style={{fontSize: 22}}
                       />
                     </Left>

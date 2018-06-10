@@ -4,6 +4,7 @@ import React from 'react';
 import MapScreen from '../screens/MapScreen';
 import PlanDetailsScreen from '../screens/PlanDetailsScreen';
 import SuggestionsScreen from '../screens/SuggestionsScreen';
+import SuggestionDetailsScreen from '../screens/SuggestionDetailsScreen';
 
 // navigators
 import { createStackNavigator } from 'react-navigation';
@@ -11,11 +12,12 @@ import { createStackNavigator } from 'react-navigation';
 
 // stack for main/map items
 // removed header to use tab header below
-const MainModalkNav = createStackNavigator(
+const MainModalNav = createStackNavigator(
   {
     Map: MapScreen,
     PlanDetails: PlanDetailsScreen,
     Suggestions: SuggestionsScreen,
+    SuggestionDetails: SuggestionDetailsScreen,
   },
   {
     mode: 'modal',
@@ -25,4 +27,4 @@ const MainModalkNav = createStackNavigator(
   }
 );
 
-export default MainModalkNav;
+export default MainModalNav;
