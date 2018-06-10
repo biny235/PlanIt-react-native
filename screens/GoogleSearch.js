@@ -58,17 +58,33 @@ class GooglePlacesInput extends React.Component {
           types: `${type}`
         }}
         onPress={(data, details) => {
-          console.log('data :', data);
-          console.log('details :', details);
           onPress(data, details);
         }
         }
+        onTextChange={(text) => {
+          console.log(text);
+        }}
         styles={{
           listView: {
+            position: 'absolute',
+            top: 60,
+            left: 10,
+            right: 10,
             backgroundColor: 'white',
+            borderRadius: 5,
+            flex: 1,
+            elevation: 3,
+            zIndex: 10
           },
-          container: {
-            flexGrow: 1
+            container: {
+            zIndex: 10,
+            overflow: 'visible',
+            height: 50,
+            flexGrow: 0,
+            flexShrink: 0
+          },
+          scrollView: {
+            paddingTop: 60
           },
           textInputContainer: {
             backgroundColor: 'rgba(0,0,0,0)',
