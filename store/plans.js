@@ -39,13 +39,13 @@ export const deletePlan = (plan) => async dispatch => {
 // import call from './axiosFunc';
 // import { GET_PLAN, UPDATE_PLAN, LOGOUT } from './constants';
 
-// export const fetchPlan = () => {
+// export const fetchPlans = () => {
 //   return (dispatch) => {
 //     console.log("fetching plan")
 //     return call('get', '/api/user/plan')
 //       .then(res => res.data)
 //       .then(plan => {
-//         dispatch({ type: GET_PLAN, plan })
+//         dispatch({ type: GET_PLAN, plan });
 //       })
 //       .catch(err => alert(err));
 //   }
