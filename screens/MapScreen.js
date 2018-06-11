@@ -6,7 +6,7 @@ import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
-import { fetchPlans } from '../store/plans';
+import { fetchPlans, fetchPlan } from '../store/plans';
 import { fetchUser } from '../store/users';
 
 const larry = require('../assets/friends-thumbnails/larry.jpg');
@@ -175,7 +175,7 @@ class MapScreen extends Component {
   render() {
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
-    const { navigation, plans } = this.props;
+    const { navigation, plansCount, friendsPlans } = this.props;
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -229,14 +229,17 @@ class MapScreen extends Component {
           </FooterTab>
         </Footer>
         <View style={styles.friendIcons}>
-          <Button transparent onPress={() => this.props.navigation.navigate('FriendsPlans')}>
-            <Thumbnail circle small source={friendIcons[2]} style={{ zIndex: 30 }} />
-            <Thumbnail circle small source={friendIcons[1]} style={{ marginLeft: -10, zIndex: 20 }} />
-            <Thumbnail circle small source={friendIcons[0]} style={{ marginLeft: -10, zIndex: 10 }} />
+          <Button transparent onPress={() => navigation.navigate('FriendsPlans')}>
+            {plansCount >= 1 ? <Thumbnail circle small source={{uri: friendsPlans[0].user.thumbnail}} style={{ zIndex: 30 }} /> : null }
+            {plansCount >= 2 ? <Thumbnail circle small source={{uri: friendsPlans[1].user.thumbnail}}style={{ marginLeft: -10, zIndex: 20 }} /> : null }
+            {plansCount >= 3 ? <Thumbnail circle small source={{uri: friendsPlans[2].user.thumbnail}} style={{ marginLeft: -10, zIndex: 10 }} /> : null }
+            {plansCount > 3 ?
             <Badge style={{
               marginLeft: -12, marginTop: -12, zIndex: 40,
               transform: [{ scale: 0.7 }]
-            }}><Text style={{}}>10</Text></Badge>
+            }}><Text style={{}}>{plansCount}</Text></Badge>
+            : null
+          }
           </Button>
         </View>
         <View style={styles.buttonContainer}>
@@ -251,13 +254,13 @@ class MapScreen extends Component {
         <View style={styles.planDetailPressView}>
           <Button
             style={styles.pressAreaBtn}
-            onPress={() => this.props.navigation.navigate('PlanDetails')}
+            onPress={() => navigation.navigate('PlanDetails')}
           />
         </View>
         <View style={styles.suggestPressView}>
           <Button
             style={styles.pressAreaBtn}
-            onPress={() => this.props.navigation.navigate('Suggestions')}
+            onPress={() => pnavigation.navigate('Suggestions')}
           />
         </View>
       </Container>
@@ -314,10 +317,14 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ plans, users }) => {
+const mapStateToProps = ({ plans, users, friendsPlans }) => {
+  const plansCount = friendsPlans.length
+  console.log(friendsPlans)
   return {
     users,
-    plans
+    plans,
+    friendsPlans,
+    plansCount
   };
 };
 
@@ -325,6 +332,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchUser: () => dispatch(fetchUser()),
     fetchPlans: () => dispatch(fetchPlans()),
+    //fetchPlan: () => dispatch(fetchPlan())
   };
 }
 
