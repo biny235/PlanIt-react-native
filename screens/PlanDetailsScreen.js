@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Title, Header, Left, Right, Body, Form, Item, Label, Input, Button, Icon, Picker, Text } from 'native-base';
+import { Container, Header, Left, Right, Body, Content, Form, Item, Input, Button, Icon, Picker, Text, Separator, Row, Col } from 'native-base';
 import { Calendar } from 'react-native-calendars';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
@@ -52,84 +52,101 @@ class PlanDetailsScreen extends Component {
   }
 
   render() {
-    console.log('this.props :', this.props);
     return (
-      <View style={{ marginTop: 40, backgroundColor: 'white' }}>
-        <Header noShadow style={{ backgroundColor: 'tomato' }}>
-          <Left>
-            <Button transparent onPress={this.goBackToMap} >
-              <Icon style={{ color: 'white' }} name='arrow-back' />
-            </Button>
-          </Left>
+      <Container style={{backgroundColor: 'white'}}>
+        <Header style={{ backgroundColor: 'tomato' }}>
+          <Left />
           <Body>
-            <Title style={{ fontWeight: 'bold', color: 'white' }}>Select Date</Title>
+            <Text style={styles.title}>Plan Details</Text>
           </Body>
-          <Right />
+          <Right>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate('Map')}
+            >
+              <Icon
+                type="Ionicons"
+                name="ios-close-circle-outline"
+                style={styles.closeButtonIcon}
+              />
+            </Button>
+          </Right>
         </Header>
-        {/*Calendar*/}
-        <Calendar
-          minDate={new Date()}
-          onDayPress={day => {
-            this.setState({ calendar: day.dateString });
-          }}
-          monthFormat={'yyyy MM'}
-          markedDates={{ [this.state.calendar]: { selected: true, disableTouchEvent: true, selectedDotColor: 'tomato' } }}
-          firstDay={1}
-        />
-        {/*Time*/}
-        <View style={{ margin: 10 }}>
-          <Label style={{ textAlign: 'center', fontWeight: 'bold', color: 'red' }}>Select Time</Label>
-          <Item disabled>
-            <Input
-              style={{ alignItems: 'center' }}
-              disabled
-              placeholder={this.state.time}
-            />
-            <Icon name='information-circle' />
-          </Item>
-          <Button
-            style={{ margin: 3 }}
-            bordered
-            danger
-            block
-            onPress={this._showDateTimePicker} >
-            <Text style={{ fontWeight: 'bold', alignItems: 'center', color: 'red' }}>Choosing Time</Text>
-          </Button>
-          <DateTimePicker
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this._handleDatePicked}
-            onCancel={this._hideDateTimePicker}
-            mode={'time'}
-            is24Hour={true}
+        <Content>
+          {/*Calendar*/}
+          <Separator bordered>
+            <Text style={styles.separator}>Select a Date</Text>
+          </Separator>
+          <Calendar
+            minDate={new Date()}
+            onDayPress={day => {
+              this.setState({ calendar: day.dateString });
+            }}
+            monthFormat={'yyyy MM'}
+            markedDates={{ [this.state.calendar]: { selected: true, disableTouchEvent: true, selectedDotColor: 'tomato' } }}
+            firstDay={1}
           />
-        </View>
-        {/*Category*/}
-        <Form>
-          <Picker
-            iosIcon={<Icon style={{ color: 'tomato' }} name="ios-arrow-down-outline" />}
-            placeholder="Select Category"
-            placeholderStyle={{ color: "#bfc6ea" }}
-            placeholderIconColor="#007aff"
-            style={{ width: 370 }}
-            mode='dropdown'
-            selectedValue={this.state.category}
-            onValueChange={this.onChange}
-          >
-            <Picker.Item label='Activities' value='Activities' />
-            <Picker.Item label='Hotels' value='Hotels' />
-            <Picker.Item label='Restaruants' value='Restaruants' />
-          </Picker>
-        </Form>
-        {/*Submit*/}
-        <Button
-          style={{ margin: 10, marginTop: 100 }}
-          bordered
-          danger
-          block
-          onPress={this.onSave} >
-          <Text style={{ fontWeight: 'bold', alignItems: 'center', color: 'red' }}>Submit</Text>
-        </Button>
-      </View>
+          {/*Time*/}
+          <Separator bordered>
+            <Text style={styles.separator}>Select a Time</Text>
+          </Separator>
+          <Row style={{ flexDirection: 'row', padding: 4, justifyContent: 'flex-start', alignItems: 'center', marginLeft: 10, marginRight: 40 }}>
+            <Col style={{ flexShrink: 1, alignSelf: 'center' }}>
+              <Button
+                style={{  }}
+                bordered
+                small
+                onPress={this._showDateTimePicker} >
+                <Text style={{ color: '#0091EA' }}>Time &gt;&gt;</Text>
+              </Button>
+              <DateTimePicker
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this._handleDatePicked}
+                onCancel={this._hideDateTimePicker}
+                mode={'time'}
+                is24Hour={true}
+              />
+            </Col>
+            <Col style={{flex: 3}}>
+              <Item regular>
+                <Input
+                  style={{ padding: 0, height: 30 }}
+                  disabled
+                  placeholder={this.state.time}
+                />
+                <Icon type="Ionicons" name="ios-time-outline" />
+              </Item>
+            </Col>
+          </Row>
+          {/*Category*/}
+          <Separator bordered>
+            <Text style={styles.separator}>Select a Category</Text>
+          </Separator>
+          <Form>
+            <Picker
+              iosIcon={<Icon style={{ color: '#0091EA' }} name="ios-arrow-down-outline" />}
+              placeholder="Category..."
+              style={{ flexBasis: 1 }}
+              mode="dropdown"
+              selectedValue={this.state.category}
+              onValueChange={this.onChange}
+            >
+              <Picker.Item label="Activities" value="Activities" />
+              <Picker.Item label="Hotels" value="Hotels" />
+              <Picker.Item label="Restaruants" value="Restaruants" />
+            </Picker>
+          </Form>
+          {/*Submit*/}
+          <View style={styles.submitBtnView}>
+            <Button
+              style={{ margin: 10, backgroundColor: 'tomato' }}
+              block
+              onPress={this.onSave} >
+              <Text style={{ fontWeight: 'bold', alignItems: 'center', color: 'white' }}>Submit</Text>
+            </Button>
+          </View>
+        </Content>
+      </Container>
     );
   }
 }
@@ -144,6 +161,29 @@ const mapDispatch = (dispatch) => {
   return {
     createPlan: (plan) => dispatch(createPlan(plan)),
   };
+};
+
+const styles = {
+  title: {
+    color: 'white',
+    fontSize: 18,
+  },
+  separator: {
+    fontWeight: 'bold'
+  },
+  closeButtonIcon: {
+    color: 'white'
+  },
+  closeWinTextView: {
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  closeWinText: {
+    color: '#424242'
+  },
+  submitBtnView: {
+    marginTop: 20
+  },
 };
 
 export default connect(mapState, mapDispatch)(PlanDetailsScreen);

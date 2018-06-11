@@ -14,7 +14,7 @@ export const fetchPlaces = () => {
 
 export const createPlace = (place) => {
   return (dispatch) => {
-    return call('post', '/api/places', place)
+    return call('post', '/:planId/user/:userId/recommend', place)
       .then(res => res.data)
       .then(place => dispatch({ type: CREATE_PLACE, place }))
       .catch(err => alert(err));
