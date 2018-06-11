@@ -39,7 +39,7 @@ class SuggestToFriendScreen extends Component {
   }
 
   addRec() {
-      this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, 1);
+      this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, 1); //passing in hardcoded planId for testing
   }
 
   render() {
@@ -49,7 +49,7 @@ class SuggestToFriendScreen extends Component {
         <Text style={{ height: 20 }} />
         <Image
           style={{ alignSelf: 'center', width: 150, height: 100 }}
-          source={require('../assets/PlanItLogo.png')}
+          source={require('../assets/Logo.png')}
         />
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
