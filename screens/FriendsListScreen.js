@@ -27,6 +27,7 @@ const FriendsList = (props) => {
 
 
 const mapStateToProps = ({friends}) =>{
+  console.log(friends)
   friends = friends || []
   return{
     friends

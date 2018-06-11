@@ -6,7 +6,7 @@ import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
-import { fetchPlans, fetchPlan } from '../store/plans';
+import { fetchPlans } from '../store/plans';
 import { fetchUser } from '../store/users';
 
 const larry = require('../assets/friends-thumbnails/larry.jpg');
@@ -173,8 +173,6 @@ class MapScreen extends Component {
   }
 
   render() {
-    //console.log('this.props :', this.props);
-    console.log('this.state :', this.state);
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation, plans } = this.props;
@@ -327,7 +325,6 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchUser: () => dispatch(fetchUser()),
     fetchPlans: () => dispatch(fetchPlans()),
-    //fetchPlan: () => dispatch(fetchPlan())
   };
 }
 

@@ -1,5 +1,4 @@
 import call from './axiosFunc';
-import { AsyncStorage } from 'react-native';
 import { GET_FRIENDS, GET_DETAILS , LOGOUT } from './constants';
 import { fetchPlans } from './friendsPlans'
 
@@ -9,6 +8,7 @@ export const fetchFriends = () => {
     return call('get', '/api/user/friends')
       .then(res => res.data)
       .then(friends => {
+        console.log(friends)
         dispatch({type: GET_FRIENDS, friends});
         friends.forEach(friend => {
           dispatch(fetchPlans(friend.id))
