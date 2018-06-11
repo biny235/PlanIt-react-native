@@ -3,12 +3,11 @@ import { AsyncStorage } from 'react-native';
 import { GET_PLANS, LOGOUT, } from './constants';
 
 export const fetchPlans = (id) => {
-  console.log('*************', id)
   return dispatch => {
     return call('get', `/api/user/${id}/plan`)
       .then(res => res.data)
       .then(plan => {
-        dispatch({type: GET_PLANS, plan})
+        dispatch({ type: GET_PLANS, plan })
       })
       .catch(err => console.log("***fetchFriendsPlans Err:", err))
   }

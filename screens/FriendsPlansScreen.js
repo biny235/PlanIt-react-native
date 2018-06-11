@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Content, List, ListItem, Body, Right, Icon, Text } from 'native-base';
+import { Left, Thumbnail, Container, Content, List, ListItem, Body, Right, Icon, Text } from 'native-base';
 import {connect} from 'react-redux'
 
 class FriendsPlansScreen extends React.Component {
@@ -15,13 +15,15 @@ class FriendsPlansScreen extends React.Component {
   }
   render() {
     const {friendsPlans} = this.props
-    console.log(this.props)
     return (
       <Container>
         <Content>
           <List>
             {friendsPlans.map(plan => (
-              <ListItem key={plan.id} onPress={()=> this.props.navigation.navigate('Suggest', {plan})}>
+              <ListItem avatar key={plan.id} onPress={()=> this.props.navigation.navigate('Suggest', {plan})}>
+                <Left>
+                  <Thumbnail small source={{ uri: plan.user.thumbnail }} />
+                </Left>
                 <Body>
                   <Text>{plan.name}</Text>
                   <Text note>{plan.location}</Text>
@@ -40,7 +42,6 @@ class FriendsPlansScreen extends React.Component {
 }
 
 const mapStateToProps = ({friends, friendsPlans})=>{
-  console.log(friendsPlans)
   return{
     friends,
     friendsPlans

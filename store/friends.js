@@ -22,6 +22,7 @@ export const fetchFriends = () => {
 export const fetchFriendDetails = (id) =>{
   return dispatch => {
     return call('get', `/api/user/${id}`)
+      .then(res => res.data)
       .then(friend => dispatch({type: GET_DETAILS, friend}))
   }
 }

@@ -31,14 +31,7 @@ const Profile = createStackNavigator(
         </Button>
       ),
       title: 'Profile & Settings',
-      headerRight: (
-        <Button
-          transparent
-          onPress={() => signOutAsync(navigation)}
-        >
-          <Icon name="power" />
-        </Button>
-      ),
+
     })
   }
 );
@@ -61,14 +54,6 @@ const Friends = createStackNavigator(
         </Button>
       ),
       title: 'Friends',
-      headerRight: (
-        <Button
-          transparent
-          onPress={() => signOutAsync(navigation)}
-        >
-          <Icon name="power" />
-        </Button>
-      ),
     })
   }
 );
@@ -87,16 +72,7 @@ const History = createStackNavigator(
         >
           <Icon name="menu" />
         </Button>
-      ),
-      title: 'Travel History',
-      headerRight: (
-        <Button
-          transparent
-          onPress={() => signOutAsync(navigation)}
-        >
-          <Icon name="power" />
-        </Button>
-      ),
+      )
     })
   }
 );
