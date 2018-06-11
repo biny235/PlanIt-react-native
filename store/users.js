@@ -33,7 +33,7 @@ export const fetchUser = () => {
       .then(res => res.data)
       .then(user => {
         dispatch({ type: GET_USER, user });
-        dispatch(fetchFriends());
+        //dispatch(fetchFriends());
       })
       .catch(err => alert(err));
   };

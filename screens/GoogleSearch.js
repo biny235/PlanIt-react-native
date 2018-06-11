@@ -1,12 +1,9 @@
 import React from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import call from '../store/axiosFunc';
 const config = require('../config');
-import { connect } from 'react-redux';
-import { createPlace } from '../store/places';
 
 
-class GooglePlacesInput extends React.Component {
+export default class GooglePlacesInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,8 +24,15 @@ class GooglePlacesInput extends React.Component {
 
   onPressMapScreen = (data, details = null) => {
     if (details) {
-      this.props.region(details.geometry.location);
-      //console.log('details :', details);
+      const region = {
+        latitude: details.geometry.location.lat,
+        longitude: details.geometry.location.lng,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+        // latitudeDelta: details.geometry.viewport.northeast.lat - details.geometry.viewport.southwest.lat,
+        // longitudeDelta: details.geometry.viewport.northeast.lng - details.geometry.viewport.southwest.lng
+      };
+      this.props.region(region);
       this.props.city(details.formatted_address);
     }
   }
@@ -38,8 +42,7 @@ class GooglePlacesInput extends React.Component {
   }
 
   render() {
-    console.log(this.state.googlePlace.name);
-    const { lat, lng, type, users } = this.props;
+    const { lat, lng, type } = this.props;
     const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
     const { onPress } = this;
     return (
@@ -106,17 +109,3 @@ class GooglePlacesInput extends React.Component {
     );
   }
 }
-
-const mapState = ({ users }) => {
-  return {
-    users
-  };
-};
-
-const mapDispatch = dispatch => {
-  return {
-    createPlace: () => dispatch(createPlace())
-  };
-};
-
-export default connect(mapState, mapDispatch)(GooglePlacesInput);

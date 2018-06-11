@@ -38,16 +38,21 @@ const markerData = [
   },
 ];
 
+const LATITUDE = 40.7050758;
+const LONGITUDE = -74.00916039999998;
+const LATITUDEDELTA = 0.0922;
+const LONGITUDEDELTA = 0.0421;
+
 class MapScreen extends Component {
   constructor() {
     super();
     this.state = {
       mapLoaded: false,
       region: {
-        latitude: 40.7050758,
-        longitude: -74.00916039999998,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDEDELTA,
+        longitudeDelta: LONGITUDEDELTA
       },
       isBroadcasting: true,
       markers: [],
@@ -60,6 +65,18 @@ class MapScreen extends Component {
     this.setState({ mapLoaded: true });
     this.props.fetchUser();
     this.props.fetchPlans();
+  }
+
+  onRegionChange = (region) => {
+    this.setState({ region });
+  }
+
+  addToRegion = (region) => {
+    this.onRegionChange(region);
+  }
+
+  addToCity = (val) => {
+    this.setState({ city: val });
   }
 
   toggleBroadcastPlan = () => {
@@ -94,10 +111,6 @@ class MapScreen extends Component {
 
   openDrawer = () => {
     this.props.navigation.openDrawer();
-  }
-
-  onRegionChange = (region) => {
-    this.setState({ region });
   }
 
   renderMarkers = () => {
@@ -147,21 +160,6 @@ class MapScreen extends Component {
     }
   }
 
-  addToRegion = (obj) => {
-    this.setState({
-      region: {
-        latitude: obj.lat,
-        longitude: obj.lng,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      }
-    });
-  }
-
-  addToCity = (val) => {
-    this.setState({ city: val });
-  }
-
   renderCallButtonIcon = () => {
     if (this.state.isBroadcasting) {
       return (
@@ -180,7 +178,6 @@ class MapScreen extends Component {
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation, plans } = this.props;
-    console.log(plans)
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -196,7 +193,7 @@ class MapScreen extends Component {
             <GoogleSearch region={this.addToRegion} city={this.addToCity} type="(cities)" />
             <MapView
               style={{ flex: 1 }}
-              //initialRegion={initialRegion}
+              //initialRegion={region}
               region={region}
               provider={MapView.PROVIDER_GOOGLE}
               //customMapStyle={mapStyle}
@@ -206,8 +203,8 @@ class MapScreen extends Component {
               showsPointsOfInterest={true}
               showsBuildings={true}
               // onPoiClick={e => console.log(e.nativeEvent)}
-              onRegionChange={this.onRegionChange}
-            //onRegionChangeComplete={this.onRegionChangeComplete}
+              //onRegionChange={regions => this.onRegionChange(regions)}
+              onRegionChangeComplete={regions => this.onRegionChange(regions)}
             // onPress={ev => console.log(ev.nativeEvent)}
             >
               {this.renderMarkers()}
