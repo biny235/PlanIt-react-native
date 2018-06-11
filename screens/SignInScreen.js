@@ -81,7 +81,7 @@ class SignInScreen extends Component {
         <Content padder>
           <Image
           style={{alignSelf: 'center', width: 200, height: 120}}
-          source={require('../assets/PlanItLogo.png')}
+          source={require('../assets/Logo.png')}
         />
           <Form>
             <Item floatingLabel>
@@ -99,7 +99,7 @@ class SignInScreen extends Component {
                   name="email"
                   onChangeText={(email)=>onChange(email, "email")}
                   />
-              </Item>) 
+              </Item>)
               :
             null}
             <Item floatingLabel>
