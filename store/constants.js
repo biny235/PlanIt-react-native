@@ -16,12 +16,11 @@ export const CREATE_PLACE = 'CREATE_PLACE';
 export const UPDATE_PLACE = 'UPDATE_PLACE';
 export const DELETE_PLACE = 'DELETE_PLACE';
 
-/* Consts for Groups */
-export const GET_GROUPS = 'GET_GROUPS';
-export const CREATE_GROUP = 'CREATE_GROUP';
-export const UPDATE_GROUP = 'UPDATE_GROUP';
-export const DELETE_GROUP = 'DELETE_GROUP';
+/* Consts for Recommendations */
+export const GET_RECOMMENDATIONS = 'GET_RECCOMENDATIONS';
+export const ADD_RECOMMENDATION = 'ADD_RECCOMENDATION';
+export const DELETE_RECOMMENDATIONS = 'DELETE_RECCOMENDATIONS';
 
 /* FRIENDS */
-export const GET_PLANS = 'GET_PLANS'
-export const GET_FRIENDS = 'GET_FRIENDS'
+export const GET_PLANS = 'GET_PLANS';
+export const GET_FRIENDS = 'GET_FRIENDS';

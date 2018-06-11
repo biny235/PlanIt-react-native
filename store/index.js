@@ -6,6 +6,7 @@ import plans from './plans';
 import places from './places';
 import friendsPlans from './friendsPlans';
 import friends from './friends';
+import recommendations from './recommendations';
 
 const reducer = combineReducers({
   //auth,
@@ -13,8 +14,8 @@ const reducer = combineReducers({
   plans,
   places,
   friendsPlans,
-  friends
-  // groups,
+  friends,
+  recommendations
 });
 
 const store = createStore(

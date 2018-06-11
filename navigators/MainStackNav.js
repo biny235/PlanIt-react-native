@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import MainModalNav from './MainModalNav';
 import FriendsPlansScreen from '../screens/FriendsPlansScreen';
-import Suggest from '../screens/Suggest';
+import Suggest from '../screens/SuggestToFriendScreen';
 
 const MainStackNav = createStackNavigator({
   MainModal: {

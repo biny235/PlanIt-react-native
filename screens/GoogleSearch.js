@@ -20,6 +20,8 @@ export default class GooglePlacesInput extends React.Component {
         this.props.setLoc(details);
       }
     }
+<<<<<<< HEAD
+=======
   }
 
   onPressMapScreen = (data, details = null) => {
@@ -39,6 +41,7 @@ export default class GooglePlacesInput extends React.Component {
 
   showContainer = () => {
     console.log('showContainer');
+>>>>>>> b8179a85f28563ebef087a643eb39c94b4f7acd5
   }
 
   render() {
@@ -63,9 +66,13 @@ export default class GooglePlacesInput extends React.Component {
         }}
         onPress={(data, details) => {
           if (type === '(cities)'){
+<<<<<<< HEAD
+            console.log('Set City');
+=======
             this.onPressMapScreen(data, details); //set location of plan
+>>>>>>> b8179a85f28563ebef087a643eb39c94b4f7acd5
           } else {
-            onPress(data, details); //create place on plan
+            onPress(data, details);
           }
         }
         }
