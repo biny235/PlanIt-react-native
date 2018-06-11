@@ -38,16 +38,21 @@ const markerData = [
   },
 ];
 
+const LATITUDE = 40.7050758;
+const LONGITUDE = -74.00916039999998;
+const LATITUDEDELTA = 0.0922;
+const LONGITUDEDELTA = 0.0421;
+
 class MapScreen extends Component {
   constructor() {
     super();
     this.state = {
       mapLoaded: false,
       region: {
-        latitude: 40.7050758,
-        longitude: -74.00916039999998,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDEDELTA,
+        longitudeDelta: LONGITUDEDELTA
       },
       isBroadcasting: true,
       markers: [],
@@ -58,9 +63,20 @@ class MapScreen extends Component {
   componentDidMount() {
     // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
-    this.props.fetchUser()
-    this.props.fetchPlans()
-    //this.props.fetchPlan();
+    this.props.fetchUser();
+    this.props.fetchPlans();
+  }
+
+  onRegionChange = (region) => {
+    this.setState({ region });
+  }
+
+  addToRegion = (region) => {
+    this.onRegionChange(region);
+  }
+
+  addToCity = (val) => {
+    this.setState({ city: val });
   }
 
   toggleBroadcastPlan = () => {
@@ -97,10 +113,6 @@ class MapScreen extends Component {
     this.props.navigation.openDrawer();
   }
 
-  onRegionChangeComplete = (region) => {
-    this.setState({ region });
-  }
-
   renderMarkers = () => {
     if (!this.state.markers) {
       return;
@@ -121,37 +133,28 @@ class MapScreen extends Component {
   renderSearchInput = () => {
     if (this.state.isBroadcasting) {
       return (
-        <Header rounded searchBar>
+        <Header rounded searchBar style={{ backgroundColor: 'tomato' }}>
           <Left>
             <Button
               transparent
               onPress={this.openDrawer}
             >
-              <Icon name="menu" />
+              <Icon style={{ color: 'white' }} name="menu" />
             </Button>
           </Left>
-          <Item>
-            <Input placeholder="Where to..." />
-          </Item>
-          <Button small transparent>
-            <Text>Search</Text>
-          </Button>
         </Header>
       );
     } else {
       return (
-        <Header>
+        <Header style={{ backgroundColor: 'tomato' }}>
           <Left>
             <Button
               transparent
               onPress={this.openDrawer}
             >
-              <Icon name="menu" />
+              <Icon style={{ color: 'white' }} name="menu" />
             </Button>
           </Left>
-          <Button small rounded info>
-            <Icon active name="search" />
-          </Button>
         </Header>
       );
     }
@@ -170,11 +173,11 @@ class MapScreen extends Component {
   }
 
   render() {
-
+    //console.log('this.props :', this.props);
+    console.log('this.state :', this.state);
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation, plans } = this.props;
-    console.log(plans)
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -186,24 +189,26 @@ class MapScreen extends Component {
       <Container>
         {renderSearchInput()}
         <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-          <View style={{flex: 1}}>
-            <GoogleSearch type="(cities)" />
-          <MapView
-            style={{flex: 1}}
-            initialRegion={region}
-            provider={MapView.PROVIDER_GOOGLE}
-            // customMapStyle={mapStyle}
-            showsUserLocation={true}
-            followsUserLocation={true}
-            showsMyLocationButton={true}
-            showsPointsOfInterest={true}
-            showsBuildings={true}
-            // onPoiClick={e => console.log(e.nativeEvent)}
-            onRegionChangeComplete={this.onRegionChangeComplete}
+          <View style={{ flex: 1 }}>
+            <GoogleSearch region={this.addToRegion} city={this.addToCity} type="(cities)" />
+            <MapView
+              style={{ flex: 1 }}
+              //initialRegion={region}
+              region={region}
+              provider={MapView.PROVIDER_GOOGLE}
+              //customMapStyle={mapStyle}
+              showsUserLocation={true}
+              followsUserLocation={true}
+              showsMyLocationButton={true}
+              showsPointsOfInterest={true}
+              showsBuildings={true}
+              // onPoiClick={e => console.log(e.nativeEvent)}
+              //onRegionChange={regions => this.onRegionChange(regions)}
+              onRegionChangeComplete={regions => this.onRegionChange(regions)}
             // onPress={ev => console.log(ev.nativeEvent)}
             >
-            {this.renderMarkers()}
-          </MapView>
+              {this.renderMarkers()}
+            </MapView>
           </View>
         </Content>
         <Footer>

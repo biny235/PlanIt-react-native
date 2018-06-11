@@ -1,34 +1,53 @@
 import React from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 const config = require('../config');
-import { connect } from 'react-redux';
-import { createPlace } from '../store/places';
 
 
-class GooglePlacesInput extends React.Component {
+export default class GooglePlacesInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      googlePlace: {}
+      googlePlace: {},
+      region: {},
+      city: ''
     };
-    this.onPress = this.onPress.bind(this);
   }
 
-  onPress(data, details = null) {
+  onPress = (data, details = null) => {
     if (details) {
       this.setState({googlePlace: details});
       if (this.props.setLoc){
         this.props.setLoc(details);
       }
     }
+<<<<<<< HEAD
+=======
+  }
+
+  onPressMapScreen = (data, details = null) => {
+    if (details) {
+      const region = {
+        latitude: details.geometry.location.lat,
+        longitude: details.geometry.location.lng,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+        // latitudeDelta: details.geometry.viewport.northeast.lat - details.geometry.viewport.southwest.lat,
+        // longitudeDelta: details.geometry.viewport.northeast.lng - details.geometry.viewport.southwest.lng
+      };
+      this.props.region(region);
+      this.props.city(details.formatted_address);
+    }
+  }
+
+  showContainer = () => {
+    console.log('showContainer');
+>>>>>>> b8179a85f28563ebef087a643eb39c94b4f7acd5
   }
 
   render() {
-    console.log(this.state.googlePlace.name);
-    const { lat, lng, type, users } = this.props;
+    const { lat, lng, type } = this.props;
     const placeHolder = type === '(cities)' ? 'Enter a City' : 'Enter a Place';
     const { onPress } = this;
-    console.log('users', users.id);
     return (
       <GooglePlacesAutocomplete
         placeholder={placeHolder}
@@ -47,7 +66,11 @@ class GooglePlacesInput extends React.Component {
         }}
         onPress={(data, details) => {
           if (type === '(cities)'){
+<<<<<<< HEAD
             console.log('Set City');
+=======
+            this.onPressMapScreen(data, details); //set location of plan
+>>>>>>> b8179a85f28563ebef087a643eb39c94b4f7acd5
           } else {
             onPress(data, details);
           }
@@ -65,7 +88,7 @@ class GooglePlacesInput extends React.Component {
             elevation: 3,
             zIndex: 10
           },
-            container: {
+          container: {
             zIndex: 10,
             overflow: 'visible',
             height: 50,
@@ -93,17 +116,3 @@ class GooglePlacesInput extends React.Component {
     );
   }
 }
-
-const mapState = ({ users }) => {
-  return {
-    users
-  };
-};
-
-const mapDispatch = dispatch => {
-  return {
-    createPlace: () => dispatch(createPlace())
-  };
-};
-
-export default connect(mapState, mapDispatch)(GooglePlacesInput);
