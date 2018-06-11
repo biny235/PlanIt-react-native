@@ -38,10 +38,8 @@ class SuggestToFriendScreen extends Component {
     this.setState({ googleObject: obj });
   }
 
-  addRec(place) {
-    if (place) {
-      this.props.addRecommendationToStore(place);
-    }
+  addRec() {
+      this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, 1);
   }
 
   render() {
@@ -61,7 +59,7 @@ class SuggestToFriendScreen extends Component {
             initialRegion={region}
             provider={MapView.PROVIDER_GOOGLE}
           />
-          {this.state.googleObject && <Button block danger style={{ alignSelf: 'center', width: 200 }} onPress={() => this.addRec(this.state.googleObject)}><Text> Add Your Suggestion </Text></Button>}
+          {this.state.googleObject && <Button block danger style={{ alignSelf: 'center', width: 200 }} onPress={this.addRec}><Text> Add Your Suggestion </Text></Button>}
           <Text style={{ flex: 0.5 }} />
 
         </Content>
@@ -71,8 +69,9 @@ class SuggestToFriendScreen extends Component {
 }
 
 const mapState = ({ users, places }) => {
+  const userId = users.id;
   return {
-    users,
+    userId,
     places
   };
 };
@@ -80,7 +79,7 @@ const mapState = ({ users, places }) => {
 const mapDispatch = dispatch => {
   return {
     fetchPlaces: () => dispatch(fetchPlaces()),
-    addRecommendationToStore: () => dispatch(addRecommendationToStore())
+    addRecommendationToStore: (place, userId, planId) => dispatch(addRecommendationToStore(place, userId, planId))
   };
 };
 
