@@ -8,10 +8,6 @@ const LONGITUDEDELTA = 0.0117;
 
 export default class SuggestionDetailsScreen extends Component {
   render() {
-    // hardcoded data
-    // TODO: pass location!
-    const latitude = 40.702602314710816;
-    const longitude = -73.99322032928467;
     const data = this.props.navigation.getParam('data', {});
     return (
       <Container>
@@ -46,8 +42,8 @@ export default class SuggestionDetailsScreen extends Component {
                 <MapView
                   style={{ flex: 1, width: 'auto', height: 200 }}
                   region={{
-                    latitude,
-                    longitude,
+                    latitude: data.lat,
+                    longitude: data.lng,
                     latitudeDelta: LATITUDEDELTA,
                     longitudeDelta: LONGITUDEDELTA
                   }}
@@ -59,8 +55,8 @@ export default class SuggestionDetailsScreen extends Component {
                   <MapView.Marker
                     id={data.id}
                     coordinate={{
-                      latitude,
-                      longitude,
+                      latitude: data.lat,
+                      longitude: data.lng,
                     }}
                     title={data.name}
                     description=""
