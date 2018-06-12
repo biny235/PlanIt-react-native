@@ -1,5 +1,5 @@
 import call from './axiosFunc';
-import { GET_FRIENDS, GET_DETAILS , LOGOUT } from './constants';
+import { GET_FRIENDS, GET_DETAILS, ADD_FRIEND, LOGOUT } from './constants';
 import { fetchPlans } from './friendsPlans'
 
 
@@ -8,7 +8,6 @@ export const fetchFriends = () => {
     return call('get', '/api/user/friends')
       .then(res => res.data)
       .then(friends => {
-        console.log(friends)
         dispatch({type: GET_FRIENDS, friends});
         friends.forEach(friend => {
           dispatch(fetchPlans(friend.id))
@@ -16,6 +15,19 @@ export const fetchFriends = () => {
         })
       })
       .catch(err => console.log("***fetchFriends Err:", err))
+  }
+}
+
+export const addFriend = (email) => {
+  return dispatch => {
+    return call('post', '/api/user/friends', { email })
+      .then(res => res.data)
+      .then(friend => {
+        dispatch({type: ADD_FRIEND, friend})
+        dispatch(fetchFriendDetails(friend.id))
+        dispatch(fetchPlans(friend.id))
+      })
+      .catch(err => console.log(err))
   }
 }
 
@@ -31,6 +43,8 @@ const friends = (state = [], action) => {
   switch (action.type) {
     case GET_FRIENDS:
       return action.friends;
+    case ADD_FRIEND:
+      return [...state, action.friend]
     case GET_DETAILS:
       return state.map(friend => friend.id === action.friend.id ? action.friend : friend )
     case LOGOUT:

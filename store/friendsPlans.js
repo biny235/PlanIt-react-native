@@ -1,13 +1,12 @@
 import call from './axiosFunc';
-import { AsyncStorage } from 'react-native';
-import { GET_PLANS, LOGOUT, } from './constants';
+import { GET_FRIENDS_PLANS, LOGOUT } from './constants';
 
 export const fetchPlans = (id) => {
   return dispatch => {
     return call('get', `/api/user/${id}/plan`)
       .then(res => res.data)
       .then(plan => {
-        dispatch({ type: GET_PLANS, plan })
+        dispatch({ type: GET_FRIENDS_PLANS, plan })
       })
       .catch(err => console.log("***fetchFriendsPlans Err:", err))
   }
@@ -15,7 +14,7 @@ export const fetchPlans = (id) => {
 
 const friendsPlansReducer = (state = [], action) => {
   switch (action.type) {
-    case GET_PLANS:
+    case GET_FRIENDS_PLANS:
       return [...state, action.plan];
     case LOGOUT:
       return []

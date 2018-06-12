@@ -6,13 +6,8 @@ import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
-import { fetchPlans, fetchPlan } from '../store/plans';
+import { fetchPlan } from '../store/plans';
 import { fetchUser } from '../store/users';
-
-const larry = require('../assets/friends-thumbnails/larry.jpg');
-const moe = require('../assets/friends-thumbnails/curly.jpg');
-const curly = require('../assets/friends-thumbnails/moe.jpg');
-const friendIcons = [moe, curly, larry];
 
 const markerData = [
   {
@@ -61,10 +56,9 @@ class MapScreen extends Component {
 
 
   componentDidMount() {
-    // !this.users ? this.props.navigation.navigate('SignIn') : this.props.getPlan();
     this.setState({ mapLoaded: true });
-    this.props.fetchUser();
-    this.props.fetchPlans();
+    this.props.user && !this.props.users.id ? this.props.fetchUser() : null;
+    ! this.props.plan ? this.props.fetchPlan() : null;
   }
 
   onRegionChange = (region) => {
@@ -231,7 +225,7 @@ class MapScreen extends Component {
         <View style={styles.friendIcons}>
           <Button transparent onPress={() => navigation.navigate('FriendsPlans')}>
             {plansCount >= 1 ? <Thumbnail circle small source={{uri: friendsPlans[0].user.thumbnail}} style={{ zIndex: 30 }} /> : null }
-            {plansCount >= 2 ? <Thumbnail circle small source={{uri: friendsPlans[1].user.thumbnail}}style={{ marginLeft: -10, zIndex: 20 }} /> : null }
+            {plansCount >= 2 ? <Thumbnail circle small source={{uri: friendsPlans[1].user.thumbnail}} style={{ marginLeft: -10, zIndex: 20 }} /> : null }
             {plansCount >= 3 ? <Thumbnail circle small source={{uri: friendsPlans[2].user.thumbnail}} style={{ marginLeft: -10, zIndex: 10 }} /> : null }
             {plansCount > 3 ?
             <Badge style={{
@@ -319,7 +313,6 @@ const styles = {
 
 const mapStateToProps = ({ plans, users, friendsPlans }) => {
   const plansCount = friendsPlans.length
-  console.log(friendsPlans)
   return {
     users,
     plans,
@@ -331,8 +324,7 @@ const mapStateToProps = ({ plans, users, friendsPlans }) => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUser: () => dispatch(fetchUser()),
-    fetchPlans: () => dispatch(fetchPlans()),
-    //fetchPlan: () => dispatch(fetchPlan())
+    fetchPlan: () => dispatch(fetchPlan())
   };
 }
 

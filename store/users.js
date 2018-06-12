@@ -21,7 +21,6 @@ export const authenticate = (credentials) => {
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token);
-        dispatch(fetchUser());
         return token;
       });
   };
@@ -33,7 +32,6 @@ export const register = (credentials) => {
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token);
-        dispatch(fetchUser());
         return token;
       });
   };
@@ -41,9 +39,8 @@ export const register = (credentials) => {
 
 export const logout = () => {
   return (dispatch) => {
-    AsyncStorage.removeItem('token')
-      .then(() => dispatch({ type: LOGOUT }))
-      .catch(err => console.log(err));
+    AsyncStorage.removeItem('token');
+    dispatch({ type: LOGOUT });
   };
 };
 
