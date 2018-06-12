@@ -75,10 +75,12 @@ class MapScreen extends Component {
   }
 
   toggleBroadcastPlan = () => {
+    if (!this.state.city) {
+      alert('Please search where you want');
+      return;
+    }
     const isBroadcasting = !this.state.isBroadcasting;
-    this.setState({ isBroadcasting: isBroadcasting });
-    console.log('this. :', isBroadcasting);
-    if (!isBroadcasting) {
+    if (!isBroadcasting && this.props.plans)  {
       const plan = {
         city: this.state.city,
         lat: this.state.region.latitude,
@@ -86,7 +88,11 @@ class MapScreen extends Component {
         id: this.props.plans.id
       };
       this.props.updatePlan(plan);
+    } else if (!this.props.plans) {
+      alert('Please add a plan');
+      return;
     }
+    this.setState({ isBroadcasting: isBroadcasting });
     this.simulateFriendsRecommending();
   }
 
