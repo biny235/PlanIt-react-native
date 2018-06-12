@@ -1,26 +1,26 @@
 import React from 'react';
 import { Left, Thumbnail, Container, Content, List, ListItem, Body, Right, Icon, Text } from 'native-base';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
 
 class FriendsPlansScreen extends React.Component {
-  getIcon(category){
-    switch(category){
+  getIcon(category) {
+    switch (category) {
       case 'Restaurants':
-        return 'cutlery'
+        return 'cutlery';
       case 'Hotels':
-        return 'bed'
+        return 'bed';
       default:
-      return 'map-marker'
+        return 'map-marker';
     }
   }
   render() {
-    const {friendsPlans} = this.props
+    const { friendsPlans } = this.props
     return (
       <Container>
         <Content>
           <List>
             {friendsPlans.map(plan => (
-              <ListItem avatar key={plan.id} onPress={()=> this.props.navigation.navigate('Suggest', {plan})}>
+              <ListItem avatar key={plan.id} onPress={() => this.props.navigation.navigate('Suggest', { plan })}>
                 <Left>
                   <Thumbnail small source={{ uri: plan.user.thumbnail }} />
                 </Left>
@@ -30,7 +30,7 @@ class FriendsPlansScreen extends React.Component {
                   <Text note>{`${plan.date} ${plan.time}`}</Text>
                 </Body>
                 <Right>
-                  <Icon type="FontAwesome" name={this.getIcon(plan.category)}/>
+                  <Icon type="FontAwesome" name={this.getIcon(plan.category)} />
                 </Right>
               </ListItem>
             ))}
@@ -41,12 +41,12 @@ class FriendsPlansScreen extends React.Component {
   }
 }
 
-const mapStateToProps = ({friends, friendsPlans})=>{
-  return{
+const mapStateToProps = ({ friends, friendsPlans }) => {
+  return {
     friends,
     friendsPlans
-  }
-}
+  };
+};
 
 
 export default connect(mapStateToProps)(FriendsPlansScreen)
