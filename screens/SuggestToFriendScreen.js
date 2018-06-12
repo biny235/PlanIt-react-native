@@ -39,7 +39,8 @@ class SuggestToFriendScreen extends Component {
   }
 
   addRec() {
-      this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, 1); //passing in hardcoded planId for testing
+    console.log('This Plan: ' + Object.keys(this.props.navigation.state.params.plan));
+      this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id); //passing in hardcoded planId for testing
   }
 
   render() {
@@ -72,7 +73,7 @@ const mapState = ({ users, places }) => {
   const userId = users.id;
   return {
     userId,
-    places
+    places,
   };
 };
 
