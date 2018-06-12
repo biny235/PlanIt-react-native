@@ -9,7 +9,6 @@ export const authenticate = (credentials) => {
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token);
-        dispatch(fetchUser());
         return token;
       });
   };
@@ -21,7 +20,6 @@ export const register = ( credentials ) => {
       .then(res => res.data)
       .then(token => {
         AsyncStorage.setItem('token', token);
-        dispatch(fetchUser());
         return token;
       })
   }
