@@ -9,6 +9,30 @@ import MapView from 'react-native-maps';
 import { fetchPlan } from '../store/plans';
 import { fetchUser } from '../store/users';
 
+const markerData = [
+  {
+    name: 'Balthazar',
+    lat: 40.7226241814105,
+    lng: -73.99817168712616,
+    place_id: 'ChIJt7fMLIlZwokRCRtM9bNDg78',
+    details: 'Pricey but the raw red meat is great.',
+  },
+  {
+    name: "Grimaldi's Pizza",
+    lat: 40.702602314710816,
+    lng: -73.99322032928467,
+    place_id: 'ChIJgzfayTBawokR9jTsF6hLf40',
+    details: 'Homemade mozzarella cheese and beautiful view.',
+  },
+  {
+    name: 'Terri',
+    lat: 40.70661306619307,
+    lng: -74.00703504681587,
+    place_id: 'ChIJzcIh0hdawokR59-X8e5i4bk',
+    details: 'Vegan delight.',
+  },
+];
+
 const LATITUDE = 40.7050758;
 const LONGITUDE = -74.00916039999998;
 const LATITUDEDELTA = 0.0922;
@@ -33,9 +57,8 @@ class MapScreen extends Component {
 
   componentDidMount() {
     this.setState({ mapLoaded: true });
-    console.log(`Not this.props.users? ${!this.props.users}`)
-    this.props.users && !this.props.users.id ? this.props.fetchUser() : null;
-    !this.props.plan ? this.props.fetchPlan() : null;
+    this.props.user && !this.props.users.id ? this.props.fetchUser() : null;
+    ! this.props.plan ? this.props.fetchPlan() : null;
   }
 
   onRegionChange = (region) => {
@@ -231,7 +254,7 @@ class MapScreen extends Component {
         <View style={styles.suggestPressView}>
           <Button
             style={styles.pressAreaBtn}
-            onPress={() => navigation.navigate('Suggestions')}
+            onPress={() => pnavigation.navigate('Suggestions')}
           />
         </View>
       </Container>
@@ -289,7 +312,6 @@ const styles = {
 };
 
 const mapStateToProps = ({ plans, users, friendsPlans }) => {
-  console.log(users)
   const plansCount = friendsPlans.length
   return {
     users,

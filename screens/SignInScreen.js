@@ -132,8 +132,8 @@ class SignInScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ users }) =>{
-
+const mapStateToProps = (state) =>{
+  const {users} = state
   return {
     users
   }

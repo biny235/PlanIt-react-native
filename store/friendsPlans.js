@@ -1,5 +1,5 @@
 import call from './axiosFunc';
-import { GET_FRIENDS_PLANS, LOGOUT} from './constants';
+import { GET_FRIENDS_PLANS, LOGOUT } from './constants';
 
 export const fetchPlans = (id) => {
   return dispatch => {
