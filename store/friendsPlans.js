@@ -1,6 +1,5 @@
 import call from './axiosFunc';
-import { AsyncStorage } from 'react-native';
-import { GET_PLANS, LOGOUT, } from './constants';
+import { GET_PLANS, LOGOUT} from './constants';
 
 export const fetchPlans = (id) => {
   return dispatch => {

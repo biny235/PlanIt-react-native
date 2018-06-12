@@ -10,7 +10,7 @@ const FriendsList = (props) => {
           {props.friends && props.friends.map(friend => (
             <ListItem avatar key={friend.id}>
               <Left>
-                <Thumbnail source={{ uri: friend.thumbnail }} />
+                <Thumbnail small source={{ uri: friend.thumbnail }} />
               </Left>
               <Body>
                 <Text>{friend.username}</Text>

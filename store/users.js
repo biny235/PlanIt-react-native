@@ -42,9 +42,7 @@ export const fetchUser = () => {
 export const logout = () => {
   return (dispatch) => {
     AsyncStorage.removeItem('token')
-      .then(()=> dispatch({ type: LOGOUT }))
-      .catch(err => console.log(err));
-
+    dispatch({ type: LOGOUT })
   }
 
 }
