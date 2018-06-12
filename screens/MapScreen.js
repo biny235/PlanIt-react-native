@@ -63,6 +63,7 @@ class MapScreen extends Component {
   }
 
   onRegionChange = (region) => {
+    console.log(region)
     this.setState({ region });
   }
 
@@ -213,7 +214,7 @@ class MapScreen extends Component {
               // onPoiClick={e => console.log(e.nativeEvent)}
               //onRegionChange={regions => this.onRegionChange(regions)}
               onRegionChangeComplete={regions => this.onRegionChange(regions)}
-            // onPress={ev => console.log(ev.nativeEvent)}
+            onPress={ev => console.log(ev.nativeEvent)}
             >
               {this.renderMarkers()}
             </MapView>

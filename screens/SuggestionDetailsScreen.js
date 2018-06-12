@@ -1,26 +1,29 @@
 import React, {Component} from 'react';
-import { Text } from 'react-native';
-import { Container, Content, Header, Left, Body, Right, Icon, Button } from 'native-base';
+import { Text, View } from 'react-native';
+import { Container, Content, Header, H1, Left, Body, Right, Icon, Button, Card, CardItem, Thumbnail } from 'native-base';
+import MapView from 'react-native-maps';
+
+const LATITUDEDELTA = 0.0132;
+const LONGITUDEDELTA = 0.0117;
 
 export default class SuggestionDetailsScreen extends Component {
-  constructor() {
-    super();
-    this.state = {
-      plans: []
-    };
-  }
   render() {
+    // hardcoded data
+    // TODO: pass location!
+    const latitude = 40.702602314710816;
+    const longitude = -73.99322032928467;
+    const data = this.props.navigation.getParam('data', {});
     return (
       <Container>
         <Header style={{ backgroundColor: 'tomato' }}>
           <Left />
           <Body>
-            <Text style={styles.title}>Larry Suggests</Text>
+            <Text style={styles.title}>{data.friend} Suggests</Text>
           </Body>
           <Right>
             <Button
               transparent
-              onPress={() => this.props.navigation.navigate('Map')}
+              onPress={() => this.props.navigation.pop()}
             >
               <Icon
                 type="Ionicons"
@@ -30,11 +33,55 @@ export default class SuggestionDetailsScreen extends Component {
             </Button>
           </Right>
         </Header>
-        <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
-          <Text>Details</Text>
+        <Content padder contentContainerStyle={{}}>
+          <Card style={{flex: 0}}>
+            <CardItem>
+              <Body>
+                <H1>{data.name}</H1>
+                <Text>{data.city}, {data.state}</Text>
+              </Body>
+            </CardItem>
+            <CardItem>
+              <View style={{ flex: 1 }}>
+                <MapView
+                  style={{ flex: 1, width: 'auto', height: 200 }}
+                  region={{
+                    latitude,
+                    longitude,
+                    latitudeDelta: LATITUDEDELTA,
+                    longitudeDelta: LONGITUDEDELTA
+                  }}
+                  provider={MapView.PROVIDER_GOOGLE}
+                  followsUserLocation={true}
+                  showsMyLocationButton={true}
+                  showsBuildings={true}
+                >
+                  <MapView.Marker
+                    id={data.id}
+                    coordinate={{
+                      latitude,
+                      longitude,
+                    }}
+                    title={data.name}
+                    description=""
+                  />
+                </MapView>
+              </View>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Thumbnail source={data.friendIcon} />
+                <Body>
+                  <Text note style={{fontSize: 12, color: '#616161'}}>According to {data.friend}</Text>
+                  <Text note>"{data.comment}"</Text>
+                </Body>
+              </Left>
+            </CardItem>
+            <CardItem />
+          </Card>
           <Button
             transparent
-            onPress={() => this.props.navigation.navigate('Suggestions')}
+            onPress={() => this.props.navigation.goBack()}
             style={styles.closeWinTextView}
           >
             <Text style={styles.closeWinText}>Close window</Text>
