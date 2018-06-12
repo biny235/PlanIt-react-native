@@ -1,8 +1,9 @@
-import { GET_PLAN, CREATE_PLAN, DELETE_PLAN, LOGOUT } from './constants';
+import { GET_PLAN, CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN, LOGOUT } from './constants';
 import call from './axiosFunc';
 
 // Action Creators
 const planCreate = plan => ({ type: CREATE_PLAN, plan });
+const planUpdate = plan => ({ type: UPDATE_PLAN, plan });
 const getPlan = plans => ({ type: GET_PLAN, plans });
 const removePlan = plan => ({ type: DELETE_PLAN, plan });
 
@@ -27,6 +28,16 @@ export const createPlan = plan => async dispatch => {
   }
 };
 
+export const updatePlan = plan => async dispatch => {
+  try {
+    const res = await call('put', `/api/user/plan/${plan.id}`, plan);
+    const planData = await res.data;
+    dispatch(planUpdate(planData));
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
 export const deletePlan = (plan) => async dispatch => {
   try {
     await call('delete', `/user/plan/${plan.id}`);
@@ -42,8 +53,10 @@ const planReducer = (state = {}, action) => {
       return action.plans;
     case CREATE_PLAN:
       return action.plan;
+    case UPDATE_PLAN:
+      return action.plan;
     case DELETE_PLAN:
-      return state.filter(plan => plan.id !== action.plan.id);
+      return {};
     case LOGOUT:
       return {};
     default:

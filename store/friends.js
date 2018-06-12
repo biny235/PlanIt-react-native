@@ -8,7 +8,7 @@ export const fetchFriends = () => {
     return call('get', '/api/user/friends')
       .then(res => res.data)
       .then(friends => {
-        dispatch({type: GET_FRIENDS, friends});
+        dispatch({ type: GET_FRIENDS, friends });
         friends.forEach(friend => {
           dispatch(fetchPlans(friend.id))
           dispatch(fetchFriendDetails(friend.id))
@@ -23,7 +23,7 @@ export const addFriend = (email) => {
     return call('post', '/api/user/friends', { email })
       .then(res => res.data)
       .then(friend => {
-        dispatch({type: ADD_FRIEND, friend})
+        dispatch({ type: ADD_FRIEND, friend })
         dispatch(fetchFriendDetails(friend.id))
         dispatch(fetchPlans(friend.id))
       })
@@ -31,11 +31,11 @@ export const addFriend = (email) => {
   }
 }
 
-export const fetchFriendDetails = (id) =>{
+export const fetchFriendDetails = (id) => {
   return dispatch => {
     return call('get', `/api/user/${id}`)
       .then(res => res.data)
-      .then(friend => dispatch({type: GET_DETAILS, friend}))
+      .then(friend => dispatch({ type: GET_DETAILS, friend }))
   }
 }
 
@@ -44,11 +44,11 @@ const friends = (state = [], action) => {
     case GET_FRIENDS:
       return action.friends;
     case ADD_FRIEND:
-      return [...state, action.friend]
+      return [...state, action.friend];
     case GET_DETAILS:
-      return state.map(friend => friend.id === action.friend.id ? action.friend : friend )
+      return state.map(friend => friend.id === action.friend.id ? action.friend : friend);
     case LOGOUT:
-      return []
+      return [];
     default:
       return state;
   }

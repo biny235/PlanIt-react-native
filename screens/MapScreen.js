@@ -6,7 +6,7 @@ import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
-import { fetchPlan } from '../store/plans';
+import { fetchPlan, updatePlan } from '../store/plans';
 import { fetchUser } from '../store/users';
 
 const markerData = [
@@ -57,8 +57,9 @@ class MapScreen extends Component {
 
   componentDidMount() {
     this.setState({ mapLoaded: true });
-    this.props.user && !this.props.users.id ? this.props.fetchUser() : null;
-    ! this.props.plan ? this.props.fetchPlan() : null;
+    //this.props.user && !this.props.users.id ? this.props.fetchUser() : null;
+    !this.props.plan ? this.props.fetchPlan() : null;
+    this.props.fetchUser();
   }
 
   onRegionChange = (region) => {
@@ -76,8 +77,15 @@ class MapScreen extends Component {
   toggleBroadcastPlan = () => {
     const isBroadcasting = !this.state.isBroadcasting;
     this.setState({ isBroadcasting: isBroadcasting });
-    if (isBroadcasting) {
-      //isBroadcasting = true;
+    console.log('this. :', isBroadcasting);
+    if (!isBroadcasting) {
+      const plan = {
+        city: this.state.city,
+        lat: this.state.region.latitude,
+        lng: this.state.region.longitude,
+        id: this.props.plans.id
+      };
+      this.props.updatePlan(plan);
     }
     this.simulateFriendsRecommending();
   }
@@ -167,6 +175,8 @@ class MapScreen extends Component {
   }
 
   render() {
+    // console.log('this.props :', this.props);
+    // console.log('this.state :', this.state);
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
@@ -312,7 +322,7 @@ const styles = {
 };
 
 const mapStateToProps = ({ plans, users, friendsPlans }) => {
-  const plansCount = friendsPlans.length
+  const plansCount = friendsPlans.length;
   return {
     users,
     plans,
@@ -324,7 +334,8 @@ const mapStateToProps = ({ plans, users, friendsPlans }) => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUser: () => dispatch(fetchUser()),
-    fetchPlan: () => dispatch(fetchPlan())
+    fetchPlan: () => dispatch(fetchPlan()),
+    updatePlan: (plan) => dispatch(updatePlan(plan))
   };
 }
 

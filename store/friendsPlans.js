@@ -17,7 +17,7 @@ const friendsPlansReducer = (state = [], action) => {
     case GET_FRIENDS_PLANS:
       return [...state, action.plan];
     case LOGOUT:
-      return []
+      return [];
     default:
       return state;
   }
