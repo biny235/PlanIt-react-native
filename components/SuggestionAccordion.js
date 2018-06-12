@@ -37,7 +37,7 @@ class SuggestionAccordion extends Component {
             rounded
             bordered
             style={{}}
-            onPress={() => navigation.navigate('SuggestionDetails')}
+            onPress={() => navigation.navigate('SuggestionDetails', { data: section })}
           >
             <Icon
               style={{}}
