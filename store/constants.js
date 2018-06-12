@@ -25,3 +25,4 @@ export const DELETE_RECOMMENDATIONS = 'DELETE_RECCOMENDATIONS';
 export const GET_PLANS = 'GET_PLANS';
 export const GET_FRIENDS = 'GET_FRIENDS';
 export const GET_DETAILS = 'GET_DETAILS';
+export const ADD_FRIEND = 'ADD_FRIEND';

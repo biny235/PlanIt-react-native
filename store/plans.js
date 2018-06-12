@@ -1,4 +1,4 @@
-import { GET_PLAN, CREATE_PLAN, DELETE_PLAN } from './constants';
+import { GET_PLAN, CREATE_PLAN, DELETE_PLAN, LOGOUT } from './constants';
 import call from './axiosFunc';
 
 // Action Creators
@@ -7,7 +7,7 @@ const getPlan = plans => ({ type: GET_PLAN, plans });
 const removePlan = plan => ({ type: DELETE_PLAN, plan });
 
 // Thunks
-export const fetchPlans = () => async dispatch => {
+export const fetchPlan = () => async dispatch => {
   try {
     const res = await call('get', '/api/user/plan');
     const planData = await res.data;
@@ -66,9 +66,11 @@ const planReducer = (state = {}, action) => {
     case GET_PLAN:
       return action.plans;
     case CREATE_PLAN:
-      return [...state, action.plan];
+      return action.plan;
     case DELETE_PLAN:
       return state.filter(plan => plan.id !== action.plan.id);
+    case LOGOUT:
+      return {}
     default:
       return state;
   }

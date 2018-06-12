@@ -54,6 +54,14 @@ const Friends = createStackNavigator(
         </Button>
       ),
       title: 'Friends',
+      headerRight: (
+        <Button
+          transparent
+          onPress={() => navigation.navigate('AddFriend')}
+        >
+          <Icon name="md-person-add" />
+        </Button>
+      )
     })
   }
 );
