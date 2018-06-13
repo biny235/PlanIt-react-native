@@ -30,20 +30,28 @@ class SuggestToFriendScreen extends Component {
         longitudeDelta: 0.0421
       }
     };
-    this.addToState = this.addToState.bind(this);
-    this.addRec = this.addRec.bind(this);
   }
 
-  addToState(obj) {
+  addToState = (obj) => {
     this.setState({ googleObject: obj });
   }
 
-  addRec() {
+  addRec = () => {
     console.log('This Plan: ' + Object.keys(this.props.navigation.state.params.plan));
       this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id); //passing in hardcoded planId for testing
   }
 
+  onRegionChange = (region) => {
+    this.setState({ region });
+  }
+
+  addToRegion = (region) => {
+    this.onRegionChange(region);
+  }
+
   render() {
+
+    console.log('navigation', this.props.navigation.state.params.plan.lng);
     const { region } = this.state;
     return (
       <Container>
@@ -54,13 +62,15 @@ class SuggestToFriendScreen extends Component {
         />
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
-          <GoogleSearch setLoc={this.addToState} lat={chicago.lat} lng={chicago.lng} type="establishment" />
+          <GoogleSearch region={this.addToRegion} setLoc={this.addToState} lat={chicago.lat} lng={chicago.lng} type="establishment" />
           <MapView
             style={{ flex: 2, width: 370, marginBottom: 60 }}
-            initialRegion={region}
+            //initialRegion={region}
+            region={region}
             provider={MapView.PROVIDER_GOOGLE}
+            onRegionChangeComplete={regions => this.onRegionChange(regions)}
           />
-          {this.state.googleObject && <Button block danger style={{ alignSelf: 'center', width: 200 }} onPress={this.addRec}><Text> Add Your Suggestion </Text></Button>}
+          {this.state.googleObject && <Button block style={{ alignSelf: 'center', width: 200 }} onPress={this.addRec}><Text> Add Your Suggestion </Text></Button>}
           <Text style={{ flex: 0.5 }} />
 
         </Content>
