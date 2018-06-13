@@ -1,4 +1,4 @@
-import { GET_PLAN, CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN, LOGOUT } from './constants';
+import { GET_PLAN, CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN, LOGOUT, NEW_RECOMMENDATION } from './constants';
 import call from './axiosFunc';
 
 // Action Creators
@@ -32,11 +32,18 @@ export const updatePlan = plan => async dispatch => {
   try {
     const res = await call('put', `/api/user/plan/${plan.id}`, plan);
     const planData = await res.data;
+    socket.emit('broadcasting', planData)
     dispatch(planUpdate(planData));
   } catch (error) {
     console.warn(error);
   }
 };
+
+export const newRecommendation = recommendation => {
+  return dispatch => {
+    dispatch({type: NEW_RECOMMENDATION, recommendation})
+  }
+}
 
 export const deletePlan = (plan) => async dispatch => {
   try {
@@ -57,6 +64,8 @@ const planReducer = (state = {}, action) => {
       return action.plan;
     case DELETE_PLAN:
       return {};
+    case NEW_RECOMMENDATION:
+      return Object.assign({}, state, { places: [...state.places, action.recommendation] })
     case LOGOUT:
       return {};
     default:

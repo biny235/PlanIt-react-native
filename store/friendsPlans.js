@@ -1,5 +1,5 @@
 import call from './axiosFunc';
-import { GET_FRIENDS_PLANS, LOGOUT } from './constants';
+import { GET_FRIENDS_PLANS, NEW_BROADCAST, LOGOUT } from './constants';
 
 export const fetchPlans = (id) => {
   return dispatch => {
@@ -12,10 +12,18 @@ export const fetchPlans = (id) => {
   }
 }
 
+export const checkBroadcasts = ( plan ) => {
+  return dispatch => {
+    dispatch({ type: NEW_BROADCAST, plan})
+  }
+}
+
 const friendsPlansReducer = (state = [], action) => {
   switch (action.type) {
     case GET_FRIENDS_PLANS:
       return [...state, action.plan];
+    case NEW_BROADCAST:
+      return state.map(plan => plan.id === action.plan.id ? action.plan : plan)
     case LOGOUT:
       return [];
     default:
