@@ -9,9 +9,7 @@ const setHeader = async () => {
 };
 
 const call = async (type, link, body) => {
-  if (!axios.defaults.headers.common.token) {
-    await setHeader();
-  }
+  await setHeader();
   return axios[type](`${local}${link}`, body);
 };
 

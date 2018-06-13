@@ -7,9 +7,9 @@ import places from './places';
 import friendsPlans from './friendsPlans';
 import friends from './friends';
 import recommendations from './recommendations';
+import socket from './socket'
 
 const reducer = combineReducers({
-  //auth,
   users,
   plans,
   places,
@@ -20,7 +20,7 @@ const reducer = combineReducers({
 
 const store = createStore(
   reducer,
-  applyMiddleware(thunk, logger)
+  applyMiddleware(thunk)
 );
 
 export default store;
