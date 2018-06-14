@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, ActivityIndicator, AsyncStorage, Image } from 'react-native';
 import { connect } from 'react-redux';
 import GoogleSearch from './GoogleSearch';
-import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
+import { Container, Content, Header, Left, Text, Item, Body, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
@@ -149,38 +149,28 @@ class MapScreen extends Component {
     });
   }
 
-  renderSearchInput = () => {
-    if (this.state.isBroadcasting) {
-      return (
-        <Header rounded searchBar style={{ backgroundColor: 'tomato' }}>
-          <Left>
-            <Button
-              transparent
-              onPress={this.openDrawer}
-            >
-              <Icon style={{ color: 'white' }} name="menu" />
-            </Button>
-          </Left>
+  renderHeader = () => {
+    return (
+      <Header rounded searchBar style={{ backgroundColor: 'tomato' }}>
+        <Left>
+          <Button
+            transparent
+            onPress={this.openDrawer}
+          >
+            <Icon style={{ color: 'white' }} name="menu" />
+          </Button>
+        </Left>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
           <Image
-            style={{ width: 150, height: 70 }}
+            style={{ alignSelf: 'center', width: 150, height: 70 , marginRight: 100}}
             source={require('../assets/headerLogo.png')}
           />
-        </Header>
-      );
-    } else {
-      return (
-        <Header style={{ backgroundColor: 'tomato' }}>
-          <Left>
-            <Button
-              transparent
-              onPress={this.openDrawer}
-            >
-              <Icon style={{ color: 'white' }} name="menu" />
-            </Button>
-          </Left>
-        </Header>
-      );
-    }
+        </View>
+      </Header>
+    );
   }
 
   renderCallButtonIcon = () => {
@@ -197,7 +187,7 @@ class MapScreen extends Component {
 
   render() {
     const { mapLoaded, region, markers } = this.state;
-    const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
+    const { toggleBroadcastPlan, renderHeader, renderScreen } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
     if (!mapLoaded) {
       return (
@@ -208,7 +198,7 @@ class MapScreen extends Component {
     }
     return (
       <Container>
-        {renderSearchInput()}
+        {renderHeader()}
         <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
           <View style={{ flex: 1 }}>
             <GoogleSearch region={this.addToRegion} city={this.addToCity} type="(cities)" />
