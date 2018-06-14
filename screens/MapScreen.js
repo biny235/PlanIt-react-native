@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, AsyncStorage } from 'react-native';
+import { View, ActivityIndicator, AsyncStorage, Image } from 'react-native';
 import { connect } from 'react-redux';
 import GoogleSearch from './GoogleSearch';
 import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
@@ -80,7 +80,7 @@ class MapScreen extends Component {
       return;
     }
     const isBroadcasting = !this.state.isBroadcasting;
-    if (!isBroadcasting && this.props.plans)  {
+    if (!isBroadcasting && this.props.plans) {
       const plan = {
         city: this.state.city,
         lat: this.state.region.latitude,
@@ -150,6 +150,10 @@ class MapScreen extends Component {
               <Icon style={{ color: 'white' }} name="menu" />
             </Button>
           </Left>
+          <Image
+            style={{ width: 150, height: 70 }}
+            source={require('../assets/headerLogo.png')}
+          />
         </Header>
       );
     } else {
@@ -181,8 +185,6 @@ class MapScreen extends Component {
   }
 
   render() {
-    // console.log('this.props :', this.props);
-    // console.log('this.state :', this.state);
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
@@ -240,16 +242,16 @@ class MapScreen extends Component {
         </Footer>
         <View style={styles.friendIcons}>
           <Button transparent onPress={() => navigation.navigate('FriendsPlans')}>
-            {plansCount >= 1 ? <Thumbnail circle small source={{uri: friendsPlans[0].user.thumbnail}} style={{ zIndex: 30 }} /> : null }
-            {plansCount >= 2 ? <Thumbnail circle small source={{uri: friendsPlans[1].user.thumbnail}} style={{ marginLeft: -10, zIndex: 20 }} /> : null }
-            {plansCount >= 3 ? <Thumbnail circle small source={{uri: friendsPlans[2].user.thumbnail}} style={{ marginLeft: -10, zIndex: 10 }} /> : null }
+            {plansCount >= 1 ? <Thumbnail circle small source={{ uri: friendsPlans[0].user.thumbnail }} style={{ zIndex: 30 }} /> : null}
+            {plansCount >= 2 ? <Thumbnail circle small source={{ uri: friendsPlans[1].user.thumbnail }} style={{ marginLeft: -10, zIndex: 20 }} /> : null}
+            {plansCount >= 3 ? <Thumbnail circle small source={{ uri: friendsPlans[2].user.thumbnail }} style={{ marginLeft: -10, zIndex: 10 }} /> : null}
             {plansCount > 3 ?
-            <Badge style={{
-              marginLeft: -12, marginTop: -12, zIndex: 40,
-              transform: [{ scale: 0.7 }]
-            }}><Text style={{}}>{plansCount}</Text></Badge>
-            : null
-          }
+              <Badge style={{
+                marginLeft: -12, marginTop: -12, zIndex: 40,
+                transform: [{ scale: 0.7 }]
+              }}><Text style={{}}>{plansCount}</Text></Badge>
+              : null
+            }
           </Button>
         </View>
         <View style={styles.buttonContainer}>
@@ -258,7 +260,10 @@ class MapScreen extends Component {
             style={styles.planCallButton}
             onPress={toggleBroadcastPlan}
           >
-            {this.renderCallButtonIcon()}
+            <Image
+              style={{ width: 80, height: 80 }}
+              source={require('../assets/broadcast.png')}
+            />
           </Button>
         </View>
         <View style={styles.planDetailPressView}>
@@ -301,7 +306,7 @@ const styles = {
   planCallButton: {
     width: 80,
     height: 80,
-    backgroundColor: 'tomato',
+    backgroundColor: 'white',
     alignSelf: 'center',
   },
   planCallIcon: {
