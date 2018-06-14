@@ -38,7 +38,8 @@ class SuggestToFriendScreen extends Component {
   }
 
   addRec = () => {
-    console.log('This Plan: ' + Object.keys(this.props.navigation.state.params.plan));
+    // console.log('This Plan: ' + Object.keys(this.props.navigation.state.params.plan));
+
     this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id); //passing in hardcoded planId for testing
   }
 
@@ -48,35 +49,15 @@ class SuggestToFriendScreen extends Component {
 
   addToRegion = (region) => {
     this.onRegionChange(region);
-    this.addMarker();
-
-  }
-
-  addMarker = () => {
     this.setState({ marker: true });
-    return (
-      <MapView.Marker
-        id={1}
-        coordinate={{
-          latitude: this.state.region.latitude,
-          longitude: this.state.region.longitude
-        }}
-        //title={data.name}
-        description=""
-      />
-    );
   }
 
   render() {
-
+    console.log('this.state :', this.state);
     console.log('navigation', this.props.navigation.state);
     const { region } = this.state;
     return (
       <Container>
-        <Image
-          style={{ alignSelf: 'center', width: 150, height: 100 }}
-          source={require('../assets/Logo.png')}
-        />F
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
           <GoogleSearch region={this.addToRegion} setLoc={this.addToState} lat={chicago.lat} lng={chicago.lng} type="establishment" />
