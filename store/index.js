@@ -18,8 +18,14 @@ const reducer = combineReducers({
   recommendations
 });
 
-socket.on('newBroadcast', broadcast => store.dispatch({ type: NEW_BROADCAST, broadcast}))
-socket.on('newRecommendation', recommendation => store.dispatch({ type: NEW_RECOMMENDATION, recommendation }))
+socket.on('newBroadcast', broadcast => {
+  console.log(broadcast)
+  store.dispatch({ type: NEW_BROADCAST, broadcast})
+})
+socket.on('newRecommendation', recommendation => {
+  console.log(recommendation)
+  store.dispatch({ type: NEW_RECOMMENDATION, recommendation })
+})
 
 const store = createStore(
   reducer,
