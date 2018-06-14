@@ -52,12 +52,13 @@ class MapScreen extends Component {
       isBroadcasting: true,
       markers: [],
     };
+    
   }
 
 
   componentDidMount() {
     this.setState({ mapLoaded: true });
-    //this.props.user && !this.props.users.id ? this.props.fetchUser() : null;
+    // this.props.user && !this.props.users.id ? this.props.fetchUser() : null;
     !this.props.plan ? this.props.fetchPlan() : null;
     this.props.fetchUser();
   }
@@ -195,8 +196,6 @@ class MapScreen extends Component {
   }
 
   render() {
-    // console.log('this.props :', this.props);
-    // console.log('this.state :', this.state);
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderSearchInput, renderScreen } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
@@ -341,8 +340,9 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ plans, users, friendsPlans }) => {
-  const plansCount = friendsPlans.length;
+const mapStateToProps = (state) => {
+  const { plans, users, friendsPlans } = state
+  const plansCount = friendsPlans.length
   return {
     users,
     plans,

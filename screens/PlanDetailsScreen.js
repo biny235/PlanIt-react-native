@@ -4,7 +4,7 @@ import { Container, Header, Left, Right, Body, Content, Form, Item, Input, Butto
 import { Calendar } from 'react-native-calendars';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
-import { createPlan } from '../store/plans';
+import { updatePlan } from '../store/plans';
 
 class PlanDetailsScreen extends Component {
   constructor(props) {
@@ -47,7 +47,7 @@ class PlanDetailsScreen extends Component {
       date: this.state.calendar,
       userId: this.props.users.id
     };
-    this.props.createPlan(plan);
+    this.props.updatePlan(plan);
     this.props.navigation.navigate('Map');
   }
 
@@ -159,7 +159,7 @@ const mapState = ({ users }) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    createPlan: (plan) => dispatch(createPlan(plan)),
+    updatePlan: (plan) => dispatch(updatePlan(plan)),
   };
 };
 
