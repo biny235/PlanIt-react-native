@@ -6,7 +6,7 @@ import { Container, Content, Header, Left, Text, Item, Body, Footer, FooterTab, 
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
-import { fetchPlan, updatePlan, createPlan } from '../store/plans';
+import { fetchPlan, updatePlan, createPlan, deletePlan } from '../store/plans';
 import { fetchUser } from '../store/users';
 
 const markerData = [
@@ -77,32 +77,35 @@ class MapScreen extends Component {
 
   toggleBroadcastPlan = () => {
     const isBroadcasting = !this.state.isBroadcasting;
-    if (!isBroadcasting && this.props.plans) { //when plan exist
+    if (!isBroadcasting && !this.props.plans.city) { //when plan exist
       const plan = {
         city: this.state.city,
         lat: this.state.region.latitude,
         lng: this.state.region.longitude,
         id: this.props.plans.id,
-        status: 'BROADCAST'
+        status: 'BROADCASTING'
       };
       this.props.updatePlan(plan);
-    } else if (!isBroadcasting && !this.props.plans) { //no plan
+    } else if (!isBroadcasting) { //no plan
       const plan = {
         category: 'All',
-        date: new Date().split('T')[0],
-        time: new Date().split('T')[1].slice(0, 5),
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toISOString().split('T')[1].slice(0, 5),
         lat: this.state.region.latitude,
         lng: this.state.region.longitude,
         name: 'Plan',
-        status: 'BROADCAST',
-        userId: this.state.user.id,
-        city: ''
+        status: 'BROADCASTING',
+        userId: this.props.users.id,
+        city: 'New York, NY, USA'
       };
       this.props.createPlan(plan);
     }
-    if (isBroadcasting && this.props.plans.status === 'BROADCAST') {
+    if (isBroadcasting && this.props.plans.status === 'BROADCASTING') {
       console.log('hello :');
-      this.props.updatePlan({ status: 'CLOSED' });
+      this.props.updatePlan({
+        status: 'CLOSED',
+        id: this.props.plans.id
+       });
     }
     this.setState({ isBroadcasting: isBroadcasting });
     this.simulateFriendsRecommending();
@@ -353,7 +356,8 @@ const mapDispatchToProps = dispatch => {
     fetchUser: () => dispatch(fetchUser()),
     fetchPlan: () => dispatch(fetchPlan()),
     updatePlan: (plan) => dispatch(updatePlan(plan)),
-    createPlan: (plan) => dispatch(createPlan(plan))
+    createPlan: (plan) => dispatch(createPlan(plan)),
+    deletePlan: () => dispatch(deletePlan())
   };
 };
 
