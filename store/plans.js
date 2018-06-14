@@ -32,7 +32,7 @@ export const createPlan = plan => async dispatch => {
 
 export const updatePlan = plan => async dispatch => {
   try {
-    const res = await call('put', `/api/plans/${plan.id}`, plan);
+    const res = await call('put', `/api/user/plan/${plan.id}`, plan);
     const planData = await res.data
     newBroadcast(planData)
     dispatch(planUpdate(planData));
@@ -49,7 +49,7 @@ export const newRecommendation = recommendation => {
 
 export const deletePlan = (plan) => async dispatch => {
   try {
-    await call('delete', `/api/plans/${plan.id}`);
+    await call('delete', `/api/user/plan/${plan.id}`);
     dispatch(removePlan(plan));
   } catch (error) {
     console.warn(error);
