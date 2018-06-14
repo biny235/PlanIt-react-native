@@ -11,7 +11,7 @@ socket.on('newRecommendation', recommendation => store.dispatch(newRecommendatio
 
 
 export const newBroadcast = (plan)=>{
-  socket.send('broadcasting', { plan })
+  socket.emit('broadcasting', plan)
 }
 
 export default socket
