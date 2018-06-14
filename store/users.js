@@ -39,8 +39,8 @@ export const register = (credentials) => {
 
 export const logout = () => {
   return (dispatch) => {
-    AsyncStorage.removeItem('token');
-    dispatch({ type: LOGOUT });
+    AsyncStorage.clear()
+      .then(() => dispatch({ type: LOGOUT }));
   };
 };
 

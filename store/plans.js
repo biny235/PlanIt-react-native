@@ -1,5 +1,7 @@
-import { GET_PLAN, CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN, LOGOUT } from './constants';
+import { GET_PLAN, CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN, LOGOUT, NEW_RECOMMENDATION } from './constants';
 import call from './axiosFunc';
+import { newBroadcast } from './socket';
+
 
 // Action Creators
 const planCreate = plan => ({ type: CREATE_PLAN, plan });
@@ -30,17 +32,24 @@ export const createPlan = plan => async dispatch => {
 
 export const updatePlan = plan => async dispatch => {
   try {
-    const res = await call('put', `/api/user/plan/${plan.id}`, plan);
-    const planData = await res.data;
+    const res = await call('put', `/api/plans/${plan.id}`, plan);
+    const planData = await res.data
+    newBroadcast(planData)
     dispatch(planUpdate(planData));
   } catch (error) {
     console.warn(error);
   }
 };
 
+export const newRecommendation = recommendation => {
+  return dispatch => {
+    dispatch({type: NEW_RECOMMENDATION, recommendation})
+  }
+}
+
 export const deletePlan = (plan) => async dispatch => {
   try {
-    await call('delete', `/user/plan/${plan.id}`);
+    await call('delete', `/api/plans/${plan.id}`);
     dispatch(removePlan(plan));
   } catch (error) {
     console.warn(error);
@@ -57,6 +66,8 @@ const planReducer = (state = {}, action) => {
       return action.plan;
     case DELETE_PLAN:
       return {};
+    case NEW_RECOMMENDATION:
+      return Object.assign({}, state, { places: [...state.places, action.recommendation] })
     case LOGOUT:
       return {};
     default:
