@@ -1,17 +1,20 @@
 
 import SocketIOClient from 'socket.io-client';
-// import store from './index';
-// import { checkBroadcasts } from './friendsPlans';
-// import { newRecommendation } from './recommendations';
+import {NEW_BROADCAST, NEW_RECOMMENDATION} from './constants'
 
-const socket = SocketIOClient('http://localhost:3000');
+
+const socket = SocketIOClient('http://172.16.27.23:3000');
 socket.on('connected', ()=> console.log('connected'))
-socket.on('newBroadcast', broadcast => store.dispatch(checkBroadcasts(broadcast)))
-socket.on('newRecommendation', recommendation => store.dispatch(newRecommendation(recommendation)))
+
 
 
 export const newBroadcast = (plan)=>{
   socket.emit('broadcasting', plan)
 }
+
+export const newRecommendation = ( recommendation ) => {
+  socket.emit('recommending', recommendation)
+}
+
 
 export default socket

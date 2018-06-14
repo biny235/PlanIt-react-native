@@ -1,5 +1,6 @@
 import call from './axiosFunc';
 import { ADD_RECOMMENDATION } from './constants';
+import  { newRecommendation } from './socket';
 
 
 // Thunks
@@ -8,7 +9,7 @@ export const addRecommendationToStore = (place, userId, planId) => {
     return call('post', `/api/plans/${planId}/user/${userId}/recommend`, place)
     .then( res => res.data)
     .then(recommendation => {
-      socket.emit('recommending', recommendation)
+      newRecommendation(recommendation)
       dispatch({type: ADD_RECOMMENDATION, recommendation});
     })
     .catch(err => console.log('***addRecommend Err:', err));

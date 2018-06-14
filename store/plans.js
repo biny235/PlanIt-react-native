@@ -35,18 +35,12 @@ export const updatePlan = plan => async dispatch => {
     const res = await call('put', `/api/user/plan/${plan.id}`, plan);
     const planData = await res.data;
     newBroadcast(planData);
-
     dispatch(planUpdate(planData));
   } catch (error) {
     console.warn(error);
   }
 };
 
-export const newRecommendation = recommendation => {
-  return dispatch => {
-    dispatch({type: NEW_RECOMMENDATION, recommendation});
-  };
-};
 
 export const deletePlan = (plan) => async dispatch => {
   try {

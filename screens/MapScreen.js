@@ -199,6 +199,7 @@ class MapScreen extends Component {
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderHeader, renderScreen, renderCallButtonIcon } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
+    console.log("map screen props",this.props)
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -340,9 +341,10 @@ const styles = {
   },
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   const { plans, users, friendsPlans } = state
   const plansCount = friendsPlans.length
+  console.log(props)
   return {
     users,
     plans,

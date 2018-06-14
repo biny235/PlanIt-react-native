@@ -12,11 +12,6 @@ export const fetchPlans = (id) => {
   }
 }
 
-export const checkBroadcasts = ( plan ) => {
-  return dispatch => {
-    dispatch({ type: NEW_BROADCAST, plan})
-  }
-}
 
 const friendsPlansReducer = (state = [], action) => {
   switch (action.type) {
