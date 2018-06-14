@@ -52,7 +52,7 @@ class MapScreen extends Component {
       isBroadcasting: true,
       markers: [],
     };
-    
+
   }
 
 
@@ -177,18 +177,24 @@ class MapScreen extends Component {
   renderCallButtonIcon = () => {
     if (this.state.isBroadcasting) {
       return (
-        <Icon type="MaterialCommunityIcons" name="signal-variant" style={styles.planCallIcon} />
+        <Image
+              style={{ width: 80, height: 80 }}
+              source={require('../assets/broadcast.png')}
+            />
       );
     } else {
       return (
-        <Icon type="Foundation" name="x" style={styles.planCallIcon} />
+         <Image
+              style={{ width: 80, height: 80 }}
+              source={require('../assets/broadcastX.png')}
+            />
       );
     }
   }
 
   render() {
     const { mapLoaded, region, markers } = this.state;
-    const { toggleBroadcastPlan, renderHeader, renderScreen } = this;
+    const { toggleBroadcastPlan, renderHeader, renderScreen, renderCallButtonIcon } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
     if (!mapLoaded) {
       return (
@@ -261,11 +267,8 @@ class MapScreen extends Component {
             rounded
             style={styles.planCallButton}
             onPress={toggleBroadcastPlan}
-          >
-            <Image
-              style={{ width: 80, height: 80 }}
-              source={require('../assets/broadcast.png')}
-            />
+            >
+            {renderCallButtonIcon()}
           </Button>
         </View>
         <View style={styles.planDetailPressView}>
