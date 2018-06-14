@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
 import { Container, Content, H1, Button } from 'native-base';
 import GoogleSearch from './GoogleSearch';
-import MapView from 'react-native-maps';
+import MapView, { AnimatedRegion } from 'react-native-maps';
 import { fetchPlaces } from '../store/places';
 import { connect } from 'react-redux';
 import { addRecommendationToStore } from '../store/recommendations';
@@ -28,7 +28,8 @@ class SuggestToFriendScreen extends Component {
         longitude: -87.623177,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
-      }
+      },
+      marker: false
     };
   }
 
@@ -38,7 +39,7 @@ class SuggestToFriendScreen extends Component {
 
   addRec = () => {
     console.log('This Plan: ' + Object.keys(this.props.navigation.state.params.plan));
-      this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id); //passing in hardcoded planId for testing
+    this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id); //passing in hardcoded planId for testing
   }
 
   onRegionChange = (region) => {
@@ -47,19 +48,35 @@ class SuggestToFriendScreen extends Component {
 
   addToRegion = (region) => {
     this.onRegionChange(region);
+    this.addMarker();
+
+  }
+
+  addMarker = () => {
+    this.setState({ marker: true });
+    return (
+      <MapView.Marker
+        id={1}
+        coordinate={{
+          latitude: this.state.region.latitude,
+          longitude: this.state.region.longitude
+        }}
+        //title={data.name}
+        description=""
+      />
+    );
   }
 
   render() {
 
-    console.log('navigation', this.props.navigation.state.params.plan.lng);
+    console.log('navigation', this.props.navigation.state);
     const { region } = this.state;
     return (
       <Container>
-        <Text style={{ height: 20 }} />
         <Image
           style={{ alignSelf: 'center', width: 150, height: 100 }}
           source={require('../assets/Logo.png')}
-        />
+        />F
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H1 style={{ marginBottom: 10 }}>Give Moe a Suggestion</H1>
           <GoogleSearch region={this.addToRegion} setLoc={this.addToState} lat={chicago.lat} lng={chicago.lng} type="establishment" />
@@ -69,10 +86,33 @@ class SuggestToFriendScreen extends Component {
             region={region}
             provider={MapView.PROVIDER_GOOGLE}
             onRegionChangeComplete={regions => this.onRegionChange(regions)}
-          />
-          {this.state.googleObject && <Button block style={{ alignSelf: 'center', width: 200 }} onPress={this.addRec}><Text> Add Your Suggestion </Text></Button>}
-          <Text style={{ flex: 0.5 }} />
+          >
+           {
+              this.state.marker ? (
+                <MapView.Marker
+                  id={1}
+                  coordinate={{
+                    latitude: this.state.region.latitude,
+                    longitude: this.state.region.longitude
+                  }}
+                //title={data.name}
+                //description=""
+                />
+              ) : ''
+           }
 
+          </MapView>
+          {
+            this.state.googleObject &&
+            <Button
+              block
+              style={{ alignSelf: 'center', width: 200 }}
+              onPress={this.addRec}
+            >
+              <Text> Add Your Suggestion </Text>
+            </Button>
+          }
+          <Text style={{ flex: 0.5 }} />
         </Content>
       </Container>
     );
@@ -95,3 +135,6 @@ const mapDispatch = dispatch => {
 };
 
 export default connect(mapState, mapDispatch)(SuggestToFriendScreen);
+/*
+
+*/
