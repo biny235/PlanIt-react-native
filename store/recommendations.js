@@ -1,6 +1,7 @@
 import call from './axiosFunc';
 import { ADD_RECOMMENDATION } from './constants';
 
+
 // Thunks
 export const addRecommendationToStore = (place, userId, planId) => {
   return dispatch => {

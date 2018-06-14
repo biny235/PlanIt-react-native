@@ -1,5 +1,7 @@
 import { GET_PLAN, CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN, LOGOUT, NEW_RECOMMENDATION } from './constants';
 import call from './axiosFunc';
+import { newBroadcast } from './socket';
+
 
 // Action Creators
 const planCreate = plan => ({ type: CREATE_PLAN, plan });
@@ -31,8 +33,7 @@ export const createPlan = plan => async dispatch => {
 export const updatePlan = plan => async dispatch => {
   try {
     const res = await call('put', `/api/user/plan/${plan.id}`, plan);
-    const planData = await res.data;
-    socket.emit('broadcasting', planData)
+    const planData = await res.data
     dispatch(planUpdate(planData));
   } catch (error) {
     console.warn(error);
