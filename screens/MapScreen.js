@@ -52,7 +52,7 @@ class MapScreen extends Component {
       isBroadcasting: true,
       markers: [],
     };
-    
+
   }
 
 
@@ -77,7 +77,7 @@ class MapScreen extends Component {
 
   toggleBroadcastPlan = () => {
     const isBroadcasting = !this.state.isBroadcasting;
-    if (!isBroadcasting && this.props.plans.status === 'NEW') { //when plan exist
+    if (!isBroadcasting && !this.props.plans.city) { //when plan exist
       const plan = {
         city: this.state.city,
         lat: this.state.region.latitude,
@@ -98,6 +98,7 @@ class MapScreen extends Component {
         userId: this.props.users.id,
         city: 'New York, NY, USA'
       };
+      console.log('plan :', plan);
       this.props.createPlan(plan);
     }
     if (isBroadcasting && this.props.plans.status === 'BROADCASTING') {
