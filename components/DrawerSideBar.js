@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, Container, List, ListItem, Left, Body, Right, Icon, Separator, Content, Grid, Row, Col, Button } from 'native-base';
+import { Image } from 'react-native';
 import { connect } from 'react-redux';
 import { logout } from '../store/users'
 const routes = [
@@ -44,11 +45,10 @@ class DrawerSideBar extends React.Component {
                 style={{ height: 80, backgroundColor: 'tomato' }}
                 onPress={() => this.props.navigation.navigate('MainModal')}
               >
-                <Icon
-                  type="MaterialCommunityIcons"
-                  name="signal-variant"
-                  style={{fontSize: 42, marginTop: 12 }}
-                  />
+              <Image
+            style={{ alignSelf: 'center', width: 130, height: 50, marginTop: 25 }}
+            source={require('../assets/headerLogo.png')}
+          />
               </Button>
               </Col>
             </Row>
