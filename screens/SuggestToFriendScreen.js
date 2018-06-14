@@ -38,9 +38,7 @@ class SuggestToFriendScreen extends Component {
   }
 
   addRec = () => {
-    // console.log('This Plan: ' + Object.keys(this.props.navigation.state.params.plan));
-
-    this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id); //passing in hardcoded planId for testing
+    this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id);
   }
 
   onRegionChange = (region) => {
@@ -53,12 +51,14 @@ class SuggestToFriendScreen extends Component {
   }
 
   render() {
-    console.log('this.state :', this.state);
-    console.log('navigation', this.props.navigation.state.params.plan.user.username);
-
     const { region } = this.state;
+    const {username } = this.props.navigation.state.params.plan.user;
     return (
       <Container>
+      <Image
+            style={{ alignSelf: 'center', width: 150, height: 70 }}
+            source={require('../assets/headerLogo.png')}
+          />
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
           <H3 style={{ marginBottom: 10 }}>{`Give ${this.props.navigation.state.params.plan.user.username} a Suggestion`}
           </H3>
@@ -104,6 +104,7 @@ class SuggestToFriendScreen extends Component {
 
 const mapState = ({ users, places }) => {
   const userId = users.id;
+
   return {
     userId,
     places,
@@ -118,6 +119,3 @@ const mapDispatch = dispatch => {
 };
 
 export default connect(mapState, mapDispatch)(SuggestToFriendScreen);
-/*
-
-*/
