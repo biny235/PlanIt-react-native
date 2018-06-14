@@ -22,7 +22,7 @@ export default class GooglePlacesInput extends React.Component {
         latitude: details.geometry.location.lat,
         longitude: details.geometry.location.lng,
         latitudeDelta: 0.0022,
-        longitudeDelta: 0.0421
+        longitudeDelta: 0.00421
       };
       this.props.region(region);
     }
