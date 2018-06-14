@@ -6,7 +6,7 @@ import { Container, Content, Header, Left, Text, Item, Footer, FooterTab, Button
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
-import { fetchPlan, updatePlan } from '../store/plans';
+import { fetchPlan, updatePlan, createPlan } from '../store/plans';
 import { fetchUser } from '../store/users';
 
 const markerData = [
@@ -75,22 +75,33 @@ class MapScreen extends Component {
   }
 
   toggleBroadcastPlan = () => {
-    if (!this.state.city) {
-      alert('Please search where you want');
-      return;
-    }
     const isBroadcasting = !this.state.isBroadcasting;
-    if (!isBroadcasting && this.props.plans)  {
+    if (!isBroadcasting && this.props.plans) { //when plan exist
       const plan = {
         city: this.state.city,
         lat: this.state.region.latitude,
         lng: this.state.region.longitude,
-        id: this.props.plans.id
+        id: this.props.plans.id,
+        status: 'BROADCAST'
       };
       this.props.updatePlan(plan);
-    } else if (!this.props.plans) {
-      alert('Please add a plan');
-      return;
+    } else if (!isBroadcasting && !this.props.plans) { //no plan
+      const plan = {
+        category: 'All',
+        date: new Date().split('T')[0],
+        time: new Date().split('T')[1].slice(0, 5),
+        lat: this.state.region.latitude,
+        lng: this.state.region.longitude,
+        name: 'Plan',
+        status: 'BROADCAST',
+        userId: this.state.user.id,
+        city: ''
+      };
+      this.props.createPlan(plan);
+    }
+    if (isBroadcasting && this.props.plans.status === 'BROADCAST') {
+      console.log('hello :');
+      this.props.updatePlan({ status: 'CLOSED' });
     }
     this.setState({ isBroadcasting: isBroadcasting });
     this.simulateFriendsRecommending();
@@ -240,16 +251,16 @@ class MapScreen extends Component {
         </Footer>
         <View style={styles.friendIcons}>
           <Button transparent onPress={() => navigation.navigate('FriendsPlans')}>
-            {plansCount >= 1 ? <Thumbnail circle small source={{uri: friendsPlans[0].user.thumbnail}} style={{ zIndex: 30 }} /> : null }
-            {plansCount >= 2 ? <Thumbnail circle small source={{uri: friendsPlans[1].user.thumbnail}} style={{ marginLeft: -10, zIndex: 20 }} /> : null }
-            {plansCount >= 3 ? <Thumbnail circle small source={{uri: friendsPlans[2].user.thumbnail}} style={{ marginLeft: -10, zIndex: 10 }} /> : null }
+            {plansCount >= 1 ? <Thumbnail circle small source={{ uri: friendsPlans[0].user.thumbnail }} style={{ zIndex: 30 }} /> : null}
+            {plansCount >= 2 ? <Thumbnail circle small source={{ uri: friendsPlans[1].user.thumbnail }} style={{ marginLeft: -10, zIndex: 20 }} /> : null}
+            {plansCount >= 3 ? <Thumbnail circle small source={{ uri: friendsPlans[2].user.thumbnail }} style={{ marginLeft: -10, zIndex: 10 }} /> : null}
             {plansCount > 3 ?
-            <Badge style={{
-              marginLeft: -12, marginTop: -12, zIndex: 40,
-              transform: [{ scale: 0.7 }]
-            }}><Text style={{}}>{plansCount}</Text></Badge>
-            : null
-          }
+              <Badge style={{
+                marginLeft: -12, marginTop: -12, zIndex: 40,
+                transform: [{ scale: 0.7 }]
+              }}><Text style={{}}>{plansCount}</Text></Badge>
+              : null
+            }
           </Button>
         </View>
         <View style={styles.buttonContainer}>
@@ -341,8 +352,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchUser: () => dispatch(fetchUser()),
     fetchPlan: () => dispatch(fetchPlan()),
-    updatePlan: (plan) => dispatch(updatePlan(plan))
+    updatePlan: (plan) => dispatch(updatePlan(plan)),
+    createPlan: (plan) => dispatch(createPlan(plan))
   };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapScreen);

@@ -15,10 +15,16 @@ export default class GooglePlacesInput extends React.Component {
 
   onPress = (data, details = null) => {
     if (details) {
-      this.setState({googlePlace: details});
       if (this.props.setLoc){
         this.props.setLoc(details);
       }
+      const region = {
+        latitude: details.geometry.location.lat,
+        longitude: details.geometry.location.lng,
+        latitudeDelta: 0.0022,
+        longitudeDelta: 0.0421
+      };
+      this.props.region(region);
     }
   }
 
@@ -29,8 +35,6 @@ export default class GooglePlacesInput extends React.Component {
         longitude: details.geometry.location.lng,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
-        // latitudeDelta: details.geometry.viewport.northeast.lat - details.geometry.viewport.southwest.lat,
-        // longitudeDelta: details.geometry.viewport.northeast.lng - details.geometry.viewport.southwest.lng
       };
       this.props.region(region);
       this.props.city(details.formatted_address);
