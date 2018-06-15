@@ -18,7 +18,7 @@ const friendsPlansReducer = (state = [], action) => {
     case GET_FRIENDS_PLANS:
       return [...state, action.plan];
     case NEW_BROADCAST:
-      return state.map(plan => plan.id === action.plan.id ? action.plan : plan)
+      return state.map(plan => plan.id === action.broadcast.id ? action.broadcast : plan)
     case LOGOUT:
       return [];
     default:

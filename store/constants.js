@@ -27,3 +27,4 @@ export const GET_FRIENDS = 'GET_FRIENDS';
 export const GET_DETAILS = 'GET_DETAILS';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const NEW_BROADCAST = 'NEW_BROADCAST';
+export const NEW_RECOMMENDATION = 'NEW_RECOMMENDATION';

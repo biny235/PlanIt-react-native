@@ -254,9 +254,9 @@ class MapScreen extends Component {
         </Footer>
         <View style={styles.friendIcons}>
           <Button transparent onPress={() => navigation.navigate('FriendsPlans')}>
-            {plansCount >= 1 ? <Thumbnail circle small source={{ uri: friendsPlans[0].user.thumbnail }} style={{ zIndex: 30 }} /> : null}
-            {plansCount >= 2 ? <Thumbnail circle small source={{ uri: friendsPlans[1].user.thumbnail }} style={{ marginLeft: -10, zIndex: 20 }} /> : null}
-            {plansCount >= 3 ? <Thumbnail circle small source={{ uri: friendsPlans[2].user.thumbnail }} style={{ marginLeft: -10, zIndex: 10 }} /> : null}
+            {plansCount >= 1 ? <Thumbnail circle small source={{ uri: friendsPlans[0] && friendsPlans[0].user && friendsPlans[0].user.thumbnail }} style={{ zIndex: 30 }} /> : null}
+            {plansCount >= 2 ? <Thumbnail circle small source={{ uri: friendsPlans[1] && friendsPlans[1].user && friendsPlans[1].user.thumbnail }} style={{ marginLeft: -10, zIndex: 20 }} /> : null}
+            {plansCount >= 3 ? <Thumbnail circle small source={{ uri: friendsPlans[2] && friendsPlans[2].user && friendsPlans[2].user.thumbnail }} style={{ marginLeft: -10, zIndex: 10 }} /> : null}
             {plansCount > 3 ?
               <Badge style={{
                 marginLeft: -12, marginTop: -12, zIndex: 40,
@@ -341,10 +341,10 @@ const styles = {
   },
 };
 
-const mapStateToProps = (state, props) => {
-  const { plans, users, friendsPlans } = state
+const mapStateToProps = ({ plans, users, friendsPlans }, props) => {
+  friendsPlans = friendsPlans.filter(plan => plan.status === "BROADCASTING")
   const plansCount = friendsPlans.length
-  console.log(props)
+
   return {
     users,
     plans,

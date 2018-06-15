@@ -42,6 +42,7 @@ class FriendsPlansScreen extends React.Component {
 }
 
 const mapStateToProps = ({ friends, friendsPlans }) => {
+  friendsPlans = friendsPlans.filter(plan => plan.status === "BROADCASTING")
   return {
     friends,
     friendsPlans
