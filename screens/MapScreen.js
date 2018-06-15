@@ -39,8 +39,8 @@ const LATITUDEDELTA = 0.0922;
 const LONGITUDEDELTA = 0.0421;
 
 class MapScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       mapLoaded: false,
       region: {
@@ -49,8 +49,8 @@ class MapScreen extends Component {
         latitudeDelta: LATITUDEDELTA,
         longitudeDelta: LONGITUDEDELTA
       },
-      isBroadcasting: true,
-      markers: [],
+      isBroadcasting: this.props.plans.status === "BROADCASTING",
+      markers: this.props.places || [],
     };
 
   }
@@ -61,6 +61,13 @@ class MapScreen extends Component {
     // this.props.user && !this.props.users.id ? this.props.fetchUser() : null;
     !this.props.plan ? this.props.fetchPlan() : null;
     this.props.fetchUser();
+  }
+
+  componentWillReceiveProps(nextProps){
+    console.log("next props:", nextProps)
+    if(nextProps.places !== this.state.markers){
+      this.setState({ markers: nextProps.places })
+    }
   }
 
   onRegionChange = (region) => {
@@ -93,7 +100,7 @@ class MapScreen extends Component {
         time: new Date().toISOString().split('T')[1].slice(0, 5),
         lat: this.state.region.latitude,
         lng: this.state.region.longitude,
-        name: 'Plan',
+        name: `${this.props.user.username}'s Plan`,
         status: 'BROADCASTING',
         userId: this.props.users.id,
         city: 'New York, NY, USA'
@@ -108,7 +115,6 @@ class MapScreen extends Component {
        });
     }
     this.setState({ isBroadcasting: isBroadcasting });
-    this.simulateFriendsRecommending();
   }
 
   addMarker = marker => {
@@ -116,27 +122,28 @@ class MapScreen extends Component {
     this.setState({ markers });
   }
 
-  simulateFriendsRecommending = () => {
-    if (this.state.isBroadcasting) {
-      let counter = markerData.length - 1;
-      const nIntervId = setInterval(() => {
-        const marker = markerData[counter];
-        this.addMarker(marker);
-        if (!counter) {
-          clearInterval(nIntervId);
-        }
-        counter--;
-      }, 1000);
-    } else {
-      this.setState({ markers: [] });
-    }
-  }
+  // simulateFriendsRecommending = () => {
+  //   if (this.state.isBroadcasting) {
+  //     let counter = this.props.places - 1;
+  //     const nIntervId = setInterval(() => {
+  //       const marker = this.props.places[counter];
+  //       this.addMarker(marker);
+  //       if (!counter) {
+  //         clearInterval(nIntervId);
+  //       }
+  //       counter--;
+  //     }, 1000);
+  //   } else {
+  //     this.setState({ markers: [] });
+  //   }
+  // }
 
   openDrawer = () => {
     this.props.navigation.openDrawer();
   }
 
   renderMarkers = () => {
+    console.log(this.state.isBroadcasting)
     if (!this.state.markers) {
       return;
     }
@@ -178,7 +185,7 @@ class MapScreen extends Component {
   }
 
   renderCallButtonIcon = () => {
-    if (this.state.isBroadcasting) {
+    if (!this.state.isBroadcasting) {
       return (
         <Image
               style={{ width: 80, height: 80 }}
@@ -196,10 +203,10 @@ class MapScreen extends Component {
   }
 
   render() {
-    const { mapLoaded, region, markers } = this.state;
+    const { mapLoaded, region, markers, isBroadcasting } = this.state;
     const { toggleBroadcastPlan, renderHeader, renderScreen, renderCallButtonIcon } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
-    console.log("map screen props",this.props)
+    console.log("map screen state", this.state)
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -229,7 +236,7 @@ class MapScreen extends Component {
               onRegionChangeComplete={regions => this.onRegionChange(regions)}
             // onPress={ev => console.log(ev.nativeEvent)}
             >
-              {this.renderMarkers()}
+              {isBroadcasting ? this.renderMarkers() : null}
             </MapView>
           </View>
         </Content>
@@ -246,7 +253,7 @@ class MapScreen extends Component {
               <Text />
             </Button>
             <Button badge vertical>
-              <Badge style={(markers.length ? styles.badgeVisible : styles.badgeInvisible)}><Text>{markers.length}</Text></Badge>
+              <Badge style={(isBroadcasting && markers.length ? styles.badgeVisible : styles.badgeInvisible)}><Text>{markers.length}</Text></Badge>
               <Icon type="MaterialCommunityIcons" name="thought-bubble-outline" />
               <Text style={{ fontSize: 12 }}>Suggestions</Text>
             </Button>
@@ -344,10 +351,11 @@ const styles = {
 const mapStateToProps = ({ plans, users, friendsPlans }, props) => {
   friendsPlans = friendsPlans.filter(plan => plan.status === "BROADCASTING")
   const plansCount = friendsPlans.length
-
+  const places = plans.places || []
   return {
     users,
     plans,
+    places,
     friendsPlans,
     plansCount
   };

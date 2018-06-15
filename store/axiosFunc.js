@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 const production = 'http://fwiwh.herokuapp.com';
-const local = 'http://172.16.27.23:3000';
+const local = 'http://localhost:3000';
 
 const setHeader = async () => {
   const token = await AsyncStorage.getItem('token');
@@ -10,7 +10,7 @@ const setHeader = async () => {
 
 const call = async (type, link, body) => {
   await setHeader();
-  return axios[type](`${production}${link}`, body);
+  return axios[type](`${local}${link}`, body);
 };
 
 module.exports = call;
