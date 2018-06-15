@@ -8,6 +8,7 @@ import places from './places';
 import friendsPlans from './friendsPlans';
 import friends from './friends';
 import recommendations from './recommendations';
+import { NEW_BROADCAST, NEW_RECOMMENDATION } from './constants'
 
 const reducer = combineReducers({
   users,
