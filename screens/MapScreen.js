@@ -66,7 +66,7 @@ class MapScreen extends Component {
   componentWillReceiveProps(nextProps){
     console.log("next props:", nextProps)
     if(nextProps.places !== this.state.markers){
-      this.setState({ markers: nextProps.places })
+      this.setState({ markers: nextProps.places, isBroadcasting: nextProps.plans.status === "BROADCASTING" })
     }
   }
 
@@ -83,7 +83,7 @@ class MapScreen extends Component {
   }
 
   toggleBroadcastPlan = () => {
-    const isBroadcasting = !this.state.isBroadcasting;
+    const isBroadcasting = this.state.isBroadcasting;
     if (!isBroadcasting && !this.props.plans.city) { //when plan exist
       const plan = {
         city: this.state.city,
