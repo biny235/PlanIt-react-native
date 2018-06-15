@@ -101,7 +101,6 @@ class MapScreen extends Component {
       this.props.createPlan(plan);
     }
     if (isBroadcasting && this.props.plans.status === 'BROADCASTING') {
-      console.log('hello :');
       this.props.updatePlan({
         status: 'CLOSED',
         id: this.props.plans.id
@@ -199,7 +198,6 @@ class MapScreen extends Component {
     const { mapLoaded, region, markers } = this.state;
     const { toggleBroadcastPlan, renderHeader, renderScreen, renderCallButtonIcon } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
-    console.log("map screen props",this.props)
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -342,9 +340,8 @@ const styles = {
 };
 
 const mapStateToProps = (state, props) => {
-  const { plans, users, friendsPlans } = state
-  const plansCount = friendsPlans.length
-  console.log(props)
+  const { plans, users, friendsPlans } = state;
+  const plansCount = friendsPlans.length;
   return {
     users,
     plans,

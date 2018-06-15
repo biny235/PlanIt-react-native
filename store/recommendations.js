@@ -6,10 +6,10 @@ import  { newRecommendation } from './socket';
 // Thunks
 export const addRecommendationToStore = (place, userId, planId) => {
   return dispatch => {
-    return call('post', `/api/plans/${planId}/user/${userId}/recommend`, place)
+    return call('post', `/api/user/plan/${planId}/user/${userId}/recommend`, place)
     .then( res => res.data)
     .then(recommendation => {
-      newRecommendation(recommendation)
+      newRecommendation(recommendation);
       dispatch({type: ADD_RECOMMENDATION, recommendation});
     })
     .catch(err => console.log('***addRecommend Err:', err));
