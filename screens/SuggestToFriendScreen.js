@@ -39,6 +39,7 @@ class SuggestToFriendScreen extends Component {
 
   addRec = () => {
     this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id);
+    alert('you added')
   }
 
   onRegionChange = (region) => {
