@@ -16,7 +16,11 @@ export const fetchPlans = (id) => {
 const friendsPlansReducer = (state = [], action) => {
   switch (action.type) {
     case GET_FRIENDS_PLANS:
-      return [...state, action.plan];
+      if(state.find(plan => plan.id === action.plan.id)){
+        return state.map(plan => plan.id === action.plan.id ? action.plan : plan)
+      }else{
+        return [...state, action.plan];
+      }
     case NEW_BROADCAST:
       return state.map(plan => plan.id === action.broadcast.id ? action.broadcast : plan)
     case LOGOUT:
