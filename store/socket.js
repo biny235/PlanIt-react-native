@@ -1,6 +1,6 @@
-import SocketIOClient from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 
-const socket = SocketIOClient('http://fwiwh.herokuapp.com');
+const socket = socketIOClient('http://fwiwh.herokuapp.com');
 socket.on('connected', () => console.log('connected'));
 
 export const newBroadcast = (plan) => {
@@ -10,6 +10,5 @@ export const newBroadcast = (plan) => {
 export const newRecommendation = (recommendation) => {
   socket.emit('recommending', recommendation);
 };
-
 
 export default socket;
