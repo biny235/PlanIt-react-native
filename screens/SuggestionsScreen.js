@@ -58,7 +58,6 @@ export default class SuggestionsScreen extends Component {
 
   // passed to child accordion component to like, hide...
   changeReco = reco => {
-    console.log('NEW RECO', reco);
     this.setState({reco});
   }
 

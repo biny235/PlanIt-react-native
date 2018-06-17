@@ -63,7 +63,6 @@ class MapScreen extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('next props:', nextProps);
     if (nextProps.places !== this.state.markers) {
       this.setState({ markers: nextProps.places, isBroadcasting: nextProps.plans.status === 'BROADCASTING' });
     }
@@ -141,7 +140,6 @@ class MapScreen extends Component {
   }
 
   renderMarkers = () => {
-    console.log(this.state.isBroadcasting)
     if (!this.state.markers) {
       return;
     }
