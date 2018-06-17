@@ -8,7 +8,7 @@ export const fetchPlaces = () => {
       .then(places => {
         dispatch({ type: GET_PLACES, places });
       })
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
   };
 };
 
@@ -16,8 +16,8 @@ export const createPlace = (place) => {
   return (dispatch) => {
     return call('post', '/:planId/user/:userId/recommend', place)
       .then(res => res.data)
-      .then(place => dispatch({ type: CREATE_PLACE, place }))
-      .catch(err => alert(err));
+      .then(_place => dispatch({ type: CREATE_PLACE, _place }))
+      .catch(err => console.log(err));
   };
 };
 
@@ -25,7 +25,7 @@ export const deletePlace = (place) => {
   return (dispatch) => {
     return call('delete', `/api/places/${place.id}`)
       .then(() => dispatch({ type: DELETE_PLACE, place }))
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
   };
 };
 

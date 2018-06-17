@@ -8,21 +8,20 @@ export const fetchPlans = (id) => {
       .then(plan => {
         dispatch({ type: GET_FRIENDS_PLANS, plan })
       })
-      .catch(err => console.log("***fetchFriendsPlans Err:", err))
-  }
-}
-
+      .catch(err => console.log('***fetchFriendsPlans Err:', err));
+  };
+};
 
 const friendsPlansReducer = (state = [], action) => {
   switch (action.type) {
     case GET_FRIENDS_PLANS:
-      if(state.find(plan => plan.id === action.plan.id)){
-        return state.map(plan => plan.id === action.plan.id ? action.plan : plan)
-      }else{
+      if (state.find(plan => plan.id === action.plan.id)) {
+        return state.map(plan => plan.id === action.plan.id ? action.plan : plan);
+      } else {
         return [...state, action.plan];
       }
     case NEW_BROADCAST:
-      return state.map(plan => plan.id === action.broadcast.id ? action.broadcast : plan)
+      return state.map(plan => plan.id === action.broadcast.id ? action.broadcast : plan);
     case LOGOUT:
       return [];
     default:

@@ -1,22 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, AlertIOS, Image } from 'react-native';
 import { Container, Content, H3, Button } from 'native-base';
 import GoogleSearch from './GoogleSearch';
-import MapView, { AnimatedRegion } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import { fetchPlaces } from '../store/places';
 import { connect } from 'react-redux';
 import { addRecommendationToStore } from '../store/recommendations';
-
-const chicago = {
-  lat: '41.881832',
-  lng: '-87.623177'
-};
-
-//sample data
-const hawaii = {
-  lat: '21.315603',
-  lng: '-157.858093'
-};
 
 class SuggestToFriendScreen extends Component {
   constructor(props) {
@@ -39,7 +28,10 @@ class SuggestToFriendScreen extends Component {
 
   addRec = () => {
     this.props.addRecommendationToStore(this.state.googleObject, this.props.userId, this.props.navigation.state.params.plan.id);
-    alert('you added')
+    AlertIOS.alert(
+      'Recommendation',
+      'Your recommendation is added.'
+    );
   }
 
   onRegionChange = (region) => {
@@ -53,7 +45,7 @@ class SuggestToFriendScreen extends Component {
 
   render() {
     const { region } = this.state;
-    const {username } = this.props.navigation.state.params.plan.user;
+    const { username } = this.props.navigation.state.params.plan.user;
     return (
       <Container>
       <Image
@@ -61,7 +53,7 @@ class SuggestToFriendScreen extends Component {
             source={require('../assets/headerLogo.png')}
           />
         <Content padder contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
-          <H3 style={{ marginBottom: 10 }}>{`Give ${this.props.navigation.state.params.plan.user.username} a Suggestion`}
+          <H3 style={{ marginBottom: 10 }}>{`Give ${username} a Suggestion`}
           </H3>
           <GoogleSearch region={this.addToRegion} setLoc={this.addToState} lat={region.latitude} lng={region.longitude} type="establishment" />
           <MapView

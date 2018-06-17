@@ -83,7 +83,7 @@ class MapScreen extends Component {
 
   toggleBroadcastPlan = () => {
     const isBroadcasting = this.state.isBroadcasting;
-    if (!isBroadcasting && !this.props.plans.city) { //when plan exist
+    if (!isBroadcasting && !this.props.plans.city && this.props.plans.status === 'NEW') { //when plan exist
       const plan = {
         city: this.state.city,
         lat: this.state.region.latitude,
@@ -99,10 +99,10 @@ class MapScreen extends Component {
         time: new Date().toISOString().split('T')[1].slice(0, 5),
         lat: this.state.region.latitude,
         lng: this.state.region.longitude,
-        name: `${this.props.user.username}'s Plan`,
+        name: `${this.props.users.username}'s Plan`,
         status: 'BROADCASTING',
         userId: this.props.users.id,
-        city: 'New York, NY, USA'
+        city: 'New York, NY, USA',
       };
       this.props.createPlan(plan);
     }
