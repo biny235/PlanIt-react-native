@@ -11,7 +11,7 @@ export const fetchUser = () => {
         dispatch({ type: GET_USER, user });
         dispatch(fetchFriends());
       })
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
   };
 };
 
@@ -27,7 +27,7 @@ export const authenticate = (credentials) => {
 };
 
 export const register = (credentials) => {
-  return dispatch => {
+  return () => {
     return call('post', '/api/user/signup', credentials)
       .then(res => res.data)
       .then(token => {
@@ -49,7 +49,7 @@ export const createUser = (user) => {
     return call('post', '/api/user', user)
       .then(res => res.data)
       .then(_user => dispatch({ type: CREATE_USER, _user }))
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
   };
 };
 
@@ -58,7 +58,7 @@ export const updateUser = (user) => {
     return call('put', `/api/user/${user.id}`, user)
       .then(res => res.data)
       .then(_user => dispatch({ type: UPDATE_USER, _user }))
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
   };
 };
 
@@ -66,7 +66,7 @@ export const deleteUser = (user) => {
   return (dispatch) => {
     return call('delete', `/api/users/${user.id}`)
       .then(() => dispatch({ type: DELETE_USER, user }))
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
   };
 };
 

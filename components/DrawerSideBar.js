@@ -2,7 +2,8 @@ import React from 'react';
 import { Text, Container, List, ListItem, Left, Body, Right, Icon, Separator, Content, Grid, Row, Col, Button } from 'native-base';
 import { Image } from 'react-native';
 import { connect } from 'react-redux';
-import { logout } from '../store/users'
+import { logout } from '../store/users';
+
 const routes = [
   {
     name: 'Profile',
@@ -24,32 +25,30 @@ const routes = [
   },
 ];
 class DrawerSideBar extends React.Component {
-  constructor(){
-    super()
-    this.logout = this.logout.bind(this)
+
+  logout = () => {
+    this.props.logout();
+    this.props.navigation.navigate('SignIn');
   }
-  logout(){
-    this.props.logout()
-    this.props.navigation.navigate('SignIn')
-  }
+
   render() {
-    const { logout } = this
+    const { logout } = this;
     return (
       <Container>
         <Content>
           <Grid>
             <Row>
               <Col>
-              <Button
-                full
-                style={{ height: 80, backgroundColor: 'tomato' }}
-                onPress={() => this.props.navigation.navigate('MainModal')}
-              >
-              <Image
-            style={{ alignSelf: 'center', width: 130, height: 50, marginTop: 25 }}
-            source={require('../assets/headerLogo.png')}
-          />
-              </Button>
+                <Button
+                  full
+                  style={{ height: 80, backgroundColor: 'tomato' }}
+                  onPress={() => this.props.navigation.navigate('MainModal')}
+                >
+                  <Image
+                    style={{ alignSelf: 'center', width: 130, height: 50, marginTop: 25 }}
+                    source={require('../assets/headerLogo.png')}
+                  />
+                </Button>
               </Col>
             </Row>
             <Row>
@@ -68,14 +67,14 @@ class DrawerSideBar extends React.Component {
                           <Icon
                             name={data.icon}
                             type={data.iconType}
-                            style={{fontSize: 24}}
+                            style={{ fontSize: 24 }}
                           />
                         </Left>
                         <Body>
-                          <Text style={{fontSize: 16}}>{data.display}</Text>
+                          <Text style={{ fontSize: 16 }}>{data.display}</Text>
                         </Body>
                         <Right>
-                        <Icon name="arrow-forward" />
+                          <Icon name="arrow-forward" />
                         </Right>
                       </ListItem>
                     );
@@ -92,7 +91,7 @@ class DrawerSideBar extends React.Component {
                       <Icon
                         type="Foundation"
                         name="power"
-                        style={{fontSize: 22}}
+                        style={{ fontSize: 22 }}
                       />
                     </Left>
                     <Body>
@@ -112,7 +111,7 @@ class DrawerSideBar extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => dispatch(logout())
-  }
-}
+  };
+};
 
-export default connect(null, mapDispatchToProps)(DrawerSideBar)
+export default connect(null, mapDispatchToProps)(DrawerSideBar);

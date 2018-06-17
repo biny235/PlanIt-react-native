@@ -8,7 +8,7 @@ import places from './places';
 import friendsPlans from './friendsPlans';
 import friends from './friends';
 import recommendations from './recommendations';
-import { NEW_BROADCAST, NEW_RECOMMENDATION } from './constants'
+import { NEW_BROADCAST, NEW_RECOMMENDATION } from './constants';
 
 const reducer = combineReducers({
   users,
@@ -19,18 +19,17 @@ const reducer = combineReducers({
   recommendations
 });
 
-socket.on('newBroadcast', broadcast => {
-  console.log(broadcast)
-  store.dispatch({ type: NEW_BROADCAST, broadcast})
-})
-socket.on('newRecommendation', recommendation => {
-  console.log(recommendation)
-  store.dispatch({ type: NEW_RECOMMENDATION, recommendation })
-})
-
 const store = createStore(
   reducer,
   applyMiddleware(thunk, logger)
 );
+
+socket.on('newBroadcast', broadcast => {
+  store.dispatch({ type: NEW_BROADCAST, broadcast});
+});
+
+socket.on('newRecommendation', recommendation => {
+  store.dispatch({ type: NEW_RECOMMENDATION, recommendation });
+});
 
 export default store;

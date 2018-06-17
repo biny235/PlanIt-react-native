@@ -9,7 +9,7 @@ export const addRecommendationToStore = (place, userId, planId) => {
     return call('post', `/api/user/plan/${planId}/user/${userId}/recommend`, place)
     .then( res => res.data)
     .then(recommendation => {
-      newRecommendation(recommendation)
+      newRecommendation(recommendation);
       dispatch({type: ADD_RECOMMENDATION, recommendation});
     })
     .catch(err => console.log('***addRecommend Err:', err));

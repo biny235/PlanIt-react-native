@@ -1,4 +1,3 @@
-import React from 'react';
 //screens
 import MapScreen from '../screens/MapScreen';
 import PlanDetailsScreen from '../screens/PlanDetailsScreen';

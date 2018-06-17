@@ -3,7 +3,8 @@ import { Left, Thumbnail, Container, Content, List, ListItem, Body, Right, Icon,
 import { connect } from 'react-redux';
 
 class FriendsPlansScreen extends React.Component {
-  getIcon(category) {
+
+  getIcon = (category) => {
     switch (category) {
       case 'Restaurants':
         return 'cutlery';
@@ -13,8 +14,9 @@ class FriendsPlansScreen extends React.Component {
         return 'map-marker';
     }
   }
+
   render() {
-    const { friendsPlans } = this.props
+    const { friendsPlans } = this.props;
     return (
       <Container>
         <Content>
@@ -42,12 +44,11 @@ class FriendsPlansScreen extends React.Component {
 }
 
 const mapStateToProps = ({ friends, friendsPlans }) => {
-  friendsPlans = friendsPlans.filter(plan => plan.status === "BROADCASTING")
+  friendsPlans = friendsPlans.filter(plan => plan.status === 'BROADCASTING');
   return {
     friends,
     friendsPlans
   };
 };
 
-
-export default connect(mapStateToProps)(FriendsPlansScreen)
+export default connect(mapStateToProps)(FriendsPlansScreen);

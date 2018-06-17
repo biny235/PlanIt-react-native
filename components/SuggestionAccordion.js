@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Accordion from 'react-native-collapsible/Accordion';
-import { View, Text, ListView } from 'react-native';
-import { Thumbnail, ListItem, Button, Icon } from 'native-base';
+import { View, Text } from 'react-native';
+import { Thumbnail, Button, Icon } from 'native-base';
 
 class SuggestionAccordion extends Component {
 

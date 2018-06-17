@@ -136,6 +136,7 @@ class PlanDetailsScreen extends Component {
               selectedValue={this.state.category}
               onValueChange={this.onChange}
             >
+              <Picker.Item label="All" value="All" />
               <Picker.Item label="Activities" value="Activities" />
               <Picker.Item label="Hotels" value="Hotels" />
               <Picker.Item label="Restaruants" value="Restaruants" />

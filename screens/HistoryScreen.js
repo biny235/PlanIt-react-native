@@ -12,7 +12,6 @@ export default class HistoryScreen extends Component {
     ),
   };
   render() {
-    console.log(this.props.navigation);
     return (
       <Container>
         <Content>

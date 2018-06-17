@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { Container, Content, Body } from 'native-base';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class ProfileScreen extends Component {
   render() {

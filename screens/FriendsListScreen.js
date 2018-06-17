@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
+import React from 'react';
+import { Container, Content, List, ListItem, Left, Body, Thumbnail, Text } from 'native-base';
 import { connect } from 'react-redux';
 
 const FriendsList = (props) => {
@@ -17,21 +17,19 @@ const FriendsList = (props) => {
                 <Text>{friend.email}</Text>
               </Body>
             </ListItem>
-        ))}
+          ))}
         </List>
       </Content>
     </Container>
   );
+};
 
-}
 
-
-const mapStateToProps = ({friends}) =>{
-  console.log(friends[6])
-  friends = friends || []
-  return{
+const mapStateToProps = ({ friends }) => {
+  friends = friends || [];
+  return {
     friends
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(FriendsList)
+export default connect(mapStateToProps)(FriendsList);

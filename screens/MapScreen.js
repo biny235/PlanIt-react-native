@@ -1,8 +1,9 @@
+/*eslint complexity: ["error", 15]*/
 import React, { Component } from 'react';
-import { View, ActivityIndicator, AsyncStorage, Image } from 'react-native';
+import { View, ActivityIndicator, Image } from 'react-native';
 import { connect } from 'react-redux';
 import GoogleSearch from './GoogleSearch';
-import { Container, Content, Header, Left, Text, Item, Body, Footer, FooterTab, Button, Icon, Badge, Input, Thumbnail } from 'native-base';
+import { Container, Content, Header, Left, Text, Footer, FooterTab, Button, Icon, Badge, Thumbnail } from 'native-base';
 import MapView from 'react-native-maps';
 // import mapStyle from '../mapStyle';  // doesn't show POI
 
@@ -33,8 +34,8 @@ const markerData = [
   },
 ];
 
-const LATITUDE = 40.7050758;
-const LONGITUDE = -74.00916039999998;
+const LATITUDE = 41.881832;
+const LONGITUDE = -87.623177;
 const LATITUDEDELTA = 0.0922;
 const LONGITUDEDELTA = 0.0421;
 
@@ -49,12 +50,10 @@ class MapScreen extends Component {
         latitudeDelta: LATITUDEDELTA,
         longitudeDelta: LONGITUDEDELTA
       },
-      isBroadcasting: this.props.plans.status === "BROADCASTING",
+      isBroadcasting: this.props.plans.status === 'BROADCASTING',
       markers: this.props.places || [],
     };
-
   }
-
 
   componentDidMount() {
     this.setState({ mapLoaded: true });
@@ -63,10 +62,9 @@ class MapScreen extends Component {
     this.props.fetchUser();
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log("next props:", nextProps)
-    if(nextProps.places !== this.state.markers){
-      this.setState({ markers: nextProps.places, isBroadcasting: nextProps.plans.status === "BROADCASTING" })
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.places !== this.state.markers) {
+      this.setState({ markers: nextProps.places, isBroadcasting: nextProps.plans.status === 'BROADCASTING' });
     }
   }
 
@@ -84,7 +82,7 @@ class MapScreen extends Component {
 
   toggleBroadcastPlan = () => {
     const isBroadcasting = this.state.isBroadcasting;
-    if (!isBroadcasting && !this.props.plans.city) { //when plan exist
+    if (!isBroadcasting && !this.props.plans.city && this.props.plans.status === 'NEW') { //when plan exist
       const plan = {
         city: this.state.city,
         lat: this.state.region.latitude,
@@ -100,19 +98,18 @@ class MapScreen extends Component {
         time: new Date().toISOString().split('T')[1].slice(0, 5),
         lat: this.state.region.latitude,
         lng: this.state.region.longitude,
-        name: `${this.props.user.username}'s Plan`,
+        name: `${this.props.users.username}'s Plan`,
         status: 'BROADCASTING',
         userId: this.props.users.id,
-        city: 'New York, NY, USA'
+        city: 'New York, NY, USA',
       };
       this.props.createPlan(plan);
     }
     if (isBroadcasting && this.props.plans.status === 'BROADCASTING') {
-      console.log('hello :');
       this.props.updatePlan({
         status: 'CLOSED',
         id: this.props.plans.id
-       });
+      });
     }
     this.setState({ isBroadcasting: isBroadcasting });
   }
@@ -143,7 +140,6 @@ class MapScreen extends Component {
   }
 
   renderMarkers = () => {
-    console.log(this.state.isBroadcasting)
     if (!this.state.markers) {
       return;
     }
@@ -176,7 +172,7 @@ class MapScreen extends Component {
           alignItems: 'center'
         }}>
           <Image
-            style={{ alignSelf: 'center', width: 150, height: 70 , marginRight: 100}}
+            style={{ alignSelf: 'center', width: 150, height: 70, marginRight: 100 }}
             source={require('../assets/headerLogo.png')}
           />
         </View>
@@ -188,16 +184,16 @@ class MapScreen extends Component {
     if (!this.state.isBroadcasting) {
       return (
         <Image
-              style={{ width: 80, height: 80 }}
-              source={require('../assets/broadcast.png')}
-            />
+          style={{ width: 80, height: 80 }}
+          source={require('../assets/broadcast.png')}
+        />
       );
     } else {
       return (
-         <Image
-              style={{ width: 80, height: 80 }}
-              source={require('../assets/broadcastX.png')}
-            />
+        <Image
+          style={{ width: 80, height: 80 }}
+          source={require('../assets/broadcastX.png')}
+        />
       );
     }
   }
@@ -206,7 +202,6 @@ class MapScreen extends Component {
     const { mapLoaded, region, markers, isBroadcasting } = this.state;
     const { toggleBroadcastPlan, renderHeader, renderScreen, renderCallButtonIcon } = this;
     const { navigation, plansCount, friendsPlans } = this.props;
-    console.log("map screen state", this.state)
     if (!mapLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -278,7 +273,7 @@ class MapScreen extends Component {
             rounded
             style={styles.planCallButton}
             onPress={toggleBroadcastPlan}
-            >
+          >
             {renderCallButtonIcon()}
           </Button>
         </View>
@@ -348,10 +343,10 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ plans, users, friendsPlans }, props) => {
-  friendsPlans = friendsPlans.filter(plan => plan.status === "BROADCASTING")
-  const plansCount = friendsPlans.length
-  const places = plans.places || []
+const mapStateToProps = ({ plans, users, friendsPlans }) => {
+  friendsPlans = friendsPlans.filter(plan => plan.status === 'BROADCASTING');
+  const plansCount = friendsPlans.length;
+  const places = plans.places || [];
   return {
     users,
     plans,

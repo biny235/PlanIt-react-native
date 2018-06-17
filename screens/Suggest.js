@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Text, Image, Button } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
 import GoogleSearch from './GoogleSearch';
 import MapView from 'react-native-maps';
@@ -23,11 +22,10 @@ class SuggestToFriendScreen extends Component {
 
   render() {
     const { region } = this.state;
-    const { plan, id} = this.props
-    console.log(id)
+    const { plan } = this.props;
     return (
       <Container>
-          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center', }}>
+          <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
             <Content contentContainerStyle={{height: 200}}>
               <MapView
                 style={{ flex: 1, height: 200 }}
@@ -40,7 +38,7 @@ class SuggestToFriendScreen extends Component {
                 <H1 >Give USER a Suggestion</H1>
                 <GoogleSearch lat={plan.lat} lng={plan.lng} type="establishment" />
               </Content>
-           
+
         </Content>
       </Container>
     );
@@ -51,7 +49,7 @@ const mapState = ({users, places, plan}) => {
   plan = {
     lat: 40.705076,
     lng: -74.009160
-  }
+  };
   return {
     users,
     places,
